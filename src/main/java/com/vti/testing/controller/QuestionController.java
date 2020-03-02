@@ -30,7 +30,7 @@ public class QuestionController {
 	@GetMapping()
 	public ResponseEntity<?> getAllQuestions() {
 
-		return new ResponseEntity<>("ok", HttpStatus.OK);
+		return new ResponseEntity<>("View List ok", HttpStatus.OK);
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class QuestionController {
 	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getQuestionByID(@PathVariable(name = "id") short id) {
-		return new ResponseEntity<>("ok", HttpStatus.OK);
+		return new ResponseEntity<>("View Detail ok", HttpStatus.OK);
 	}
 
 	/**
