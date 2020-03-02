@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/api/v1/questions")
+@RequestMapping(value = "/api/v1/group")
 public class GroupController {
 
 	/**
-	 * This method is got all Questions.
+	 * This method is got all Group.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -28,9 +28,9 @@ public class GroupController {
 	 * @return List<Question>
 	 */
 	@GetMapping()
-	public ResponseEntity<?> getAllQuestions() {
+	public ResponseEntity<?> getAllGroup() {
 
-		return new ResponseEntity<>("ok", HttpStatus.OK);
+		return new ResponseEntity<>("View List ok", HttpStatus.OK);
 	}
 
 	/**
@@ -46,8 +46,8 @@ public class GroupController {
 	 * @return Question
 	 */
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getQuestionByID(@PathVariable(name = "id") short id) {
-		return new ResponseEntity<>("ok", HttpStatus.OK);
+	public ResponseEntity<?> getGroupByID(@PathVariable(name = "id") short id) {
+		return new ResponseEntity<>("View Detail ok", HttpStatus.OK);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class GroupController {
 	 * @param form
 	 */
 	@PostMapping()
-	public ResponseEntity<?> createQuestion() {
+	public ResponseEntity<?> createGroup() {
 		return new ResponseEntity<>("Create success!", HttpStatus.OK);
 	}
 
@@ -78,7 +78,7 @@ public class GroupController {
 	 * @param form
 	 */
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateQuestion() {
+	public ResponseEntity<?> updateGroup() {
 
 		return new ResponseEntity<>("Update success!", HttpStatus.OK);
 	}
@@ -95,7 +95,7 @@ public class GroupController {
 	 * @param id
 	 */
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteQuestion() {
+	public ResponseEntity<?> deleteGroup() {
 
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 	}

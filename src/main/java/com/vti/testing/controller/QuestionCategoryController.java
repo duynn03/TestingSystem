@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/api/v1/testingcategories")
-public class TestingCategoryController {
+@RequestMapping(value = "/api/v1/questionCategories")
+public class QuestionCategoryController {
 
 	/**
-	 * This method is got all TestingCategory.
+	 * This method is got all QuestionCategory.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -25,16 +25,16 @@ public class TestingCategoryController {
 	 * @version: 1.0
 	 * @modifer: NNDuy
 	 * @modifer_date: Dec 7, 2019
-	 * @return List<TestingCategory>
+	 * @return List<QuestionCategory>
 	 */
 	@GetMapping()
-	public ResponseEntity<?> getAllTestingCategories() {
+	public ResponseEntity<?> getAllQuestionCategories() {
 
 		return new ResponseEntity<>("View List ok", HttpStatus.OK);
 	}
 
 	/**
-	 * This method is got TestingCategory by ID.
+	 * This method is got QuestionCategory by ID.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -43,15 +43,15 @@ public class TestingCategoryController {
 	 * @modifer: NNDuy
 	 * @modifer_date: Dec 7, 2019
 	 * @param id
-	 * @return TestingCategory
+	 * @return QuestionCategory
 	 */
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getTestingCategoryByID(@PathVariable(name = "id") short id) {
-		return new ResponseEntity<>("View detail ok", HttpStatus.OK);
+	public ResponseEntity<?> getQuestionCategoryByID(@PathVariable(name = "id") short id) {
+		return new ResponseEntity<>("View Detail ok", HttpStatus.OK);
 	}
 
 	/**
-	 * This method is created TestingCategory.
+	 * This method is created QuestionCategory.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -62,12 +62,12 @@ public class TestingCategoryController {
 	 * @param form
 	 */
 	@PostMapping()
-	public ResponseEntity<?> createTestingCategory() {
+	public ResponseEntity<?> createQuestionCategory() {
 		return new ResponseEntity<>("Create success!", HttpStatus.OK);
 	}
 
 	/**
-	 * This method is updated TestingCategory.
+	 * This method is updated QuestionCategory.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -78,13 +78,13 @@ public class TestingCategoryController {
 	 * @param form
 	 */
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateTestingCategory() {
+	public ResponseEntity<?> updateQuestionCategory() {
 
 		return new ResponseEntity<>("Update success!", HttpStatus.OK);
 	}
 
 	/**
-	 * This method is deleted TestingCategory.
+	 * This method is deleted QuestionCategory.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -95,7 +95,7 @@ public class TestingCategoryController {
 	 * @param id
 	 */
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteTestingCategory() {
+	public ResponseEntity<?> deleteQuestionCategory() {
 
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 	}
