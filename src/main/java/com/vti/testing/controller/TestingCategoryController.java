@@ -45,8 +45,6 @@ public class TestingCategoryController {
 	public ResponseEntity<Page<?>> getAllTestingCategories(
 			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
 					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
-		System.out.println(pageable.getPageSize() + " " + pageable.getPageNumber());
-		System.out.println(pageable.getSort());
 		Page<TestingCategory> categories = service.getAllTestingCategories(pageable);
 		return new ResponseEntity<>(categories, HttpStatus.OK);
 	}
