@@ -1,5 +1,11 @@
 package com.vti.testing.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,13 +14,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.vti.testing.entity.TestingCategory;
+import com.vti.testing.form.TestingCategoryForm;
+import com.vti.testing.service.TestingCategoryService;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/api/v1/testingcategories")
 public class TestingCategoryController {
+
+	@Autowired
+	private TestingCategoryService service;
 
 	/**
 	 * This method is got all TestingCategory.
@@ -28,9 +42,13 @@ public class TestingCategoryController {
 	 * @return List<TestingCategory>
 	 */
 	@GetMapping()
-	public ResponseEntity<?> getAllTestingCategories() {
-
-		return new ResponseEntity<>("ok", HttpStatus.OK);
+	public ResponseEntity<Page<?>> getAllTestingCategories(
+			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
+					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
+		System.out.println(pageable.getPageSize() + " " + pageable.getPageNumber());
+		System.out.println(pageable.getSort());
+		Page<TestingCategory> categories = service.getAllTestingCategories(pageable);
+		return new ResponseEntity<>(categories, HttpStatus.OK);
 	}
 
 	/**
@@ -47,7 +65,8 @@ public class TestingCategoryController {
 	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getTestingCategoryByID(@PathVariable(name = "id") short id) {
-		return new ResponseEntity<>("ok", HttpStatus.OK);
+		TestingCategory category = service.getTestingCategoryByID(id);
+		return new ResponseEntity<>(category, HttpStatus.OK);
 	}
 
 	/**
@@ -62,7 +81,8 @@ public class TestingCategoryController {
 	 * @param form
 	 */
 	@PostMapping()
-	public ResponseEntity<?> createTestingCategory() {
+	public ResponseEntity<?> createTestingCategory(@RequestBody TestingCategoryForm form) {
+		service.createTestingCategory(form);
 		return new ResponseEntity<>("Create success!", HttpStatus.OK);
 	}
 
@@ -78,8 +98,9 @@ public class TestingCategoryController {
 	 * @param form
 	 */
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateTestingCategory() {
-
+	public ResponseEntity<?> updateTestingCategory(@PathVariable(name = "id") short id,
+			@RequestBody TestingCategoryForm form) {
+		service.updateTestingCategory(id, form);
 		return new ResponseEntity<>("Update success!", HttpStatus.OK);
 	}
 
@@ -95,8 +116,8 @@ public class TestingCategoryController {
 	 * @param id
 	 */
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteTestingCategory() {
-
+	public ResponseEntity<?> deleteTestingCategory(@PathVariable(name = "id") short id) {
+		service.deleteTestingCategory(id);
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 	}
 
