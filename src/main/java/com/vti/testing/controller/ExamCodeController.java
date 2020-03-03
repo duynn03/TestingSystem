@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/api/v1/examcode")
+@RequestMapping(value = "/api/v1/examcodes")
 public class ExamCodeController {
 
 	/**
@@ -28,7 +28,7 @@ public class ExamCodeController {
 	 * @return List<Question>
 	 */
 	@GetMapping()
-	public ResponseEntity<?> getAlExamCode() {
+	public ResponseEntity<?> getAllExamCodes() {
 
 		return new ResponseEntity<>("View List ok", HttpStatus.OK);
 	}

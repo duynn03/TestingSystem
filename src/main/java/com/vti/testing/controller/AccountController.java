@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/api/v1/exams")
-public class ExamController {
+@RequestMapping(value = "/api/v1/accounts")
+public class AccountController {
 
 	/**
-	 * This method is got all Exam.
+	 * This method is got all Account.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -28,13 +28,13 @@ public class ExamController {
 	 * @return List<Question>
 	 */
 	@GetMapping()
-	public ResponseEntity<?> getAllExams() {
+	public ResponseEntity<?> getAllAccounts() {
 
 		return new ResponseEntity<>("View List ok", HttpStatus.OK);
 	}
 
 	/**
-	 * This method is got Exam by ID.
+	 * This method is got Account by ID.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -46,12 +46,12 @@ public class ExamController {
 	 * @return Question
 	 */
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getExamByID(@PathVariable(name = "id") short id) {
+	public ResponseEntity<?> getAccountByID(@PathVariable(name = "id") short id) {
 		return new ResponseEntity<>("View Detail ok", HttpStatus.OK);
 	}
 
 	/**
-	 * This method is created Question.
+	 * This method is created Account.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -62,12 +62,12 @@ public class ExamController {
 	 * @param form
 	 */
 	@PostMapping()
-	public ResponseEntity<?> createExam() {
+	public ResponseEntity<?> createAccount() {
 		return new ResponseEntity<>("Create success!", HttpStatus.OK);
 	}
 
 	/**
-	 * This method is updated Question.
+	 * This method is updated Account.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -78,13 +78,13 @@ public class ExamController {
 	 * @param form
 	 */
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateExam() {
+	public ResponseEntity<?> updateAccount() {
 
 		return new ResponseEntity<>("Update success!", HttpStatus.OK);
 	}
 
 	/**
-	 * This method is deleted Question.
+	 * This method is deleted Account.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -95,7 +95,7 @@ public class ExamController {
 	 * @param id
 	 */
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteExam() {
+	public ResponseEntity<?> deleteAccount() {
 
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 	}

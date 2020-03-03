@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/api/v1/group")
+@RequestMapping(value = "/api/v1/groups")
 public class GroupController {
 
 	/**
@@ -28,13 +28,13 @@ public class GroupController {
 	 * @return List<Question>
 	 */
 	@GetMapping()
-	public ResponseEntity<?> getAllGroup() {
+	public ResponseEntity<?> getAllGroups() {
 
 		return new ResponseEntity<>("View List ok", HttpStatus.OK);
 	}
 
 	/**
-	 * This method is got Question by ID.
+	 * This method is got Group by ID.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -51,7 +51,7 @@ public class GroupController {
 	}
 
 	/**
-	 * This method is created Question.
+	 * This method is created Group.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -67,7 +67,7 @@ public class GroupController {
 	}
 
 	/**
-	 * This method is updated Question.
+	 * This method is updated Group.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -84,7 +84,7 @@ public class GroupController {
 	}
 
 	/**
-	 * This method is deleted Question.
+	 * This method is deleted Group.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
