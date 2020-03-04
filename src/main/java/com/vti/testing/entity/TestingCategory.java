@@ -1,6 +1,7 @@
 package com.vti.testing.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -8,9 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 /**
  * The persistent class for the testing_category database table.
@@ -23,25 +29,39 @@ public class TestingCategory implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(unique = true, nullable = false)
 	private short id;
 
-	@Column(name = "name", nullable = false, length = 50, unique = true)
-	@NotNull
+	@Column(name = "name", nullable = false, length = 50)
 	private String name;
+
+	// bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name = "author_ID", nullable = false)
+	private User author;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_time", nullable = false)
+	@CreationTimestamp
+	private Date createTime;
 
 	// bi-directional many-to-one association to QuestionCategory
 	@OneToMany(mappedBy = "testingCategory")
 	private List<QuestionCategory> questionCategories;
+
+	// bi-directional many-to-one association to TestingCategory
+	@OneToMany(mappedBy = "testingCategory")
+	private List<Testing> testings;
 
 	/**
 	 * Constructor for class TestingCategory.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
-	 * @create_date: Feb 6, 2020
+	 * @create_date: Mar 4, 2020
 	 * @version: 1.0
 	 * @modifer: NNDuy
-	 * @modifer_date: Feb 6, 2020
+	 * @modifer_date: Mar 4, 2020
 	 */
 	public TestingCategory() {
 	}
@@ -77,6 +97,36 @@ public class TestingCategory implements Serializable {
 	}
 
 	/**
+	 * @return the author
+	 */
+	public User getAuthor() {
+		return author;
+	}
+
+	/**
+	 * @param author the author to set
+	 */
+	public TestingCategory setAuthor(User author) {
+		this.author = author;
+		return this;
+	}
+
+	/**
+	 * @return the createTime
+	 */
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	/**
+	 * @param createTime the createTime to set
+	 */
+	public TestingCategory setCreateTime(Date createTime) {
+		this.createTime = createTime;
+		return this;
+	}
+
+	/**
 	 * @return the questionCategories
 	 */
 	public List<QuestionCategory> getQuestionCategories() {
@@ -88,6 +138,21 @@ public class TestingCategory implements Serializable {
 	 */
 	public TestingCategory setQuestionCategories(List<QuestionCategory> questionCategories) {
 		this.questionCategories = questionCategories;
+		return this;
+	}
+
+	/**
+	 * @return the testings
+	 */
+	public List<Testing> getTestings() {
+		return testings;
+	}
+
+	/**
+	 * @param testings the testings to set
+	 */
+	public TestingCategory setTestings(List<Testing> testings) {
+		this.testings = testings;
 		return this;
 	}
 

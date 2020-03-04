@@ -29,7 +29,6 @@ public class AccountController {
 	 */
 	@GetMapping()
 	public ResponseEntity<?> getAllAccounts() {
-
 		return new ResponseEntity<>("View List ok", HttpStatus.OK);
 	}
 

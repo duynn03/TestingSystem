@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,12 +20,12 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 
 /**
- * The persistent class for the question_category database table.
+ * The persistent class for the group database table.
  * 
  */
 @Entity
-@Table(name = "Question_Category")
-public class QuestionCategory implements Serializable {
+@Table(name = "`Group`")
+public class Group implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -34,11 +35,6 @@ public class QuestionCategory implements Serializable {
 
 	@Column(name = "name", nullable = false, length = 50)
 	private String name;
-
-	// bi-directional many-to-one association to TestingCategory
-	@ManyToOne
-	@JoinColumn(name = "Testing_Category_ID", nullable = false)
-	private TestingCategory testingCategory;
 
 	// bi-directional many-to-one association to User
 	@ManyToOne
@@ -50,12 +46,16 @@ public class QuestionCategory implements Serializable {
 	@CreationTimestamp
 	private Date createTime;
 
-	// bi-directional many-to-one association to Question
-	@OneToMany(mappedBy = "questionCategory")
-	private List<Question> questions;
+	// bi-directional many-to-many association to User
+	@ManyToMany(mappedBy = "groups")
+	private List<User> users;
+
+	// bi-directional many-to-one association to UserGroup
+	@OneToMany(mappedBy = "group")
+	private List<UserGroup> userGroups;
 
 	/**
-	 * Constructor for class QuestionCategory.
+	 * Constructor for class Group.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -64,7 +64,7 @@ public class QuestionCategory implements Serializable {
 	 * @modifer: NNDuy
 	 * @modifer_date: Mar 4, 2020
 	 */
-	public QuestionCategory() {
+	public Group() {
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class QuestionCategory implements Serializable {
 	/**
 	 * @param id the id to set
 	 */
-	public QuestionCategory setId(int id) {
+	public Group setId(int id) {
 		this.id = id;
 		return this;
 	}
@@ -92,23 +92,8 @@ public class QuestionCategory implements Serializable {
 	/**
 	 * @param name the name to set
 	 */
-	public QuestionCategory setName(String name) {
+	public Group setName(String name) {
 		this.name = name;
-		return this;
-	}
-
-	/**
-	 * @return the testingCategory
-	 */
-	public TestingCategory getTestingCategory() {
-		return testingCategory;
-	}
-
-	/**
-	 * @param testingCategory the testingCategory to set
-	 */
-	public QuestionCategory setTestingCategory(TestingCategory testingCategory) {
-		this.testingCategory = testingCategory;
 		return this;
 	}
 
@@ -122,7 +107,7 @@ public class QuestionCategory implements Serializable {
 	/**
 	 * @param author the author to set
 	 */
-	public QuestionCategory setAuthor(User author) {
+	public Group setAuthor(User author) {
 		this.author = author;
 		return this;
 	}
@@ -137,23 +122,38 @@ public class QuestionCategory implements Serializable {
 	/**
 	 * @param createTime the createTime to set
 	 */
-	public QuestionCategory setCreateTime(Date createTime) {
+	public Group setCreateTime(Date createTime) {
 		this.createTime = createTime;
 		return this;
 	}
 
 	/**
-	 * @return the questions
+	 * @return the users
 	 */
-	public List<Question> getQuestions() {
-		return questions;
+	public List<User> getUsers() {
+		return users;
 	}
 
 	/**
-	 * @param questions the questions to set
+	 * @param users the users to set
 	 */
-	public QuestionCategory setQuestions(List<Question> questions) {
-		this.questions = questions;
+	public Group setUsers(List<User> users) {
+		this.users = users;
+		return this;
+	}
+
+	/**
+	 * @return the userGroups
+	 */
+	public List<UserGroup> getUserGroups() {
+		return userGroups;
+	}
+
+	/**
+	 * @param userGroups the userGroups to set
+	 */
+	public Group setUserGroups(List<UserGroup> userGroups) {
+		this.userGroups = userGroups;
 		return this;
 	}
 

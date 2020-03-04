@@ -19,26 +19,21 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 
 /**
- * The persistent class for the question_category database table.
+ * The persistent class for the image database table.
  * 
  */
 @Entity
-@Table(name = "Question_Category")
-public class QuestionCategory implements Serializable {
+@Table(name = "Image")
+public class Image implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
-	private int id;
+	private short id;
 
 	@Column(name = "name", nullable = false, length = 50)
 	private String name;
-
-	// bi-directional many-to-one association to TestingCategory
-	@ManyToOne
-	@JoinColumn(name = "Testing_Category_ID", nullable = false)
-	private TestingCategory testingCategory;
 
 	// bi-directional many-to-one association to User
 	@ManyToOne
@@ -50,12 +45,16 @@ public class QuestionCategory implements Serializable {
 	@CreationTimestamp
 	private Date createTime;
 
+	// bi-directional many-to-one association to Answer
+	@OneToMany(mappedBy = "image")
+	private List<Answer> answers;
+
 	// bi-directional many-to-one association to Question
-	@OneToMany(mappedBy = "questionCategory")
+	@OneToMany(mappedBy = "image")
 	private List<Question> questions;
 
 	/**
-	 * Constructor for class QuestionCategory.
+	 * Constructor for class Image.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -64,20 +63,20 @@ public class QuestionCategory implements Serializable {
 	 * @modifer: NNDuy
 	 * @modifer_date: Mar 4, 2020
 	 */
-	public QuestionCategory() {
+	public Image() {
 	}
 
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public short getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public QuestionCategory setId(int id) {
+	public Image setId(short id) {
 		this.id = id;
 		return this;
 	}
@@ -92,23 +91,8 @@ public class QuestionCategory implements Serializable {
 	/**
 	 * @param name the name to set
 	 */
-	public QuestionCategory setName(String name) {
+	public Image setName(String name) {
 		this.name = name;
-		return this;
-	}
-
-	/**
-	 * @return the testingCategory
-	 */
-	public TestingCategory getTestingCategory() {
-		return testingCategory;
-	}
-
-	/**
-	 * @param testingCategory the testingCategory to set
-	 */
-	public QuestionCategory setTestingCategory(TestingCategory testingCategory) {
-		this.testingCategory = testingCategory;
 		return this;
 	}
 
@@ -122,7 +106,7 @@ public class QuestionCategory implements Serializable {
 	/**
 	 * @param author the author to set
 	 */
-	public QuestionCategory setAuthor(User author) {
+	public Image setAuthor(User author) {
 		this.author = author;
 		return this;
 	}
@@ -137,8 +121,23 @@ public class QuestionCategory implements Serializable {
 	/**
 	 * @param createTime the createTime to set
 	 */
-	public QuestionCategory setCreateTime(Date createTime) {
+	public Image setCreateTime(Date createTime) {
 		this.createTime = createTime;
+		return this;
+	}
+
+	/**
+	 * @return the answers
+	 */
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	/**
+	 * @param answers the answers to set
+	 */
+	public Image setAnswers(List<Answer> answers) {
+		this.answers = answers;
 		return this;
 	}
 
@@ -152,7 +151,7 @@ public class QuestionCategory implements Serializable {
 	/**
 	 * @param questions the questions to set
 	 */
-	public QuestionCategory setQuestions(List<Question> questions) {
+	public Image setQuestions(List<Question> questions) {
 		this.questions = questions;
 		return this;
 	}
