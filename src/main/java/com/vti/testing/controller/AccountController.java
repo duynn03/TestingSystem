@@ -1,5 +1,11 @@
 package com.vti.testing.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,28 +14,41 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.vti.testing.entity.TestingCategory;
+import com.vti.testing.entity.User;
+import com.vti.testing.form.TestingCategoryForm;
+import com.vti.testing.form.UserForm;
+import com.vti.testing.service.TestingCategoryService;
+import com.vti.testing.service.UserService;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/api/v1/accounts")
 public class AccountController {
+	@Autowired
+	private UserService service;
 
 	/**
-	 * This method is got all Account.
+	 * This method is .
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Dec 7, 2019
+	 * @author: NTHung
+	 * @create_date: Mar 5, 2020
 	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Dec 7, 2019
-	 * @return List<Question>
+	 * @modifer: NTHung
+	 * @modifer_date: Mar 5, 2020
+	 * @return
 	 */
+
 	@GetMapping()
-	public ResponseEntity<?> getAllAccounts() {
-		return new ResponseEntity<>("View List ok", HttpStatus.OK);
+	public ResponseEntity<Page<?>> getAllUser(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
+			@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
+		Page<User> user = service.getAllUser(pageable);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
 	/**
@@ -46,7 +65,8 @@ public class AccountController {
 	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getAccountByID(@PathVariable(name = "id") short id) {
-		return new ResponseEntity<>("View Detail ok", HttpStatus.OK);
+		User user = service.getUserByID(id);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
 	/**
@@ -61,7 +81,8 @@ public class AccountController {
 	 * @param form
 	 */
 	@PostMapping()
-	public ResponseEntity<?> createAccount() {
+	public ResponseEntity<?> createAccount(@RequestBody UserForm form) {
+		service.createUser(form);
 		return new ResponseEntity<>("Create success!", HttpStatus.OK);
 	}
 
@@ -77,8 +98,8 @@ public class AccountController {
 	 * @param form
 	 */
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateAccount() {
-
+	public ResponseEntity<?> updateAccount(@PathVariable(name = "id") short id, @RequestBody UserForm form) {
+		service.updateUser(id, form);
 		return new ResponseEntity<>("Update success!", HttpStatus.OK);
 	}
 
@@ -94,8 +115,8 @@ public class AccountController {
 	 * @param id
 	 */
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteAccount() {
-
+	public ResponseEntity<?> deleteAccount(@PathVariable(name = "id") short id) {
+		service.deleteUser(id);
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 	}
 

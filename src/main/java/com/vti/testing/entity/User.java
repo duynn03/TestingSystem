@@ -59,7 +59,7 @@ public class User implements Serializable {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_Of_Birth", nullable = false)
-	private Date date_Of_Birth;
+	private Date birthday;
 
 	@Column(name = "address", nullable = false, length = 100)
 	private String address;
@@ -236,18 +236,20 @@ public class User implements Serializable {
 		return this;
 	}
 
+
+
 	/**
-	 * @return the date_Of_Birth
+	 * @return the birthday
 	 */
-	public Date getDate_Of_Birth() {
-		return date_Of_Birth;
+	public Date getBirthday() {
+		return birthday;
 	}
 
 	/**
-	 * @param date_Of_Birth the date_Of_Birth to set
+	 * @param birthday the birthday to set
 	 */
-	public User setDate_Of_Birth(Date date_Of_Birth) {
-		this.date_Of_Birth = date_Of_Birth;
+	public User setBirthday(Date birthday) {
+		this.birthday = birthday;
 		return this;
 	}
 
