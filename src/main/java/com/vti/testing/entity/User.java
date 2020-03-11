@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Formula;
 
 import com.vti.testing.entity.enumerate.Gender;
 import com.vti.testing.entity.enumerate.Role;
@@ -54,6 +54,9 @@ public class User implements Serializable {
 	@Column(name = "lastName", nullable = false, length = 50)
 	private String lastName;
 
+	@Formula("concat(firstName, ' ', lastName)")
+	private String fullName;
+
 	@Column(name = "gender", nullable = false, length = 1)
 	private Gender gender;
 
@@ -72,8 +75,7 @@ public class User implements Serializable {
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "status", nullable = false)
-	@ColumnDefault("ACTIVE")
-	private UserStatus status;
+	private UserStatus status = UserStatus.ACTIVE;
 
 	// bi-directional many-to-one association to Group
 	@OneToMany(mappedBy = "author")
@@ -218,6 +220,21 @@ public class User implements Serializable {
 	 */
 	public User setLastName(String lastName) {
 		this.lastName = lastName;
+		return this;
+	}
+
+	/**
+	 * @return the fullName
+	 */
+	public String getFullName() {
+		return fullName;
+	}
+
+	/**
+	 * @param fullName the fullName to set
+	 */
+	public User setFullName(String fullName) {
+		this.fullName = fullName;
 		return this;
 	}
 

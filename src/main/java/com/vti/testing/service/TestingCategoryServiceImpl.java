@@ -46,28 +46,20 @@ public class TestingCategoryServiceImpl implements TestingCategoryService {
 
 	/*
 	 * @see com.vti.template.service.TestingCategoryService#createTestingCategory(
-	 * TestingCategoryForm)
+	 * TestingCategory)
 	 */
 	@Override
-	public void createTestingCategory(TestingCategoryForm form) {
-		repository.save(form.toEntityCreate());
+	public void createTestingCategory(TestingCategory entity) {
+		repository.save(entity);
 	}
 
 	/*
-	 * @see
-	 * com.vti.template.service.TestingCategoryService#updateTestingCategory(short,
-	 * TestingCategoryForm)
+	 * @see com.vti.template.service.TestingCategoryService#updateTestingCategory(
+	 * TestingCategory)
 	 */
 	@Override
-	public void updateTestingCategory(short id, TestingCategoryForm form) {
-		TestingCategory category = getTestingCategoryByID(id);
-
-		// update name
-		if (!StringUtils.isEmpty(form.getName())) {
-			category.setName(form.getName());
-		}
-
-		repository.save(category);
+	public void updateTestingCategory(TestingCategory entity) {
+		repository.save(entity);
 	}
 
 	/*

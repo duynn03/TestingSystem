@@ -1,7 +1,14 @@
 package com.vti.testing.controller;
 
+import java.lang.reflect.Type;
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -18,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vti.testing.dto.testingcategory.TestingCategoryDto;
 import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.form.TestingCategoryForm;
 import com.vti.testing.service.TestingCategoryService;
@@ -30,6 +38,9 @@ public class TestingCategoryController {
 	@Autowired
 	private TestingCategoryService service;
 
+	@Autowired
+	private ModelMapper modelMapper;
+
 	/**
 	 * This method is got all TestingCategory.
 	 * 
@@ -39,14 +50,49 @@ public class TestingCategoryController {
 	 * @version: 1.0
 	 * @modifer: NNDuy
 	 * @modifer_date: Dec 7, 2019
-	 * @return List<TestingCategory>
+	 * @return Page<TestingCategory>
 	 */
 	@GetMapping()
 	public ResponseEntity<Page<?>> getAllTestingCategories(
 			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
 					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
-		Page<TestingCategory> categories = service.getAllTestingCategories(pageable);
-		return new ResponseEntity<>(categories, HttpStatus.OK);
+
+		// get page entity
+		Page<TestingCategory> entityPage = service.getAllTestingCategories(pageable);
+
+		// Convert entity to dto
+		Page<TestingCategoryDto> dtoPage = convertEntityPageToDtoPage(entityPage, pageable);
+
+		// return page dto
+		return new ResponseEntity<>(dtoPage, HttpStatus.OK);
+	}
+
+	/**
+	 * This method is converted entity page to dto page.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Mar 11, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 11, 2020
+	 * @param entityPage
+	 * @param pageable
+	 * @return Page<Dto>
+	 */
+	private Page<TestingCategoryDto> convertEntityPageToDtoPage(Page<TestingCategory> entityPage, Pageable pageable) {
+		// get list TestingCategory
+		List<TestingCategory> entities = entityPage.getContent();
+
+		// create conversion type
+		Type listType = new TypeToken<List<TestingCategoryDto>>() {
+		}.getType();
+
+		// convert list entities to dtos
+		List<TestingCategoryDto> dtos = modelMapper.map(entities, listType);
+
+		// return page dto
+		return new PageImpl<>(dtos, pageable, entityPage.getTotalElements());
 	}
 
 	/**
@@ -63,8 +109,14 @@ public class TestingCategoryController {
 	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getTestingCategoryByID(@PathVariable(name = "id") short id) {
-		TestingCategory category = service.getTestingCategoryByID(id);
-		return new ResponseEntity<>(category, HttpStatus.OK);
+		// get entity
+		TestingCategory entity = service.getTestingCategoryByID(id);
+
+		// convert entity to dto
+		TestingCategoryDto dto = modelMapper.map(entity, TestingCategoryDto.class);
+
+		// return result
+		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 
 	/**
@@ -80,7 +132,13 @@ public class TestingCategoryController {
 	 */
 	@PostMapping()
 	public ResponseEntity<?> createTestingCategory(@RequestBody TestingCategoryForm form) {
-		service.createTestingCategory(form);
+		// convert form to entity
+		TestingCategory entity = modelMapper.map(form, TestingCategory.class);
+
+		// create testing category
+		service.createTestingCategory(entity);
+
+		// return result
 		return new ResponseEntity<>("Create success!", HttpStatus.OK);
 	}
 
@@ -98,7 +156,10 @@ public class TestingCategoryController {
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> updateTestingCategory(@PathVariable(name = "id") short id,
 			@RequestBody TestingCategoryForm form) {
-		service.updateTestingCategory(id, form);
+		// update Testingcategory
+		// service.updateTestingCategory(id, form);
+
+		// return result
 		return new ResponseEntity<>("Update success!", HttpStatus.OK);
 	}
 
