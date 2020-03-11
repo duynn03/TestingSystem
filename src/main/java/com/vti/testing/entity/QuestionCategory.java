@@ -29,7 +29,7 @@ public class QuestionCategory implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = false, updatable = false)
 	private int id;
 
 	@Column(name = "name", nullable = false, length = 50)
@@ -37,16 +37,16 @@ public class QuestionCategory implements Serializable {
 
 	// bi-directional many-to-one association to TestingCategory
 	@ManyToOne
-	@JoinColumn(name = "Testing_Category_ID", nullable = false)
+	@JoinColumn(name = "Testing_Category_ID", nullable = false, updatable = false)
 	private TestingCategory testingCategory;
 
 	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "author_ID", nullable = false)
+	@JoinColumn(name = "author_ID", nullable = false, updatable = false)
 	private User author;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_time", nullable = false)
+	@Column(name = "create_time", nullable = false, updatable = false)
 	@CreationTimestamp
 	private Date createTime;
 

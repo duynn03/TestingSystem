@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class TestingCategory implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = false, updatable = false)
 	private short id;
 
 	@Column(name = "name", nullable = false, length = 50)
@@ -37,16 +38,16 @@ public class TestingCategory implements Serializable {
 
 	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "author_ID", nullable = false)
+	@JoinColumn(name = "author_ID", nullable = false, updatable = false)
 	private User author;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_time", nullable = false)
+	@Column(name = "create_time", nullable = false, updatable = false)
 	@CreationTimestamp
 	private Date createTime;
 
 	// bi-directional many-to-one association to QuestionCategory
-	@OneToMany(mappedBy = "testingCategory")
+	@OneToMany(mappedBy = "testingCategory", cascade = CascadeType.ALL)
 	private List<QuestionCategory> questionCategories;
 
 	// bi-directional many-to-one association to TestingCategory

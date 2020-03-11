@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.vti.testing.entity.TestingCategory;
-import com.vti.testing.form.TestingCategoryForm;
 
 /**
  * This class is Testing Category service.
@@ -54,9 +53,9 @@ public interface TestingCategoryService {
 	 * @version: 1.0
 	 * @modifer: NNDuy
 	 * @modifer_date: Jan 15, 2020
-	 * @param form
+	 * @param entity
 	 */
-	public void createTestingCategory(TestingCategoryForm form);
+	public void createTestingCategory(TestingCategory entity);
 
 	/**
 	 * This method uses for updating TestingCategory .
@@ -67,10 +66,9 @@ public interface TestingCategoryService {
 	 * @version: 1.0
 	 * @modifer: NNDuy
 	 * @modifer_date: Jan 15, 2020
-	 * @param id
-	 * @param form
+	 * @param entity
 	 */
-	public void updateTestingCategory(short id, TestingCategoryForm form);
+	public void updateTestingCategory(TestingCategory entity);
 
 	/**
 	 * This method uses for deleting TestingCategory .

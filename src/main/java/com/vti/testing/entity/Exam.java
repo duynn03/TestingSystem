@@ -19,7 +19,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.vti.testing.entity.enumerate.ExamStatus;
@@ -54,8 +53,7 @@ public class Exam implements Serializable {
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "status", nullable = false)
-	@ColumnDefault("DRAFT")
-	private ExamStatus status;
+	private ExamStatus status = ExamStatus.DRAFT;
 
 	// bi-directional many-to-one association to User
 	@ManyToOne

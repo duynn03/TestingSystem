@@ -1,22 +1,37 @@
 package com.vti.testing.form;
 
-import java.util.List;
+import java.util.Date;
 
 /**
- * This class is TestingCategory Form.
+ * This class is question category form.
  * 
  * @Description: .
  * @author: NNDuy
- * @create_date: Dec 7, 2019
+ * @create_date: Mar 11, 2020
  * @version: 1.0
  * @modifer: NNDuy
- * @modifer_date: Dec 7, 2019
+ * @modifer_date: Mar 11, 2020
  */
-public class TestingCategoryForm {
+public class QuestionCategoryForm {
 
+	private int id;
 	private String name;
 	private UserForm author;
-	private List<QuestionCategoryForm> questionCategories;
+	private Date createTime;
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	/**
 	 * @return the name
@@ -47,17 +62,17 @@ public class TestingCategoryForm {
 	}
 
 	/**
-	 * @return the questionCategories
+	 * @return the createTime
 	 */
-	public List<QuestionCategoryForm> getQuestionCategories() {
-		return questionCategories;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
 	/**
-	 * @param questionCategories the questionCategories to set
+	 * @param createTime the createTime to set
 	 */
-	public void setQuestionCategories(List<QuestionCategoryForm> questionCategories) {
-		this.questionCategories = questionCategories;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 }
