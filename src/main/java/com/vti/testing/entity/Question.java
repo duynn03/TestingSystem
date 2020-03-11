@@ -39,7 +39,7 @@ public class Question implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
-	private int id;
+	private Short id;
 
 	@Lob
 	@Column(name = "title", nullable = false)
@@ -108,14 +108,14 @@ public class Question implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Short getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public Question setId(int id) {
+	public Question setId(Short id) {
 		this.id = id;
 		return this;
 	}

@@ -1,5 +1,11 @@
 package com.vti.testing.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,13 +14,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.vti.testing.entity.Question;
+import com.vti.testing.form.QuestionForm;
+import com.vti.testing.service.QuestionService;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/api/v1/questions")
 public class QuestionController {
+
+	@Autowired
+	private QuestionService service;
 
 	/**
 	 * This method is got all Questions.
@@ -28,9 +42,11 @@ public class QuestionController {
 	 * @return List<Question>
 	 */
 	@GetMapping()
-	public ResponseEntity<?> getAllQuestions() {
+	public ResponseEntity<Page<?>> getAllQuestions(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
+			@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
+		Page<Question> question = service.getAllQuestion(pageable);
 
-		return new ResponseEntity<>("View List ok", HttpStatus.OK);
+		return new ResponseEntity<>(question, HttpStatus.OK);
 	}
 
 	/**
@@ -62,7 +78,8 @@ public class QuestionController {
 	 * @param form
 	 */
 	@PostMapping()
-	public ResponseEntity<?> createQuestion() {
+	public ResponseEntity<?> createQuestion(@RequestBody QuestionForm form) {
+		service.createQuestion(form);
 		return new ResponseEntity<>("Create success!", HttpStatus.OK);
 	}
 
