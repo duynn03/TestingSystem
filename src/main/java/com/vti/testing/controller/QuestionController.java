@@ -1,7 +1,13 @@
 package com.vti.testing.controller;
 
+import java.lang.reflect.Type;
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -18,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vti.testing.dto.QuestionDto;
 import com.vti.testing.entity.Question;
 import com.vti.testing.form.QuestionForm;
 import com.vti.testing.service.QuestionService;
@@ -29,6 +36,9 @@ public class QuestionController {
 
 	@Autowired
 	private QuestionService service;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	/**
 	 * This method is got all Questions.
@@ -44,9 +54,45 @@ public class QuestionController {
 	@GetMapping()
 	public ResponseEntity<Page<?>> getAllQuestions(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
 			@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
-		Page<Question> question = service.getAllQuestion(pageable);
 
-		return new ResponseEntity<>(question, HttpStatus.OK);
+		// get page entity
+		Page<Question> entityPage = service.getAllQuestion(pageable);
+
+		// Convert entity to dto
+		Page<QuestionDto> dtoPage = convertEntityPageToDtoPage(entityPage, pageable);
+
+		// return page dto
+		return new ResponseEntity<>(dtoPage, HttpStatus.OK);
+	}
+
+	/**
+	 * 
+	 * This method is convert entity page to dto page.
+	 * 
+	 * @Description: .
+	 * @author: HVHanh
+	 * @create_date: Mar 11, 2020
+	 * @version: 1.0
+	 * @modifer: HVHanh
+	 * @modifer_date: Mar 11, 2020
+	 * @param entityPage
+	 * @param pageable
+	 * @return
+	 */
+	private Page<QuestionDto> convertEntityPageToDtoPage(Page<Question> entityPage, Pageable pageable) {
+
+		// get list Question
+		List<Question> entities = entityPage.getContent();
+
+		// create conversion type
+		Type listType = new TypeToken<List<QuestionDto>>() {
+		}.getType();
+
+		// convert list entities to list dto
+		List<QuestionDto> dtos = modelMapper.map(entities, listType);
+
+		// return page dto
+		return new PageImpl<>(dtos, pageable, entityPage.getTotalElements());
 	}
 
 	/**
