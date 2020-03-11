@@ -4,7 +4,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vti.testing.dto.testingcategory.TestingCategoryDto;
+import com.vti.testing.entity.QuestionCategory;
 import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.form.TestingCategoryForm;
 import com.vti.testing.service.TestingCategoryService;
@@ -135,6 +135,13 @@ public class TestingCategoryController {
 		// convert form to entity
 		TestingCategory entity = modelMapper.map(form, TestingCategory.class);
 
+		// set child element
+		if (null != entity.getQuestionCategories()) {
+			for (QuestionCategory questionCategory : entity.getQuestionCategories()) {
+				questionCategory.setTestingCategory(entity);
+			}
+		}
+
 		// create testing category
 		service.createTestingCategory(entity);
 
@@ -156,8 +163,20 @@ public class TestingCategoryController {
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> updateTestingCategory(@PathVariable(name = "id") short id,
 			@RequestBody TestingCategoryForm form) {
+
+		// convert form to entity
+		TestingCategory entity = modelMapper.map(form, TestingCategory.class);
+		entity.setId(id);
+
+		// set child element
+		if (null != entity.getQuestionCategories()) {
+			for (QuestionCategory questionCategory : entity.getQuestionCategories()) {
+				questionCategory.setTestingCategory(entity);
+			}
+		}
+
 		// update Testingcategory
-		// service.updateTestingCategory(id, form);
+		service.updateTestingCategory(entity);
 
 		// return result
 		return new ResponseEntity<>("Update success!", HttpStatus.OK);

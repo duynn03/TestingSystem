@@ -30,7 +30,7 @@ public class TestingCategory implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = false, updatable = false)
 	private short id;
 
 	@Column(name = "name", nullable = false, length = 50)
@@ -38,11 +38,11 @@ public class TestingCategory implements Serializable {
 
 	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "author_ID", nullable = false)
+	@JoinColumn(name = "author_ID", nullable = false, updatable = false)
 	private User author;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_time", nullable = false)
+	@Column(name = "create_time", nullable = false, updatable = false)
 	@CreationTimestamp
 	private Date createTime;
 
