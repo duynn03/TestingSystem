@@ -1,4 +1,4 @@
-package com.vti.testing.dto.testingcategory;
+package com.vti.testing.dto;
 
 import java.util.Date;
 

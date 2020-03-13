@@ -60,7 +60,7 @@ public interface QuestionService {
 	 * @modifer: HVHanh
 	 * @modifer_date: Mar 6, 2020
 	 */
-	public void createQuestion(QuestionForm form);
+	public void createQuestion(Question entity);
 
 	/**
 	 * 

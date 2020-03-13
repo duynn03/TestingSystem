@@ -54,7 +54,7 @@ public class QuestionForm {
 	@NotNull(message = "author_ID may not be null")
 	private int author_ID;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date date;
 
 	private short Image_ID;

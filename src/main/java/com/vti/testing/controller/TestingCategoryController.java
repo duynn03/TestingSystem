@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vti.testing.dto.testingcategory.TestingCategoryDto;
+import com.vti.testing.dto.TestingCategoryDto;
 import com.vti.testing.entity.QuestionCategory;
 import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.form.TestingCategoryForm;

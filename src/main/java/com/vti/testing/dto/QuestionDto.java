@@ -1,7 +1,11 @@
 package com.vti.testing.dto;
 
-import com.vti.testing.entity.Question;
-import com.vti.testing.entity.TestingCategory;
+import java.util.Date;
+import java.util.List;
+
+import com.vti.testing.entity.Image;
+import com.vti.testing.entity.enumerate.QuestionStatus;
+import com.vti.testing.entity.enumerate.QuestionType;
 
 /**
  * 
@@ -15,43 +19,22 @@ import com.vti.testing.entity.TestingCategory;
  * @modifer_date: Mar 5, 2020
  */
 public class QuestionDto {
+
 	private Short id;
 	private String title;
-	private String questionCategory;
-	private String testingCategory;
-	private String questionLevel;
-	private String author;
-	private String status;
+	private QuestionCategoryDto questionCategory;
+	private QuestionType type;
+	private QuestionStatus status;
 	private int version;
-
-
-
-	/**
-	 * Constructor for class QuestionDto.
-	 * 
-	 * @Description: .
-	 * @author: HVHanh
-	 * @create_date: Mar 6, 2020
-	 * @version: 1.0
-	 * @modifer: HVHanh
-	 * @modifer_date: Mar 6, 2020
-	 * @param question
-	 */
-	public QuestionDto(Question question) {
-		this.id = question.getId();
-		this.author = question.getAuthor().getFirstName() + " " + question.getAuthor().getLastName();
-		this.title = question.getTitle();
-		this.questionCategory = question.getQuestionCategory().getName();
-		//this.testingCategory = testingCategory.getName();
-		this.questionLevel = question.getQuestionLevel().getLevel();
-		this.status = question.getStatus().name();
-		this.version = question.getVersion();
-	}
+	private UserDto author;
+	private Date createTime;
+	private Image image;
+	private List<AnswerDto> answer;
 
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Short getId() {
 		return id;
 	}
 
@@ -81,14 +64,14 @@ public class QuestionDto {
 	/**
 	 * @return the questionCategory
 	 */
-	public String getQuestionCategory() {
+	public QuestionCategoryDto getQuestionCategory() {
 		return questionCategory;
 	}
 
 	/**
 	 * @param questionCategory the questionCategory to set
 	 */
-	public QuestionDto setQuestionCategory(String questionCategory) {
+	public QuestionDto setQuestionCategory(QuestionCategoryDto questionCategory) {
 		this.questionCategory = questionCategory;
 		return this;
 	}
@@ -96,59 +79,14 @@ public class QuestionDto {
 	/**
 	 * @return the testingCategory
 	 */
-	public String getTestingCategory() {
-		return testingCategory;
-	}
-
-	/**
-	 * @param testingCategory the testingCategory to set
-	 */
-	public QuestionDto setTestingCategory(String testingCategory) {
-		this.testingCategory = testingCategory;
-		return this;
-	}
-
-	/**
-	 * @return the questionLevel
-	 */
-	public String getQuestionLevel() {
-		return questionLevel;
-	}
-
-	/**
-	 * @param questionLevel the questionLevel to set
-	 */
-	public QuestionDto setQuestionLevel(String questionLevel) {
-		this.questionLevel = questionLevel;
-		return this;
-	}
-
-	/**
-	 * @return the author
-	 */
-	public String getAuthor() {
-		return author;
-	}
-
-	/**
-	 * @param author the author to set
-	 */
-	public QuestionDto setAuthor(String author) {
-		this.author = author;
-		return this;
-	}
-
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
+	public QuestionStatus getStatus() {
 		return status;
 	}
 
 	/**
 	 * @param status the status to set
 	 */
-	public QuestionDto setStatus(String status) {
+	public QuestionDto setStatus(QuestionStatus status) {
 		this.status = status;
 		return this;
 	}
@@ -165,6 +103,66 @@ public class QuestionDto {
 	 */
 	public QuestionDto setVersion(int version) {
 		this.version = version;
+		return this;
+	}
+
+	/**
+	 * @return the author
+	 */
+	public UserDto getAuthor() {
+		return author;
+	}
+
+	/**
+	 * @param author the author to set
+	 */
+	public QuestionDto setAuthor(UserDto author) {
+		this.author = author;
+		return this;
+	}
+
+	/**
+	 * @return the createTime
+	 */
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	/**
+	 * @param createTime the createTime to set
+	 */
+	public QuestionDto setCreateTime(Date createTime) {
+		this.createTime = createTime;
+		return this;
+	}
+
+	/**
+	 * @return the image
+	 */
+	public Image getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image the image to set
+	 */
+	public QuestionDto setImage(Image image) {
+		this.image = image;
+		return this;
+	}
+
+	/**
+	 * @return the answer
+	 */
+	public List<AnswerDto> getAnswer() {
+		return answer;
+	}
+
+	/**
+	 * @param answer the answer to set
+	 */
+	public QuestionDto setAnswer(List<AnswerDto> answer) {
+		this.answer = answer;
 		return this;
 	}
 

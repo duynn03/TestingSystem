@@ -109,7 +109,14 @@ public class QuestionController {
 	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getQuestionByID(@PathVariable(name = "id") short id) {
-		return new ResponseEntity<>("View Detail ok", HttpStatus.OK);
+		// get entity
+		Question entity = service.getQuestionByID(id);
+
+		// convert entity to dto
+		Question dto = modelMapper.map(entity, Question.class);
+
+		// return result
+		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 
 	/**
@@ -125,7 +132,13 @@ public class QuestionController {
 	 */
 	@PostMapping()
 	public ResponseEntity<?> createQuestion(@RequestBody QuestionForm form) {
-		service.createQuestion(form);
+		// convert form to entity
+		Question entity = modelMapper.map(form, Question.class);
+
+		// create testing category
+		service.createQuestion(entity);
+
+		// return result
 		return new ResponseEntity<>("Create success!", HttpStatus.OK);
 	}
 

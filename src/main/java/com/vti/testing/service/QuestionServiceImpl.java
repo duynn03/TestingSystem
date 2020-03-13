@@ -39,11 +39,14 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	/*
-	 * @see com.vti.testing.service.QuestionService#createQuestion()
+	 * @see
+	 * com.vti.testing.service.QuestionService#createQuestion(com.vti.testing.entity
+	 * .Question)
 	 */
 	@Override
-	public void createQuestion(QuestionForm form) {
-		repository.save(form.toEntityCreate());
+	public void createQuestion(Question entity) {
+
+		repository.save(entity);
 	}
 
 	/*
