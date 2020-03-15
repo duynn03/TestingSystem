@@ -3,6 +3,7 @@ package com.vti.testing.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.vti.testing.entity.TestingCategory;
@@ -29,8 +30,9 @@ public class TestingCategoryServiceImpl implements TestingCategoryService {
 	 * com.vti.template.service.TestingCategoryService#getAllTestingCategories()
 	 */
 	@Override
-	public Page<TestingCategory> getAllTestingCategories(Pageable pageable) {
-		return repository.findAll(pageable);
+	public Page<TestingCategory> getAllTestingCategories(Specification<TestingCategory> specification,
+			Pageable pageable) {
+		return repository.findAll(specification, pageable);
 	}
 
 	/*

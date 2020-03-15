@@ -1,6 +1,7 @@
 package com.vti.testing.controller;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vti.testing.dto.testingcategory.TestingCategoryDto;
@@ -29,6 +32,10 @@ import com.vti.testing.entity.QuestionCategory;
 import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.form.TestingCategoryForm;
 import com.vti.testing.service.TestingCategoryService;
+import com.vti.testing.specification.CriteriaParser;
+import com.vti.testing.specification.GenericSpecification;
+import com.vti.testing.specification.GenericSpecificationsBuilder;
+import com.vti.testing.validation.Search;
 
 @CrossOrigin("*")
 @RestController
@@ -51,20 +58,43 @@ public class TestingCategoryController {
 	 * @modifer: NNDuy
 	 * @modifer_date: Dec 7, 2019
 	 * @return Page<TestingCategory>
+	 * @throws ParseException
 	 */
 	@GetMapping()
 	public ResponseEntity<Page<?>> getAllTestingCategories(
 			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
-					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
+					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable,
+			@RequestParam(value = "search") @Search String search) throws ParseException {
+
+		// filter
+		Specification<TestingCategory> specification = handleSpecification(search);
 
 		// get page entity
-		Page<TestingCategory> entityPage = service.getAllTestingCategories(pageable);
+		Page<TestingCategory> entityPage = service.getAllTestingCategories(specification, pageable);
 
 		// Convert entity to dto
 		Page<TestingCategoryDto> dtoPage = convertEntityPageToDtoPage(entityPage, pageable);
 
 		// return page dto
 		return new ResponseEntity<>(dtoPage, HttpStatus.OK);
+	}
+
+	/**
+	 * This method is handle Specification.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Mar 12, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 12, 2020
+	 * @param search
+	 * @return
+	 * @throws ParseException
+	 */
+	private Specification<TestingCategory> handleSpecification(String search) throws ParseException {
+		return new GenericSpecificationsBuilder<TestingCategory>().build(new CriteriaParser().parseToCriteria(search),
+				GenericSpecification<TestingCategory>::new);
 	}
 
 	/**
