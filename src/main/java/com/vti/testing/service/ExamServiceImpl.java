@@ -79,9 +79,8 @@ public class ExamServiceImpl implements ExamService {
 	 * @see com.vti.testing.service.ExamService#existsTestingCategory(int)
 	 */
 	@Override
-	public boolean existsTestingCategory(int id) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean existsExamByID(int id) {
+		return repository.existsById(id);
 	}
 
 	/*
@@ -89,9 +88,8 @@ public class ExamServiceImpl implements ExamService {
 	 * com.vti.testing.service.ExamService#existsTestingCategory(java.lang.String)
 	 */
 	@Override
-	public boolean existsTestingCategory(String name) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean existsExamByName(String name) {
+		return repository.existsByName(name);
 	}
 
 }

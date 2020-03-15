@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -44,7 +45,7 @@ public class Testing implements Serializable {
 	private String name;
 
 	// bi-directional many-to-one association to QuestionCategory
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Testing_Category_ID", nullable = false)
 	private TestingCategory testingCategory;
 
@@ -63,12 +64,12 @@ public class Testing implements Serializable {
 	private TestingStatus status;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "examiner_ID", nullable = false)
 	private User examiner;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "author_ID", nullable = false)
 	private User author;
 
@@ -82,11 +83,11 @@ public class Testing implements Serializable {
 	private String note;
 
 	// bi-directional many-to-many association to Question
-	@ManyToMany(mappedBy = "testings")
+	@ManyToMany(mappedBy = "testings",cascade = CascadeType.ALL)
 	private List<Question> questions;
 
 	// bi-directional many-to-many association to Exam
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "testing_exam", joinColumns = {
 			@JoinColumn(name = "testing_id", nullable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "exam_id", nullable = false) })

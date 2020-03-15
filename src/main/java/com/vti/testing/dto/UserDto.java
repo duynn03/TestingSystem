@@ -189,4 +189,13 @@ public class UserDto {
 		return id;
 	}
 
+	/**
+	 * @param id the id to set
+	 * @return 
+	 */
+	public UserDto setId(int id) {
+		this.id = id;
+		return this;
+	}
+
 }

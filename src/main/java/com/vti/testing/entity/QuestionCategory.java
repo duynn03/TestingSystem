@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,12 +37,12 @@ public class QuestionCategory implements Serializable {
 	private String name;
 
 	// bi-directional many-to-one association to TestingCategory
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Testing_Category_ID", nullable = false)
 	private TestingCategory testingCategory;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "author_ID", nullable = false)
 	private User author;
 
@@ -51,7 +52,7 @@ public class QuestionCategory implements Serializable {
 	private Date createTime;
 
 	// bi-directional many-to-one association to Question
-	@OneToMany(mappedBy = "questionCategory")
+	@OneToMany(mappedBy = "questionCategory",cascade = CascadeType.ALL)
 	private List<Question> questions;
 
 	/**

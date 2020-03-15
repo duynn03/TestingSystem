@@ -2,24 +2,40 @@ package com.vti.testing.form;
 
 import java.util.Date;
 
-import com.vti.testing.entity.TestingCategory;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.NonNull;
+
 import com.vti.testing.entity.User;
 import com.vti.testing.entity.enumerate.Gender;
 import com.vti.testing.entity.enumerate.Role;
-import com.vti.testing.entity.enumerate.UserStatus;
 
 public class UserForm {
 
+	@NotBlank
 	private String account;
+	@Email
 	private String email;
+	@NotBlank
 	private String password;
+	@NotBlank
 	private String firstName;
+	@NotBlank
 	private String lastName;
+	@NotBlank
 	private Gender gender;
+	@DateTimeFormat
 	private Date birthDay;
+	@NotBlank
 	private String address;
+	@NonNull
 	private String phone;
+	@NotBlank
 	private Role role;
+	@NotBlank
+	private int id;
 
 	/**
 	 * @return the account
@@ -170,9 +186,9 @@ public class UserForm {
 		this.role = role;
 		return this;
 	}
-	
+
 	/**
-	 * This method is . 
+	 * This method is .
 	 * 
 	 * @Description: .
 	 * @author: NTHung
@@ -185,4 +201,21 @@ public class UserForm {
 	public User toEntityCreate() {
 		return new User().setAccount(account);
 	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 * @return
+	 */
+	public UserForm setId(int id) {
+		this.id = id;
+		return this;
+	}
+
 }

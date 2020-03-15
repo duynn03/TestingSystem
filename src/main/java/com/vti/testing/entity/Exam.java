@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -58,8 +59,8 @@ public class Exam implements Serializable {
 	private ExamStatus status;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name = "author_ID", nullable = false)
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "author_ID")
 	private User author;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -72,7 +73,7 @@ public class Exam implements Serializable {
 	private String note;
 
 	// bi-directional many-to-many association to Testing
-	@ManyToMany(mappedBy = "exams")
+	@ManyToMany(mappedBy = "exams", cascade = CascadeType.ALL)
 	private List<Testing> testings;
 
 	/**

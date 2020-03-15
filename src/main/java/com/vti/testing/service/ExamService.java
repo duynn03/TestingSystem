@@ -100,7 +100,7 @@ public interface ExamService {
 	 * @param id
 	 * @return
 	 */
-	public boolean existsTestingCategory(int id);
+	public boolean existsExamByID(int id);
 	
 	/**
 	 * This method is checked Exam exists by name . 
@@ -114,5 +114,5 @@ public interface ExamService {
 	 * @param name
 	 * @return
 	 */
-	public boolean existsTestingCategory(String name);
+	public boolean existsExamByName(String name);
 }

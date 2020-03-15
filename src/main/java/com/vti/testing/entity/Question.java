@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -46,7 +47,7 @@ public class Question implements Serializable {
 	private String title;
 
 	// bi-directional many-to-one association to QuestionCategory
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Question_Category_ID", nullable = false)
 	private QuestionCategory questionCategory;
 
@@ -59,7 +60,7 @@ public class Question implements Serializable {
 	private QuestionStatus status;
 
 	// bi-directional many-to-one association to QuestionLevel
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "level_ID", nullable = false)
 	private QuestionLevel questionLevel;
 
@@ -67,7 +68,7 @@ public class Question implements Serializable {
 	private int version;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "author_ID", nullable = false)
 	private User author;
 
@@ -77,16 +78,16 @@ public class Question implements Serializable {
 	private Date createTime;
 
 	// bi-directional many-to-one association to Image
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "Image_ID")
 	private Image image;
 
 	// bi-directional many-to-one association to Answer
-	@OneToMany(mappedBy = "question")
+	@OneToMany(mappedBy = "question",cascade = CascadeType.ALL)
 	private List<Answer> answers;
 
 	// bi-directional many-to-many association to Testing
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "question_testing", joinColumns = {
 			@JoinColumn(name = "question_id", nullable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "testing_id", nullable = false) })

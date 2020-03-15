@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -76,46 +77,46 @@ public class User implements Serializable {
 	private UserStatus status;
 
 	// bi-directional many-to-one association to Group
-	@OneToMany(mappedBy = "author")
+	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
 	private List<Group> groupAuthors;
 
 	// bi-directional many-to-one association to UserGroup
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
 	private List<UserGroup> userGroups;
 
 	// bi-directional many-to-many association to Group
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_group", joinColumns = {
 			@JoinColumn(name = "user_id", nullable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "group_id", nullable = false) })
 	private List<Group> groups;
 
 	// bi-directional many-to-one association to TestingCategory
-	@OneToMany(mappedBy = "author")
+	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
 	private List<TestingCategory> testingCategoryAuthors;
 
 	// bi-directional many-to-one association to QuestionCategory
-	@OneToMany(mappedBy = "author")
+	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
 	private List<QuestionCategory> questionCategoryAuthors;
 
 	// bi-directional many-to-one association to Image
-	@OneToMany(mappedBy = "author")
+	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
 	private List<Image> imageAuthors;
 
 	// bi-directional many-to-one association to Question
-	@OneToMany(mappedBy = "author")
+	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
 	private List<Question> questionAuthors;
 
 	// bi-directional many-to-one association to Testing
-	@OneToMany(mappedBy = "author")
+	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
 	private List<Testing> testingAuthors;
 
 	// bi-directional many-to-one association to Testing
-	@OneToMany(mappedBy = "examiner")
+	@OneToMany(mappedBy = "examiner",cascade = CascadeType.ALL)
 	private List<Testing> markedTestings;
 
 	// bi-directional many-to-one association to Exam
-	@OneToMany(mappedBy = "author")
+	@OneToMany(mappedBy = "author",cascade = CascadeType.MERGE)
 	private List<Exam> examAuthors;
 
 	/**

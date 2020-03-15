@@ -3,6 +3,7 @@ package com.vti.testing.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -27,12 +28,12 @@ public class UserGroup implements Serializable {
 	private UserGroupPK id;
 
 	// bi-directional many-to-one association to Group
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "group_id", nullable = false, insertable = false, updatable = false)
 	private Group group;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
 	private User user;
 

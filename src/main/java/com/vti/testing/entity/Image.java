@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class Image implements Serializable {
 	private String name;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "author_ID", nullable = false)
 	private User author;
 
@@ -46,11 +47,11 @@ public class Image implements Serializable {
 	private Date createTime;
 
 	// bi-directional many-to-one association to Answer
-	@OneToMany(mappedBy = "image")
+	@OneToMany(mappedBy = "image",cascade = CascadeType.ALL)
 	private List<Answer> answers;
 
 	// bi-directional many-to-one association to Question
-	@OneToMany(mappedBy = "image")
+	@OneToMany(mappedBy = "image",cascade = CascadeType.ALL)
 	private List<Question> questions;
 
 	/**
