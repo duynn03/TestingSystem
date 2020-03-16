@@ -32,9 +32,7 @@ import com.vti.testing.entity.QuestionCategory;
 import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.form.TestingCategoryForm;
 import com.vti.testing.service.TestingCategoryService;
-import com.vti.testing.specification.CriteriaParser;
-import com.vti.testing.specification.GenericSpecification;
-import com.vti.testing.specification.GenericSpecificationsBuilder;
+import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
 
 @CrossOrigin("*")
@@ -67,7 +65,7 @@ public class TestingCategoryController {
 			@RequestParam(value = "search") @Search String search) throws ParseException {
 
 		// filter
-		Specification<TestingCategory> specification = handleSpecification(search);
+		Specification<TestingCategory> specification = SpecificationTemplate.buildSpecification(search);
 
 		// get page entity
 		Page<TestingCategory> entityPage = service.getAllTestingCategories(specification, pageable);
@@ -77,24 +75,6 @@ public class TestingCategoryController {
 
 		// return page dto
 		return new ResponseEntity<>(dtoPage, HttpStatus.OK);
-	}
-
-	/**
-	 * This method is handle Specification.
-	 * 
-	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Mar 12, 2020
-	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Mar 12, 2020
-	 * @param search
-	 * @return
-	 * @throws ParseException
-	 */
-	private Specification<TestingCategory> handleSpecification(String search) throws ParseException {
-		return new GenericSpecificationsBuilder<TestingCategory>().build(new CriteriaParser().parseToCriteria(search),
-				GenericSpecification<TestingCategory>::new);
 	}
 
 	/**
