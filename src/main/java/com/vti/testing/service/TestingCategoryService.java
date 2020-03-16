@@ -2,6 +2,7 @@ package com.vti.testing.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.vti.testing.entity.TestingCategory;
 
@@ -22,13 +23,16 @@ public interface TestingCategoryService {
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
-	 * @create_date: Jan 15, 2020
+	 * @create_date: Mar 12, 2020
 	 * @version: 1.0
 	 * @modifer: NNDuy
-	 * @modifer_date: Jan 15, 2020
-	 * @return List<TestingCategory>
+	 * @modifer_date: Mar 12, 2020
+	 * @param specification
+	 * @param pageable
+	 * @return
 	 */
-	public Page<TestingCategory> getAllTestingCategories(Pageable pageable);
+	public Page<TestingCategory> getAllTestingCategories(Specification<TestingCategory> specification,
+			Pageable pageable);
 
 	/**
 	 * This method uses for getting TestingCategory by id.
