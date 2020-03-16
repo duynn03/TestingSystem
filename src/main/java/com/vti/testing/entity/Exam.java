@@ -77,10 +77,10 @@ public class Exam implements Serializable {
 	 * Constructor for class Exam.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
+	 * @author: CTAnh
 	 * @create_date: Mar 4, 2020
 	 * @version: 1.0
-	 * @modifer: NNDuy
+	 * @modifer: CTAnh
 	 * @modifer_date: Mar 4, 2020
 	 */
 	public Exam() {
