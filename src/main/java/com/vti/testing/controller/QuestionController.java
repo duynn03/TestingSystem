@@ -27,9 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vti.testing.dto.QuestionDto;
 import com.vti.testing.entity.Answer;
 import com.vti.testing.entity.Question;
-import com.vti.testing.entity.QuestionCategory;
-import com.vti.testing.entity.User;
-import com.vti.testing.entity.enumerate.QuestionStatus;
 import com.vti.testing.form.QuestionForm;
 import com.vti.testing.service.QuestionService;
 
