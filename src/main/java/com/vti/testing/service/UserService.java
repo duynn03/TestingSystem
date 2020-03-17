@@ -3,9 +3,7 @@ package com.vti.testing.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.vti.testing.entity.TestingCategory;
-import com.vti.testing.entity.User;
-import com.vti.testing.form.TestingCategoryForm;
+import com.vti.testing.entity.Users;
 import com.vti.testing.form.UserForm;
 
 public interface UserService {
@@ -23,7 +21,7 @@ public interface UserService {
 	 * @param pageable
 	 * @return
 	 */
-	public Page<User> getAllUser(Pageable pageable);
+	public Page<Users> getAllUser(Pageable pageable);
 
 	
 	/**
@@ -38,7 +36,7 @@ public interface UserService {
 	 * @param id
 	 * @return
 	 */
-	public User getUserByID(short id);
+	public Users getUserByID(short id);
 
 	
 	/**

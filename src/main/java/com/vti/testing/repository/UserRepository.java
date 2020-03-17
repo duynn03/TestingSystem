@@ -1,11 +1,12 @@
 package com.vti.testing.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import com.vti.testing.entity.User;
+import com.vti.testing.entity.Users;
 
 /**
- * This class is .
+ * This class is UserRepository.
  * 
  * @Description: .
  * @author: NTHung
@@ -14,19 +15,34 @@ import com.vti.testing.entity.User;
  * @modifer: NTHung
  * @modifer_date: Mar 6, 2020
  */
-public interface UserRepository extends JpaRepository<User, Short> {
+@Repository
+public interface UserRepository extends JpaRepository<Users, Short> {
+
+//	/**
+//	 * This method is .
+//	 * 
+//	 * @Description: .
+//	 * @author: NTHung
+//	 * @create_date: Mar 6, 2020
+//	 * @version: 1.0
+//	 * @modifer: NTHung
+//	 * @modifer_date: Mar 6, 2020
+//	 * @param name
+//	 * @return
+//	 */
+//	public boolean existsByAccount(String account);
 
 	/**
-	 * This method is .
+	 * This method is find User By userNAme.
 	 * 
 	 * @Description: .
-	 * @author: NTHung
-	 * @create_date: Mar 6, 2020
+	 * @author: CTANH
+	 * @create_date: Mar 17, 2020
 	 * @version: 1.0
-	 * @modifer: NTHung
-	 * @modifer_date: Mar 6, 2020
-	 * @param name
+	 * @modifer: CTANH
+	 * @modifer_date: Mar 17, 2020
+	 * @param userName
 	 * @return
 	 */
-	public boolean existsByAccount(String account);
+	Users findByUserName(String userName);
 }
