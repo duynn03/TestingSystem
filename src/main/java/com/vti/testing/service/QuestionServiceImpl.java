@@ -1,13 +1,15 @@
 //
 package com.vti.testing.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.vti.testing.entity.Question;
-import com.vti.testing.form.QuestionForm;
+import com.vti.testing.entity.enumerate.QuestionStatus;
 import com.vti.testing.repository.QuestionRepository;
 
 /**
@@ -54,8 +56,8 @@ public class QuestionServiceImpl implements QuestionService {
 	 */
 	@Override
 	public Question getQuestionByID(short id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return repository.findById(id).get();
 	}
 
 	/*
@@ -63,8 +65,9 @@ public class QuestionServiceImpl implements QuestionService {
 	 * com.vti.testing.form.QuestionForm)
 	 */
 	@Override
-	public void updateQuestion(short id, QuestionForm form) {
-		// TODO Auto-generated method stub
+	public void updateQuestion(Question entity) {
+
+		repository.save(entity);
 
 	}
 
@@ -72,9 +75,16 @@ public class QuestionServiceImpl implements QuestionService {
 	 * @see com.vti.testing.service.QuestionService#deleteQuestion(short)
 	 */
 	@Override
-	public void deleteQuestion(short id) {
-		// TODO Auto-generated method stub
+	public boolean deleteQuestion(short id) {
 
+		if (repository.findById(id).get().getStatus() != QuestionStatus.PUBLISHED
+				&& null == repository.findById(id).get().getQuestionCategory()
+				&& null == repository.findById(id).get().getAnswers()) {
+			repository.deleteById(id);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/*
@@ -82,17 +92,17 @@ public class QuestionServiceImpl implements QuestionService {
 	 */
 	@Override
 	public boolean existsQuestion(short id) {
-		// TODO Auto-generated method stub
-		return false;
+		return repository.existsById(id);
+
 	}
 
 	/*
 	 * @see com.vti.testing.service.QuestionService#existsQuestion(java.lang.String)
 	 */
-	@Override
-	public boolean existsQuestion(String name) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	// @Override
+	// public boolean existsQuestion(String name) {
+	// return repository.existsByName(name);
+
+	// }
 
 }

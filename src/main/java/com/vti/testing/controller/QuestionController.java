@@ -25,7 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vti.testing.dto.QuestionDto;
+import com.vti.testing.entity.Answer;
 import com.vti.testing.entity.Question;
+import com.vti.testing.entity.QuestionCategory;
+import com.vti.testing.entity.User;
+import com.vti.testing.entity.enumerate.QuestionStatus;
 import com.vti.testing.form.QuestionForm;
 import com.vti.testing.service.QuestionService;
 
@@ -41,15 +45,17 @@ public class QuestionController {
 	private ModelMapper modelMapper;
 
 	/**
+	 * 
 	 * This method is got all Questions.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Dec 7, 2019
+	 * @author: HVHanh
+	 * @create_date: Mar 17, 2020
 	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Dec 7, 2019
-	 * @return List<Question>
+	 * @modifer: HVHanh
+	 * @modifer_date: Mar 17, 2020
+	 * @param pageable
+	 * @return
 	 */
 	@GetMapping()
 	public ResponseEntity<Page<?>> getAllQuestions(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
@@ -96,16 +102,17 @@ public class QuestionController {
 	}
 
 	/**
+	 * 
 	 * This method is got Question by ID.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Dec 7, 2019
+	 * @author: HVHanh
+	 * @create_date: Mar 17, 2020
 	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Dec 7, 2019
+	 * @modifer: HVHanh
+	 * @modifer_date: Mar 17, 2020
 	 * @param id
-	 * @return Question
+	 * @return
 	 */
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getQuestionByID(@PathVariable(name = "id") short id) {
@@ -113,28 +120,37 @@ public class QuestionController {
 		Question entity = service.getQuestionByID(id);
 
 		// convert entity to dto
-		Question dto = modelMapper.map(entity, Question.class);
+		QuestionForm form = modelMapper.map(entity, QuestionForm.class);
 
 		// return result
-		return new ResponseEntity<>(dto, HttpStatus.OK);
+		return new ResponseEntity<>(form.toString(), HttpStatus.OK);
 	}
 
 	/**
+	 * 
 	 * This method is created Question.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Dec 7, 2019
+	 * @author: HVHanh
+	 * @create_date: Mar 17, 2020
 	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Dec 7, 2019
+	 * @modifer: HVHanh
+	 * @modifer_date: Mar 17, 2020
 	 * @param form
+	 * @return
 	 */
 	@PostMapping()
 	public ResponseEntity<?> createQuestion(@RequestBody QuestionForm form) {
+
 		// convert form to entity
 		Question entity = modelMapper.map(form, Question.class);
 
+		// set child element
+		if (null != entity.getAnswers()) {
+			for (Answer answer : entity.getAnswers()) {
+				answer.setQuestion(entity);
+			}
+		}
 		// create testing category
 		service.createQuestion(entity);
 
@@ -143,37 +159,83 @@ public class QuestionController {
 	}
 
 	/**
+	 * 
 	 * This method is updated Question.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Dec 13, 2019
+	 * @author: HVHanh
+	 * @create_date: Mar 17, 2020
 	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Dec 13, 2019
+	 * @modifer: HVHanh
+	 * @modifer_date: Mar 17, 2020
+	 * @param id
 	 * @param form
+	 * @return
 	 */
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateQuestion() {
+	public ResponseEntity<?> updateQuestion(@PathVariable(name = "id") short id, @RequestBody QuestionForm form) {
 
+		
+		// convert form to entity
+		Question entity = modelMapper.map(form, Question.class);
+
+		 
+		// get question by id
+		 Question question = service.getQuestionByID(id);
+
+		// Record data of fields that are not changed
+		entity.setId(id).setAuthor(question.getAuthor())
+			.setCreateTime(question.getCreateTime())
+			.setVersion(question.getVersion() + 1);
+		
+		if (null == entity.getTitle()) {
+			entity.setTitle(question.getTitle());
+		}
+		if (null == entity.getAnswers()) {
+			entity.setAnswers(question.getAnswers());
+		}
+		if (null == entity.getType()) {
+			entity.setType(question.getType());
+		}
+		if (null == entity.getQuestionCategory()) {
+			entity.setQuestionCategory(question.getQuestionCategory());
+		}
+		if (null == entity.getStatus()) {
+			entity.setStatus(question.getStatus());
+		}
+		if (null == entity.getQuestionLevel()) {
+			entity.setQuestionLevel(question.getQuestionLevel());
+		}
+		if (null == entity.getImage()) {
+			entity.setImage(question.getImage());
+		}
+		// update Testingcategory
+		service.updateQuestion(entity);
+
+		// return result
 		return new ResponseEntity<>("Update success!", HttpStatus.OK);
 	}
 
 	/**
+	 * 
 	 * This method is deleted Question.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Dec 13, 2019
+	 * @author: HVHanh
+	 * @create_date: Mar 17, 2020
 	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Dec 13, 2019
+	 * @modifer: HVHanh
+	 * @modifer_date: Mar 17, 2020
 	 * @param id
+	 * @return
 	 */
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteQuestion() {
-
+	public ResponseEntity<?> deleteQuestion(@PathVariable(name = "id") short id) {
+		if (service.deleteQuestion(id) == true ) {
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
+	}else {
+		return new ResponseEntity<>("Cannot delete  a parent row: a foreign key constraint fails", HttpStatus.OK);
 	}
-
+	}
+	
 }

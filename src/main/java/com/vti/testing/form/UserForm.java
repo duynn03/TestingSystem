@@ -13,6 +13,7 @@ package com.vti.testing.form;
 public class UserForm {
 
 	private int id;
+	private String name;
 
 	/**
 	 * @return the id
@@ -28,4 +29,6 @@ public class UserForm {
 		this.id = id;
 	}
 
+
+	
 }

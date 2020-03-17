@@ -75,7 +75,7 @@ public interface QuestionService {
 	 * @param id
 	 * @param form
 	 */
-	public void updateQuestion(short id, QuestionForm form);
+	public void updateQuestion( Question entity);
 
 	/**
 	 * 
@@ -88,8 +88,9 @@ public interface QuestionService {
 	 * @modifer: HVHanh
 	 * @modifer_date: Mar 6, 2020
 	 * @param id
+	 * @return 
 	 */
-	public void deleteQuestion(short id);
+	public boolean deleteQuestion(short id);
 
 	/**
 	 * 
@@ -119,6 +120,6 @@ public interface QuestionService {
 	 * @param name
 	 * @return
 	 */
-	public boolean existsQuestion(String name);
+//	public boolean existsQuestion(String name);
 
 }
