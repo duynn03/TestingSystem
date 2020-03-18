@@ -157,4 +157,38 @@ public class TestingCategory implements Serializable {
 		return this;
 	}
 
+	/**
+	 * This method is added question category to testing category.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Mar 17, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 17, 2020
+	 * @param questionCategory
+	 * @return
+	 */
+	public void addQuestionCategory(QuestionCategory questionCategory) {
+		getQuestionCategories().add(questionCategory);
+		questionCategory.setTestingCategory(this);
+
+	}
+
+	/**
+	 * This method is removed question category from testing category.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Mar 17, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 17, 2020
+	 * @param questionCategory
+	 */
+	public void removeQuestionCategory(QuestionCategory questionCategory) {
+		getQuestionCategories().remove(questionCategory);
+		questionCategory.setTestingCategory(null);
+	}
+
 }
