@@ -21,7 +21,7 @@ import com.vti.testing.entity.enumerate.Role;
 
 public class UserDto {
 	private int id;
-	private String account;
+	private String userName;
 	private String email;
 	private String password;
 	private String firstName;
@@ -35,15 +35,15 @@ public class UserDto {
 	/**
 	 * @return the account
 	 */
-	public String getAccount() {
-		return account;
+	public String getuserName() {
+		return userName;
 	}
 
 	/**
 	 * @param account the account to set
 	 */
-	public UserDto setAccount(String account) {
-		this.account = account;
+	public UserDto setuserName(String userName) {
+		this.userName = userName;
 		return this;
 	}
 

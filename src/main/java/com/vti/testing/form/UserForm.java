@@ -8,14 +8,13 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 
-import com.vti.testing.entity.User;
 import com.vti.testing.entity.enumerate.Gender;
 import com.vti.testing.entity.enumerate.Role;
 
 public class UserForm {
 
 	@NotBlank
-	private String account;
+	private String userName;
 	@Email
 	private String email;
 	@NotBlank
@@ -40,15 +39,15 @@ public class UserForm {
 	/**
 	 * @return the account
 	 */
-	public String getAccount() {
-		return account;
+	public String getuserName() {
+		return userName;
 	}
 
 	/**
 	 * @param account the account to set
 	 */
-	public UserForm setAccount(String account) {
-		this.account = account;
+	public UserForm setuserName(String userName) {
+		this.userName = userName;
 		return this;
 	}
 
@@ -185,21 +184,6 @@ public class UserForm {
 	public UserForm setRole(Role role) {
 		this.role = role;
 		return this;
-	}
-
-	/**
-	 * This method is .
-	 * 
-	 * @Description: .
-	 * @author: NTHung
-	 * @create_date: Mar 6, 2020
-	 * @version: 1.0
-	 * @modifer: NTHung
-	 * @modifer_date: Mar 6, 2020
-	 * @return
-	 */
-	public User toEntityCreate() {
-		return new User().setAccount(account);
 	}
 
 	/**

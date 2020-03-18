@@ -1,7 +1,7 @@
 package com.vti.testing.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import com.vti.testing.entity.TestingCategory;
 
 /**
@@ -14,7 +14,8 @@ import com.vti.testing.entity.TestingCategory;
  * @modifer: NNDuy
  * @modifer_date: Dec 7, 2019
  */
-public interface TestingCategoryRepository extends JpaRepository<TestingCategory, Short> {
+public interface TestingCategoryRepository
+		extends JpaRepository<TestingCategory, Short>, JpaSpecificationExecutor<TestingCategory> {
 
 	/**
 	 * This method use for getting Testing Category by name.

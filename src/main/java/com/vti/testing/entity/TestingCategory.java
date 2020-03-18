@@ -30,24 +30,25 @@ public class TestingCategory implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = false, updatable = false)
 	private short id;
 
 	@Column(name = "name", nullable = false, length = 50)
 	private String name;
 
 	// bi-directional many-to-one association to User
+
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "author_ID", nullable = false)
+	@JoinColumn(name = "author_ID", nullable = false, updatable = false)
 	private User author;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_time", nullable = false)
+	@Column(name = "create_time", nullable = false, updatable = false)
 	@CreationTimestamp
 	private Date createTime;
 
 	// bi-directional many-to-one association to QuestionCategory
-	@OneToMany(mappedBy = "testingCategory",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "testingCategory", cascade = CascadeType.ALL)
 	private List<QuestionCategory> questionCategories;
 
 	// bi-directional many-to-one association to TestingCategory
@@ -155,6 +156,40 @@ public class TestingCategory implements Serializable {
 	public TestingCategory setTestings(List<Testing> testings) {
 		this.testings = testings;
 		return this;
+	}
+
+	/**
+	 * This method is added question category to testing category.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Mar 17, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 17, 2020
+	 * @param questionCategory
+	 * @return
+	 */
+	public void addQuestionCategory(QuestionCategory questionCategory) {
+		getQuestionCategories().add(questionCategory);
+		questionCategory.setTestingCategory(this);
+
+	}
+
+	/**
+	 * This method is removed question category from testing category.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Mar 17, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 17, 2020
+	 * @param questionCategory
+	 */
+	public void removeQuestionCategory(QuestionCategory questionCategory) {
+		getQuestionCategories().remove(questionCategory);
+		questionCategory.setTestingCategory(null);
 	}
 
 }

@@ -2,112 +2,102 @@ package com.vti.testing.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
-import com.vti.testing.entity.Users;
-import com.vti.testing.form.UserForm;
+import com.vti.testing.entity.User;
 
+/**
+ * This class is User service.
+ * 
+ * @Description: .
+ * @author: NNDuy
+ * @create_date: Dec 7, 2019
+ * @version: 1.0
+ * @modifer: NNDuy
+ * @modifer_date: Dec 7, 2019
+ */
 public interface UserService {
-	
-	 
+
 	/**
-	 * This method is page. 
+	 * This method uses for getting all Users.
 	 * 
 	 * @Description: .
-	 * @author: NTHung
-	 * @create_date: Mar 5, 2020
+	 * @author: NNDuy
+	 * @create_date: Mar 12, 2020
 	 * @version: 1.0
-	 * @modifer: NTHung
-	 * @modifer_date: Mar 5, 2020
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 12, 2020
+	 * @param specification
 	 * @param pageable
 	 * @return
 	 */
-	public Page<Users> getAllUser(Pageable pageable);
+	public Page<User> getAllUsers(Specification<User> specification, Pageable pageable);
 
-	
 	/**
-	 * This method is getById. 
+	 * This method uses for getting User by id.
 	 * 
 	 * @Description: .
-	 * @author: NTHung
-	 * @create_date: Mar 5, 2020
+	 * @author: NNDuy
+	 * @create_date: Jan 15, 2020
 	 * @version: 1.0
-	 * @modifer: NTHung
-	 * @modifer_date: Mar 5, 2020
+	 * @modifer: NNDuy
+	 * @modifer_date: Jan 15, 2020
 	 * @param id
-	 * @return
+	 * @return User
 	 */
-	public Users getUserByID(short id);
+	public User getUserByID(int id);
 
-	
 	/**
-	 * This method is create . 
+	 * This method uses for creating User .
 	 * 
 	 * @Description: .
-	 * @author: NTHung
-	 * @create_date: Mar 5, 2020
+	 * @author: NNDuy
+	 * @create_date: Jan 15, 2020
 	 * @version: 1.0
-	 * @modifer: NTHung
-	 * @modifer_date: Mar 5, 2020
-	 * @param form
+	 * @modifer: NNDuy
+	 * @modifer_date: Jan 15, 2020
+	 * @param entity
 	 */
-	public void createUser(UserForm form);
+	public void createUser(User entity);
 
-	 
 	/**
-	 * This method is update. 
+	 * This method uses for updating User .
 	 * 
 	 * @Description: .
-	 * @author: NTHung
-	 * @create_date: Mar 5, 2020
+	 * @author: NNDuy
+	 * @create_date: Jan 15, 2020
 	 * @version: 1.0
-	 * @modifer: NTHung
-	 * @modifer_date: Mar 5, 2020
-	 * @param id
-	 * @param form
+	 * @modifer: NNDuy
+	 * @modifer_date: Jan 15, 2020
+	 * @param entity
 	 */
-	public void updateUser(short id, UserForm form);
+	public void updateUser(User entity);
 
-	
-	 
 	/**
-	 * This method is delete. 
+	 * This method uses for deleting User .
 	 * 
 	 * @Description: .
-	 * @author: NTHung
-	 * @create_date: Mar 5, 2020
+	 * @author: NNDuy
+	 * @create_date: Jan 15, 2020
 	 * @version: 1.0
-	 * @modifer: NTHung
-	 * @modifer_date: Mar 5, 2020
+	 * @modifer: NNDuy
+	 * @modifer_date: Jan 15, 2020
 	 * @param id
 	 */
-	public void deleteUser(short id);
+	public void deleteUser(int id);
 
 	/**
-	 * This method is exists. 
+	 * This method is checked User exists by id .
 	 * 
 	 * @Description: .
-	 * @author: NTHung
-	 * @create_date: Mar 5, 2020
+	 * @author: NNDuy
+	 * @create_date: Jan 15, 2020
 	 * @version: 1.0
-	 * @modifer: NTHung
-	 * @modifer_date: Mar 5, 2020
+	 * @modifer: NNDuy
+	 * @modifer_date: Jan 15, 2020
 	 * @param id
-	 * @return
+	 * @return boolean
 	 */
-	public boolean existsUser(short id);
-
-	/**
-	 * This method is exists. 
-	 * 
-	 * @Description: .
-	 * @author: NTHung
-	 * @create_date: Mar 5, 2020
-	 * @version: 1.0
-	 * @modifer: NTHung
-	 * @modifer_date: Mar 5, 2020
-	 * @param name
-	 * @return
-	 */
-	public boolean existsUser(String name);
+	public boolean existsUser(int id);
 
 }

@@ -30,24 +30,24 @@ public class QuestionCategory implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
-	private int id;
+	@Column(unique = true, nullable = false, updatable = false)
+	private short id;
 
 	@Column(name = "name", nullable = false, length = 50)
 	private String name;
 
 	// bi-directional many-to-one association to TestingCategory
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "Testing_Category_ID", nullable = false)
+	@JoinColumn(name = "Testing_Category_ID", nullable = false, updatable = false)
 	private TestingCategory testingCategory;
 
 	// bi-directional many-to-one association to User
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "author_ID", nullable = false)
+	@JoinColumn(name = "author_ID", nullable = false, updatable = false)
 	private User author;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_time", nullable = false)
+	@Column(name = "create_time", nullable = false, updatable = false)
 	@CreationTimestamp
 	private Date createTime;
 
@@ -71,14 +71,14 @@ public class QuestionCategory implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public short getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public QuestionCategory setId(int id) {
+	public QuestionCategory setId(short id) {
 		this.id = id;
 		return this;
 	}

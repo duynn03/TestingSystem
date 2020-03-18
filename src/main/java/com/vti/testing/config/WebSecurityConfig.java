@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.vti.testing.service.UserServiceIplm;
+import com.vti.testing.service.UserServiceImpl;
 
 /**
  * This class is configution security in Website.
@@ -29,7 +29,7 @@ import com.vti.testing.service.UserServiceIplm;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
-	UserServiceIplm service;
+	UserServiceImpl service;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {

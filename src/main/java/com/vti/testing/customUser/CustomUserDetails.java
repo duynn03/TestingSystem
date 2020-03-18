@@ -2,7 +2,6 @@
 package com.vti.testing.customUser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.vti.testing.entity.User;
-import com.vti.testing.entity.Users;
 
 /**
  * This class is Customize Class UserDetail.
@@ -26,7 +24,7 @@ import com.vti.testing.entity.Users;
 public class CustomUserDetails implements UserDetails {
 	//
 	private static final long serialVersionUID = 1L;
-	Users user;
+	User user;
 
 	/*
 	 * @see
@@ -35,7 +33,7 @@ public class CustomUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority(user.getRole()));
+		authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
 		return authorities;
 	}
 
@@ -50,7 +48,7 @@ public class CustomUserDetails implements UserDetails {
 	 * @modifer_date: Mar 17, 2020
 	 * @param user
 	 */
-	public CustomUserDetails(Users user) {
+	public CustomUserDetails(User user) {
 		this.user = user;
 	}
 

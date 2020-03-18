@@ -22,7 +22,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.vti.testing.entity.enumerate.QuestionStatus;
@@ -56,8 +55,7 @@ public class Question implements Serializable {
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "status", nullable = false)
-	@ColumnDefault("DRAFT")
-	private QuestionStatus status;
+	private QuestionStatus status = QuestionStatus.DRAFT;
 
 	// bi-directional many-to-one association to QuestionLevel
 	@ManyToOne(cascade = CascadeType.ALL)

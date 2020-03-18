@@ -20,7 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Formula;
 
 import com.vti.testing.entity.enumerate.Gender;
 import com.vti.testing.entity.enumerate.Role;
@@ -40,13 +40,13 @@ public class User implements Serializable {
 	@Column(unique = true, nullable = false)
 	private int id;
 
-	@Column(name = "account", nullable = false, length = 50, unique = true)
-	private String account;
+	@Column(name = "username", nullable = false, length = 50, unique = true)
+	private String userName;
 
 	@Column(name = "email", nullable = false, length = 50, unique = true)
 	private String email;
 
-	@Column(name = "password", nullable = false, length = 50)
+	@Column(name = "password", nullable = false, length = 800)
 	private String password;
 
 	@Column(name = "firstName", nullable = false, length = 50)
@@ -54,6 +54,9 @@ public class User implements Serializable {
 
 	@Column(name = "lastName", nullable = false, length = 50)
 	private String lastName;
+
+	@Formula("concat(firstName, ' ', lastName)")
+	private String fullName;
 
 	@Column(name = "gender", nullable = false, length = 1)
 	private Gender gender;
@@ -73,15 +76,14 @@ public class User implements Serializable {
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "status", nullable = false)
-	@ColumnDefault("ACTIVE")
-	private UserStatus status;
+	private UserStatus status = UserStatus.ACTIVE;
 
 	// bi-directional many-to-one association to Group
-	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
 	private List<Group> groupAuthors;
 
 	// bi-directional many-to-one association to UserGroup
-	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<UserGroup> userGroups;
 
 	// bi-directional many-to-many association to Group
@@ -92,31 +94,31 @@ public class User implements Serializable {
 	private List<Group> groups;
 
 	// bi-directional many-to-one association to TestingCategory
-	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
 	private List<TestingCategory> testingCategoryAuthors;
 
 	// bi-directional many-to-one association to QuestionCategory
-	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
 	private List<QuestionCategory> questionCategoryAuthors;
 
 	// bi-directional many-to-one association to Image
-	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
 	private List<Image> imageAuthors;
 
 	// bi-directional many-to-one association to Question
-	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
 	private List<Question> questionAuthors;
 
 	// bi-directional many-to-one association to Testing
-	@OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
 	private List<Testing> testingAuthors;
 
 	// bi-directional many-to-one association to Testing
-	@OneToMany(mappedBy = "examiner",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "examiner", cascade = CascadeType.ALL)
 	private List<Testing> markedTestings;
 
 	// bi-directional many-to-one association to Exam
-	@OneToMany(mappedBy = "author",cascade = CascadeType.MERGE)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.MERGE)
 	private List<Exam> examAuthors;
 
 	/**
@@ -150,15 +152,15 @@ public class User implements Serializable {
 	/**
 	 * @return the account
 	 */
-	public String getAccount() {
-		return account;
+	public String getUserName() {
+		return userName;
 	}
 
 	/**
 	 * @param account the account to set
 	 */
-	public User setAccount(String account) {
-		this.account = account;
+	public User setUserName(String username) {
+		this.userName = username;
 		return this;
 	}
 
@@ -223,6 +225,21 @@ public class User implements Serializable {
 	}
 
 	/**
+	 * @return the fullName
+	 */
+	public String getFullName() {
+		return fullName;
+	}
+
+	/**
+	 * @param fullName the fullName to set
+	 */
+	public User setFullName(String fullName) {
+		this.fullName = fullName;
+		return this;
+	}
+
+	/**
 	 * @return the gender
 	 */
 	public Gender getGender() {
@@ -236,8 +253,6 @@ public class User implements Serializable {
 		this.gender = gender;
 		return this;
 	}
-
-
 
 	/**
 	 * @return the birthday
