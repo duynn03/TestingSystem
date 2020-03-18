@@ -6,6 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.util.StringUtils;
 
 import com.vti.testing.specification.CriteriaParser;
+import com.vti.testing.specification.SearchOperation;
 import com.vti.testing.utils.MethodUtil;
 
 /**
@@ -31,7 +32,16 @@ public class SearchValidator implements ConstraintValidator<Search, String> {
 			return true;
 		}
 
-		return MethodUtil.checkRegularExpression(data, CriteriaParser.CRITERIA_REGEX);
+		String[] tokens = data.split("\\s+");
+		for (String token : tokens) {
+			if (!CriteriaParser.OPERATORS.containsKey(token) && !token.equals(SearchOperation.LEFT_PARANTHESIS)
+					&& !token.equals(SearchOperation.RIGHT_PARANTHESIS)) {
+				if (!MethodUtil.checkRegularExpression(token, CriteriaParser.CRITERIA_REGEX)) {
+					return false;
+				}
+			}
+		}
 
+		return true;
 	}
 }

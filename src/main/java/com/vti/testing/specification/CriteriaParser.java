@@ -22,10 +22,10 @@ import com.google.common.collect.ImmutableMap;
  */
 public class CriteriaParser {
 
-	private static final Map<String, Operator> operatorMaps = ImmutableMap.of("AND", Operator.AND, "OR", Operator.OR,
+	private static final Map<String, Operator> OPERATOR_MAPS = ImmutableMap.of("AND", Operator.AND, "OR", Operator.OR,
 			"or", Operator.OR, "and", Operator.AND);
 
-	private Map<String, Operator> operators;
+	public static final Map<String, Operator> OPERATORS = Collections.unmodifiableMap(OPERATOR_MAPS);
 
 	private final Pattern criteriaRegex;
 
@@ -54,7 +54,6 @@ public class CriteriaParser {
 	 * @modifer_date: Mar 13, 2020
 	 */
 	public CriteriaParser() {
-		operators = Collections.unmodifiableMap(operatorMaps);
 		criteriaRegex = Pattern.compile(CRITERIA_REGEX);
 	}
 
@@ -72,8 +71,8 @@ public class CriteriaParser {
 	 * @return
 	 */
 	private boolean isHigerPriorityOperator(String currentOperator, String prevOperator) {
-		return (operators.containsKey(prevOperator)
-				&& operators.get(prevOperator).priority >= operators.get(currentOperator).priority);
+		return (OPERATORS.containsKey(prevOperator)
+				&& OPERATORS.get(prevOperator).priority >= OPERATORS.get(currentOperator).priority);
 	}
 
 	/**
@@ -97,7 +96,7 @@ public class CriteriaParser {
 		// \\s+ - matches sequence of one or more whitespace characters
 		String[] tokens = search.split("\\s+");
 		for (String token : tokens) {
-			if (operators.containsKey(token)) {
+			if (OPERATORS.containsKey(token)) {
 				while (!stack.isEmpty() && isHigerPriorityOperator(token, stack.peek()))
 					output.push(stack.pop().equalsIgnoreCase(SearchOperation.OR_OPERATOR) ? SearchOperation.OR_OPERATOR
 							: SearchOperation.AND_OPERATOR);

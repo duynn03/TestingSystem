@@ -31,7 +31,7 @@ public class TestingCategoryForm {
 	@Valid
 	private UserForm author;
 
-	private List<QuestionCategoryForm> questionCategories;
+	private List<@Valid QuestionCategoryForm> questionCategories;
 
 	/**
 	 * @return the name
