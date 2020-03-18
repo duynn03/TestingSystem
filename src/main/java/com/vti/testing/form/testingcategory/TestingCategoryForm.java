@@ -1,6 +1,14 @@
-package com.vti.testing.form;
+package com.vti.testing.form.testingcategory;
 
 import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import com.vti.testing.validation.form.testingcategory.TestingCategoryNameNotExists;
+import com.vti.testing.validation.group.onCreate;
 
 /**
  * This class is TestingCategory Form.
@@ -14,8 +22,15 @@ import java.util.List;
  */
 public class TestingCategoryForm {
 
+	@NotEmpty(groups = onCreate.class)
+	@Size(max = 50, groups = onCreate.class)
+	@TestingCategoryNameNotExists(groups = onCreate.class)
 	private String name;
+
+	@NotNull(groups = onCreate.class)
+	@Valid
 	private UserForm author;
+
 	private List<QuestionCategoryForm> questionCategories;
 
 	/**

@@ -1,24 +1,27 @@
-package com.vti.testing.validation;
+package com.vti.testing.validation.form.questioncategory;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
-import com.vti.testing.specification.CriteriaParser;
-import com.vti.testing.utils.MethodUtil;
+import com.vti.testing.service.QuestionCategoryService;
 
 /**
  * This class is implement logic of annotation bean validation.
  * 
  * @Description: .
  * @author: NNDuy
- * @create_date: Mar 14, 2020
+ * @create_date: Feb 8, 2020
  * @version: 1.0
  * @modifer: NNDuy
- * @modifer_date: Mar 14, 2020
+ * @modifer_date: Feb 8, 2020
  */
-public class SearchValidator implements ConstraintValidator<Search, String> {
+public class QuestionCategoryNameExistsValidator implements ConstraintValidator<QuestionCategoryNameExists, String> {
+
+	@Autowired
+	private QuestionCategoryService service;
 
 	/*
 	 * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
@@ -26,12 +29,11 @@ public class SearchValidator implements ConstraintValidator<Search, String> {
 	 */
 	@Override
 	public boolean isValid(String data, ConstraintValidatorContext constraintValidatorContext) {
-		// null values are valid
+		// null values aren't valid
 		if (StringUtils.isEmpty(data)) {
-			return true;
+			return false;
 		}
 
-		return MethodUtil.checkRegularExpression(data, CriteriaParser.CRITERIA_REGEX);
-
+		return service.existsQuestionCategory(data);
 	}
 }
