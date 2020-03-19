@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vti.testing.dto.testingcategory.TestingCategoryDto;
@@ -71,10 +67,8 @@ public class TestingCategoryController {
 	 * @throws ParseException
 	 */
 	@GetMapping()
-	public ResponseEntity<Page<?>> getAllTestingCategories(
-			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
-					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable,
-			@RequestParam(value = "search") @Search String search) throws ParseException {
+	public ResponseEntity<Page<?>> getAllTestingCategories(Pageable pageable, @Search String search)
+			throws ParseException {
 
 		// filter
 		Specification<TestingCategory> specification = SpecificationTemplate.buildSpecification(search);
