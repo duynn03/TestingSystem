@@ -37,7 +37,7 @@ public class Testing implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
-	private int id;
+	private Short id;
 
 	@Column(name = "name", nullable = false, length = 200)
 	private String name;
@@ -113,7 +113,7 @@ public class Testing implements Serializable {
 	/**
 	 * @param id the id to set
 	 */
-	public Testing setId(int id) {
+	public Testing setId(Short id) {
 		this.id = id;
 		return this;
 	}

@@ -1,6 +1,7 @@
 package com.vti.testing.controller;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -8,8 +9,10 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vti.testing.dto.QuestionDto;
@@ -29,6 +33,8 @@ import com.vti.testing.entity.Answer;
 import com.vti.testing.entity.Question;
 import com.vti.testing.form.QuestionForm;
 import com.vti.testing.service.QuestionService;
+import com.vti.testing.specification.SpecificationTemplate;
+import com.vti.testing.validation.Search;
 
 @CrossOrigin("*")
 @RestController
@@ -55,11 +61,16 @@ public class QuestionController {
 	 * @return
 	 */
 	@GetMapping()
-	public ResponseEntity<Page<?>> getAllQuestions(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
-			@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
+	public ResponseEntity<Page<?>> getAllQuestions(
+			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
+					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable,
+			@RequestParam(value = "search") @Search String search) throws ParseException {
+
+		// filter
+		Specification<Question> specification = SpecificationTemplate.buildSpecification(search);
 
 		// get page entity
-		Page<Question> entityPage = service.getAllQuestion(pageable);
+		Page<Question> entityPage = service.getAllQuestion(specification, pageable);
 
 		// Convert entity to dto
 		Page<QuestionDto> dtoPage = convertEntityPageToDtoPage(entityPage, pageable);
@@ -69,29 +80,28 @@ public class QuestionController {
 	}
 
 	/**
-	 * 
-	 * This method is convert entity page to dto page.
+	 * This method is converted entity page to dto page.
 	 * 
 	 * @Description: .
 	 * @author: HVHanh
-	 * @create_date: Mar 11, 2020
+	 * @create_date: Mar 18, 2020
 	 * @version: 1.0
 	 * @modifer: HVHanh
-	 * @modifer_date: Mar 11, 2020
+	 * @modifer_date: Mar 18, 2020
 	 * @param entityPage
 	 * @param pageable
 	 * @return
 	 */
 	private Page<QuestionDto> convertEntityPageToDtoPage(Page<Question> entityPage, Pageable pageable) {
 
-		// get list Question
+		// get list TestingCategory
 		List<Question> entities = entityPage.getContent();
 
 		// create conversion type
 		Type listType = new TypeToken<List<QuestionDto>>() {
 		}.getType();
 
-		// convert list entities to list dto
+		// convert list entities to dtos
 		List<QuestionDto> dtos = modelMapper.map(entities, listType);
 
 		// return page dto
@@ -117,10 +127,10 @@ public class QuestionController {
 		Question entity = service.getQuestionByID(id);
 
 		// convert entity to dto
-		QuestionForm form = modelMapper.map(entity, QuestionForm.class);
+		QuestionDto dto = modelMapper.map(entity, QuestionDto.class);
 
 		// return result
-		return new ResponseEntity<>(form.toString(), HttpStatus.OK);
+		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 
 	/**
@@ -172,19 +182,16 @@ public class QuestionController {
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> updateQuestion(@PathVariable(name = "id") short id, @RequestBody QuestionForm form) {
 
-		
 		// convert form to entity
 		Question entity = modelMapper.map(form, Question.class);
 
-		 
 		// get question by id
-		 Question question = service.getQuestionByID(id);
+		Question question = service.getQuestionByID(id);
 
 		// Record data of fields that are not changed
-		entity.setId(id).setAuthor(question.getAuthor())
-			.setCreateTime(question.getCreateTime())
-			.setVersion(question.getVersion() + 1);
-		
+		entity.setId(id).setAuthor(question.getAuthor()).setCreateTime(question.getCreateTime())
+				.setVersion(question.getVersion() + 1);
+
 		if (null == entity.getTitle()) {
 			entity.setTitle(question.getTitle());
 		}
@@ -228,11 +235,11 @@ public class QuestionController {
 	 */
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> deleteQuestion(@PathVariable(name = "id") short id) {
-		if (service.deleteQuestion(id) == true ) {
-		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
-	}else {
-		return new ResponseEntity<>("Cannot delete  a parent row: a foreign key constraint fails", HttpStatus.OK);
+		if (service.deleteQuestion(id) == true) {
+			return new ResponseEntity<>("Delete success!", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("Cannot delete  a parent row: a foreign key constraint fails", HttpStatus.OK);
+		}
 	}
-	}
-	
+
 }

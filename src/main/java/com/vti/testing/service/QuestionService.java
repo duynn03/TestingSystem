@@ -3,12 +3,14 @@ package com.vti.testing.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.vti.testing.entity.Question;
+import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.form.QuestionForm;
 
 /**
- * This class is .
+ * This class is interface of QuestionService .
  * 
  * @Description: .
  * @author: HVHanh
@@ -32,7 +34,8 @@ public interface QuestionService {
 	 * @param pageable
 	 * @return
 	 */
-	public Page<Question> getAllQuestion(Pageable pageable);
+	public Page<Question> getAllQuestion(Specification<Question> specification,
+			Pageable pageable);
 
 	/**
 	 * 

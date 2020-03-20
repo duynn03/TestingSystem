@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+
 import com.vti.testing.entity.Answer;
 import com.vti.testing.entity.Image;
 import com.vti.testing.entity.QuestionLevel;
@@ -24,25 +25,18 @@ import com.vti.testing.entity.enumerate.QuestionType;
 public class QuestionForm {
 
 	private Short id;
-	
+
 	@NotBlank(message = "{javax.validation.constraints.NotBlank.message}")
 	private String title;
-	
 	@NotBlank
 	private QuestionCategoryForm questionCategory;
-	
 	@NotBlank
 	private QuestionType type;
-	
-	
 	private QuestionStatus status;
-	
 	@NotBlank
 	private int version;
-	
 	@NotBlank
 	private UserForm author;
-	
 	private Date createTime;
 	private Image image;
 	@NotBlank
@@ -53,8 +47,8 @@ public class QuestionForm {
 	/**
 	 * @return the image
 	 */
-	public Short getImage() {
-		return image.getId();
+	public Image getImage() {
+		return image;
 	}
 
 	/**
@@ -90,9 +84,9 @@ public class QuestionForm {
 	/**
 	 * @param id the id to set
 	 */
-	public QuestionForm setId(Short id) {
+	public void setId(Short id) {
 		this.id = id;
-		return this;
+
 	}
 
 	/**
@@ -105,9 +99,9 @@ public class QuestionForm {
 	/**
 	 * @param title the title to set
 	 */
-	public QuestionForm setTitle(String title) {
+	public void setTitle(String title) {
 		this.title = title;
-		return this;
+
 	}
 
 	/**
@@ -165,9 +159,9 @@ public class QuestionForm {
 	/**
 	 * @param version the version to set
 	 */
-	public QuestionForm setVersion(int version) {
+	public void setVersion(int version) {
 		this.version = version;
-		return this;
+
 	}
 
 	/**
@@ -195,9 +189,9 @@ public class QuestionForm {
 	/**
 	 * @param createTime the createTime to set
 	 */
-	public QuestionForm setCreateTime(Date createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
-		return this;
+
 	}
 
 	/**
@@ -213,16 +207,6 @@ public class QuestionForm {
 	public void setAnswer(List<Answer> answer) {
 		this.answer = answer;
 
-	}
-
-	/*
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "View detail question :" + "\nID=" + id + "\nTitle=" + title + "\nQuestionCategory="
-				+ questionCategory.getName() + "\nType=" + type + "\nStatus=" + status + "\nVersion=" + version
-				+ "\nAuthor=" + author + "\nCreateTime=" + createTime + "\nAnswer=" + answer + "\nLevel=" + level + ".";
 	}
 
 }

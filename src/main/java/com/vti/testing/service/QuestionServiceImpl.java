@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.vti.testing.entity.Question;
@@ -34,9 +35,10 @@ public class QuestionServiceImpl implements QuestionService {
 	 * data.domain.Pageable)
 	 */
 	@Override
-	public Page<Question> getAllQuestion(Pageable pageable) {
+	public Page<Question> getAllQuestion(Specification<Question> specification,
+			Pageable pageable) {
 
-		return repository.findAll(pageable);
+		return repository.findAll(specification, pageable);
 
 	}
 
