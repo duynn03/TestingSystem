@@ -1,4 +1,4 @@
-package com.vti.testing.exception.customobject.validation;
+package com.vti.testing.config.exception.customobject.validation;
 
 /**
  * This class is error validation .

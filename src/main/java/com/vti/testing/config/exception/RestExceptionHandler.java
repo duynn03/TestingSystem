@@ -1,4 +1,4 @@
-package com.vti.testing.exception;
+package com.vti.testing.config.exception;
 
 import java.nio.file.AccessDeniedException;
 
@@ -21,7 +21,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.vti.testing.exception.customobject.ApiErrorResponse;
+import com.vti.testing.config.exception.customobject.ApiErrorResponse;
 
 /**
  * This class is custom globally exception.
@@ -36,7 +36,7 @@ import com.vti.testing.exception.customobject.ApiErrorResponse;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-
+	
 	// default exception
 	@ExceptionHandler({ Exception.class })
 	public ResponseEntity<Object> handleAll(Exception exception) {

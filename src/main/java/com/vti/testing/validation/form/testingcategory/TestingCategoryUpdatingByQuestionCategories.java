@@ -3,12 +3,12 @@ package com.vti.testing.validation.form.testingcategory;
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE_PARAMETER;
 import static java.lang.annotation.ElementType.TYPE_USE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -33,7 +33,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = { TestingCategoryUpdatingByQuestionCategoriesValidator.class })
 public @interface TestingCategoryUpdatingByQuestionCategories {
 
-	String message() default "Question Category Form is invalid";
+	String message() default "{TestingCategoryForm.update.QuestionCategories}";
 
 	Class<?>[] groups() default {};
 
