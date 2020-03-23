@@ -4,6 +4,8 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vti.testing.dto.QuestionDto;
@@ -35,6 +33,7 @@ import com.vti.testing.form.QuestionForm;
 import com.vti.testing.service.QuestionService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
+import com.vti.testing.validation.form.question.QuestionIDExists;
 
 @CrossOrigin("*")
 @RestController
@@ -61,10 +60,7 @@ public class QuestionController {
 	 * @return
 	 */
 	@GetMapping()
-	public ResponseEntity<Page<?>> getAllQuestions(
-			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
-					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable,
-			@RequestParam(value = "search") @Search String search) throws ParseException {
+	public ResponseEntity<Page<?>> getAllQuestions(Pageable pageable, @Search String search) throws ParseException {
 
 		// filter
 		Specification<Question> specification = SpecificationTemplate.buildSpecification(search);
@@ -122,7 +118,7 @@ public class QuestionController {
 	 * @return
 	 */
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getQuestionByID(@PathVariable(name = "id") short id) {
+	public ResponseEntity<?> getQuestionByID(@QuestionIDExists @PathVariable(name = "id") short id) {
 		// get entity
 		Question entity = service.getQuestionByID(id);
 
@@ -147,7 +143,7 @@ public class QuestionController {
 	 * @return
 	 */
 	@PostMapping()
-	public ResponseEntity<?> createQuestion(@RequestBody QuestionForm form) {
+	public ResponseEntity<?> createQuestion(@Valid @RequestBody QuestionForm form) {
 
 		// convert form to entity
 		Question entity = modelMapper.map(form, Question.class);

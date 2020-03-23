@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.vti.testing.entity.Question;
 import com.vti.testing.entity.Testing;
 import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.repository.TestingTemplateRepository;
@@ -34,7 +35,8 @@ public class TestingTemplateServiceImpl implements TestingTemplateService {
 	 * org.springframework.data.domain.Pageable)
 	 */
 	@Override
-	public Page<Testing> getAllTestingTemplate( Pageable pageable) {
+	public Page<Testing> getAllTestingTemplate( Specification<Testing> specification,
+			Pageable pageable) {
 		return repository.findAll(pageable);
 	}
 
@@ -65,6 +67,7 @@ public class TestingTemplateServiceImpl implements TestingTemplateService {
 	 */
 	@Override
 	public void updateTesting(Testing entity) {
+		
 		 repository.save(entity);
 	}
 

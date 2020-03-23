@@ -30,7 +30,7 @@ public class QuestionCategory implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false, updatable = false)
-	private int id;
+	private short id;
 
 	@Column(name = "name", nullable = false, length = 50)
 	private String name;
@@ -70,14 +70,14 @@ public class QuestionCategory implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public short getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public QuestionCategory setId(int id) {
+	public QuestionCategory setId(short id) {
 		this.id = id;
 		return this;
 	}

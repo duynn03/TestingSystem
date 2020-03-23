@@ -22,7 +22,7 @@ public enum SearchOperation {
 	public static final String KEY_GROUP_PATTERN = "(\\w+.*\\w+)";
 	public static final String OPERATOR_GROUP_PATTERN = "(>=|<=|=|!=|>|<|~)";
 	// value
-	public static final String ALPHANUMBERICAL_VALUE_PATTERN = "\\w+";
+	public static final String ALPHANUMBERICAL_VALUE_PATTERN = "\\p{L}+"; // \\p{L}+ support utf-8
 	public static final String DATE_VALUE_PATTERN = "\\d{4}\\-\\d{1,2}\\-\\d{1,2}";
 	public static final String DATETIME_VALUE_PATTERN = "\\d{4}\\-\\d{1,2}\\-\\d{1,2}T\\d{1,2}\\:\\d{1,2}\\:\\d{1,2}";
 	public static final String VALUE_GROUP = "(" + ALPHANUMBERICAL_VALUE_PATTERN + "|" + DATE_VALUE_PATTERN + "|"

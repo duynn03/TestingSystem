@@ -3,6 +3,11 @@
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -10,12 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,20 +27,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vti.testing.dto.TestingCategoryDto;
 import com.vti.testing.entity.QuestionCategory;
 import com.vti.testing.entity.TestingCategory;
-import com.vti.testing.form.TestingCategoryForm;
+import com.vti.testing.form.testingcategory.QuestionCategoryForm;
+import com.vti.testing.form.testingcategory.TestingCategoryForm;
 import com.vti.testing.service.TestingCategoryService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
+import com.vti.testing.validation.form.testingcategory.TestingCategoryIDExists;
+import com.vti.testing.validation.form.testingcategory.TestingCategoryNameNotExists;
+import com.vti.testing.validation.form.testingcategory.TestingCategoryUpdatingByQuestionCategories;
+import com.vti.testing.validation.group.onCreate;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/api/v1/testingcategories")
+@Validated
 public class TestingCategoryController {
 
 	@Autowired
@@ -59,10 +67,8 @@ public class TestingCategoryController {
 	 * @throws ParseException
 	 */
 	@GetMapping()
-	public ResponseEntity<Page<?>> getAllTestingCategories(
-			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
-					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable,
-			@RequestParam(value = "search") @Search String search) throws ParseException {
+	public ResponseEntity<Page<?>> getAllTestingCategories(Pageable pageable, @Search String search)
+			throws ParseException {
 
 		// filter
 		Specification<TestingCategory> specification = SpecificationTemplate.buildSpecification(search);
@@ -118,7 +124,7 @@ public class TestingCategoryController {
 	 * @return TestingCategory
 	 */
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getTestingCategoryByID(@PathVariable(name = "id") short id) {
+	public ResponseEntity<?> getTestingCategoryByID(@TestingCategoryIDExists @PathVariable(name = "id") short id) {
 		// get entity
 		TestingCategory entity = service.getTestingCategoryByID(id);
 
@@ -141,7 +147,8 @@ public class TestingCategoryController {
 	 * @param form
 	 */
 	@PostMapping()
-	public ResponseEntity<?> createTestingCategory(@RequestBody TestingCategoryForm form) {
+	@Validated(onCreate.class)
+	public ResponseEntity<?> createTestingCategory(@Valid @RequestBody TestingCategoryForm form) {
 		// convert form to entity
 		TestingCategory entity = modelMapper.map(form, TestingCategory.class);
 
@@ -160,7 +167,7 @@ public class TestingCategoryController {
 	}
 
 	/**
-	 * This method is updated TestingCategory.
+	 * This method is updated TestingCategory by name.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -169,27 +176,105 @@ public class TestingCategoryController {
 	 * @modifer: NNDuy
 	 * @modifer_date: Dec 13, 2019
 	 * @param form
+	 * @param body
 	 */
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateTestingCategory(@PathVariable(name = "id") short id,
-			@RequestBody TestingCategoryForm form) {
+	@PutMapping(value = "/{id}/name")
+	public ResponseEntity<?> updateTestingCategoryByName(@TestingCategoryIDExists @PathVariable(name = "id") short id,
+			@RequestBody Map<String, String> body) {
+
+		// get name
+		@NotEmpty
+		@Size(max = 50)
+		@TestingCategoryNameNotExists
+		String name = body.get("name");
 
 		// convert form to entity
-		TestingCategory entity = modelMapper.map(form, TestingCategory.class);
-		entity.setId(id);
-
-		// set child element
-		if (null != entity.getQuestionCategories()) {
-			for (QuestionCategory questionCategory : entity.getQuestionCategories()) {
-				questionCategory.setTestingCategory(entity);
-			}
-		}
+		TestingCategory entity = service.getTestingCategoryByID(id);
+		entity.setName(name);
 
 		// update Testingcategory
 		service.updateTestingCategory(entity);
 
 		// return result
 		return new ResponseEntity<>("Update success!", HttpStatus.OK);
+	}
+
+	/**
+	 * This method is updated TestingCategory by question category list.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Dec 13, 2019
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Dec 13, 2019
+	 * @param form
+	 * @param body
+	 */
+	@PutMapping(value = "/{id}/questioncategories")
+	public ResponseEntity<?> updateTestingCategoryByQuestionCategories(
+			@TestingCategoryIDExists @PathVariable(name = "id") short id,
+			@RequestBody List<@TestingCategoryUpdatingByQuestionCategories QuestionCategoryForm> questionCategories) {
+
+		// Convert form to entity
+		List<QuestionCategory> questionCategoryEntities = convertListQuestionCategoryFormsToListEntities(
+				questionCategories);
+
+		// add List questionCategories to TestingCategory
+		TestingCategory entity = addQuestionCategoriesToTestingCategory(id, questionCategoryEntities);
+
+		// update Testingcategory
+		service.updateTestingCategory(entity);
+
+		// return result
+		return new ResponseEntity<>("Update success!", HttpStatus.OK);
+	}
+
+	/**
+	 * This method is converted List QuestionCategoryForms to List Entities.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Mar 11, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 11, 2020
+	 * @param forms
+	 * @return List<QuestionCategory>
+	 */
+	private List<QuestionCategory> convertListQuestionCategoryFormsToListEntities(List<QuestionCategoryForm> forms) {
+
+		// create conversion type
+		Type listType = new TypeToken<List<QuestionCategory>>() {
+		}.getType();
+
+		// convert List QuestionCategoryForms to List Entities
+		return modelMapper.map(forms, listType);
+	}
+
+	/**
+	 * This method is added List QuestionCategories to TestingCategory.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Mar 17, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 17, 2020
+	 */
+	private TestingCategory addQuestionCategoriesToTestingCategory(short id,
+			List<QuestionCategory> questionCategories) {
+		// get TestingCategory from id
+		TestingCategory entity = service.getTestingCategoryByID(id);
+
+		// clear list old questionCategories
+		entity.getQuestionCategories().clear();
+
+		// add new questionCategories
+		for (QuestionCategory questionCategory : questionCategories) {
+			entity.addQuestionCategory(questionCategory);
+		}
+		return entity;
 	}
 
 	/**
@@ -204,7 +289,7 @@ public class TestingCategoryController {
 	 * @param id
 	 */
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteTestingCategory(@PathVariable(name = "id") short id) {
+	public ResponseEntity<?> deleteTestingCategory(@TestingCategoryIDExists @PathVariable(name = "id") short id) {
 		service.deleteTestingCategory(id);
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 	}

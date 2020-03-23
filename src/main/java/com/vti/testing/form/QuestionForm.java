@@ -4,11 +4,13 @@ package com.vti.testing.form;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
+import org.modelmapper.ModelMapper;
 
 import com.vti.testing.entity.Answer;
 import com.vti.testing.entity.Image;
+import com.vti.testing.entity.QuestionCategory;
 import com.vti.testing.entity.QuestionLevel;
+import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.entity.enumerate.QuestionStatus;
 import com.vti.testing.entity.enumerate.QuestionType;
 
@@ -25,38 +27,58 @@ import com.vti.testing.entity.enumerate.QuestionType;
 public class QuestionForm {
 
 	private Short id;
-
-	@NotBlank(message = "{javax.validation.constraints.NotBlank.message}")
+	private TestingCategory testingCategory;
+	private QuestionCategory questionCategory;
+	private QuestionLevel level;
 	private String title;
-	@NotBlank
-	private QuestionCategoryForm questionCategory;
-	@NotBlank
-	private QuestionType type;
+	private List<Answer> answer;
+	private Image image;
 	private QuestionStatus status;
-	@NotBlank
+	private QuestionType type;
 	private int version;
-	@NotBlank
 	private UserForm author;
 	private Date createTime;
-	private Image image;
-	@NotBlank
-	private List<Answer> answer;
-	@NotBlank
-	private QuestionLevel level;
 
 	/**
-	 * @return the image
+	 * @return the id
 	 */
-	public Image getImage() {
-		return image;
+	public Short getId() {
+		return id;
 	}
 
 	/**
-	 * @param image the image to set
+	 * @param id the id to set
 	 */
-	public void setImage(Image image) {
-		this.image = image;
+	public void setId(Short id) {
+		this.id = id;
+	}
 
+	/**
+	 * @return the testingCategory
+	 */
+	public TestingCategory getTestingCategory() {
+		return testingCategory;
+	}
+
+	/**
+	 * @param testingCategory the testingCategory to set
+	 */
+	public void setTestingCategory(TestingCategory testingCategory) {
+		this.testingCategory = testingCategory;
+	}
+
+	/**
+	 * @return the questionCategory
+	 */
+	public QuestionCategory getQuestionCategory() {
+		return questionCategory;
+	}
+
+	/**
+	 * @param questionCategory the questionCategory to set
+	 */
+	public void setQuestionCategory(QuestionCategory questionCategory) {
+		this.questionCategory = questionCategory;
 	}
 
 	/**
@@ -71,22 +93,6 @@ public class QuestionForm {
 	 */
 	public void setLevel(QuestionLevel level) {
 		this.level = level;
-
-	}
-
-	/**
-	 * @return the id
-	 */
-	public Short getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Short id) {
-		this.id = id;
-
 	}
 
 	/**
@@ -101,97 +107,6 @@ public class QuestionForm {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
-
-	}
-
-	/**
-	 * @return the questionCategory
-	 */
-	public QuestionCategoryForm getQuestionCategory() {
-		return questionCategory;
-	}
-
-	/**
-	 * @param questionCategory the questionCategory to set
-	 */
-	public void setQuestionCategory(QuestionCategoryForm questionCategory) {
-		this.questionCategory = questionCategory;
-
-	}
-
-	/**
-	 * @return the type
-	 */
-	public QuestionType getType() {
-		return type;
-	}
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(QuestionType type) {
-		this.type = type;
-
-	}
-
-	/**
-	 * @return the status
-	 */
-	public QuestionStatus getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(QuestionStatus status) {
-		this.status = status;
-
-	}
-
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
-	}
-
-	/**
-	 * @param version the version to set
-	 */
-	public void setVersion(int version) {
-		this.version = version;
-
-	}
-
-	/**
-	 * @return the author
-	 */
-	public UserForm getAuthor() {
-		return author;
-	}
-
-	/**
-	 * @param author the author to set
-	 */
-	public void setAuthor(UserForm author) {
-		this.author = author;
-
-	}
-
-	/**
-	 * @return the createTime
-	 */
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	/**
-	 * @param createTime the createTime to set
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-
 	}
 
 	/**
@@ -206,7 +121,91 @@ public class QuestionForm {
 	 */
 	public void setAnswer(List<Answer> answer) {
 		this.answer = answer;
+	}
 
+	/**
+	 * @return the image
+	 */
+	public Image getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image the image to set
+	 */
+	public void setImage(Image image) {
+		
+		this.image = image;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public QuestionStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(QuestionStatus status) {
+		this.status = status;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public QuestionType getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(QuestionType type) {
+		this.type = type;
+	}
+
+	/**
+	 * @return the version
+	 */
+	public int getVersion() {
+		return version;
+	}
+
+	/**
+	 * @param version the version to set
+	 */
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	/**
+	 * @return the author
+	 */
+	public UserForm getAuthor() {
+		return author;
+	}
+
+	/**
+	 * @param author the author to set
+	 */
+	public void setAuthor(UserForm author) {
+		this.author = author;
+	}
+
+	/**
+	 * @return the createTime
+	 */
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	/**
+	 * @param createTime the createTime to set
+	 */
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
 }

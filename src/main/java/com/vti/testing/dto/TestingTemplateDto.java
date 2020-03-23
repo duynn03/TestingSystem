@@ -9,7 +9,7 @@ import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.entity.enumerate.TestingStatus;
 
 /**
- * This class is .
+ * This class is testing template dto.
  * 
  * @Description: .
  * @author: HVHanh
@@ -21,11 +21,44 @@ import com.vti.testing.entity.enumerate.TestingStatus;
 public class TestingTemplateDto {
 
 	private String name;
-	private TestingCategory testingCategory;
+	private String testingCategory;
 	private int version;
+	private short time;
+	private Date createTime;
 	private TestingStatus status = TestingStatus.DRAFT;
 	private List<Question> questions;
-	private Date createTime;
+
+	
+
+	/**
+	 * @return number of questions
+	 */
+	public int getQuestions() {
+		return questions.size();
+	}
+
+	/**
+	 * @param questions the questions to set
+	 */
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+		
+	}
+
+	/**
+	 * @return the time
+	 */
+	public short getTime() {
+		return time;
+	}
+
+	/**
+	 * @param time the time to set
+	 */
+	public void setTime(short time) {
+		this.time = time;
+
+	}
 
 	/**
 	 * @return the name
@@ -45,15 +78,15 @@ public class TestingTemplateDto {
 	/**
 	 * @return the testingCategory
 	 */
-	public TestingCategory getTestingCategory() {
+	public String getTestingCategory() {
 		return testingCategory;
 	}
 
 	/**
 	 * @param testingCategory the testingCategory to set
 	 */
-	public void setTestingCategory(TestingCategory testingCategory) {
-		this.testingCategory = testingCategory;
+	public void setTestingCategory(TestingCategoryDto testingCategory) {
+		this.testingCategory = testingCategory.getName();
 
 	}
 
@@ -88,21 +121,6 @@ public class TestingTemplateDto {
 	}
 
 	/**
-	 * @return the questions
-	 */
-	public List<Question> getQuestions() {
-		return questions;
-	}
-
-	/**
-	 * @param questions the questions to set
-	 */
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
-
-	}
-
-	/**
 	 * @return the createTime
 	 */
 	public Date getCreateTime() {
@@ -115,22 +133,6 @@ public class TestingTemplateDto {
 	public TestingTemplateDto setCreateTime(Date createTime) {
 		this.createTime = createTime;
 		return this;
-	}
-
-	/*
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		
-		
-		return "View detail testing template " + 
-				"\nName : " + name + 
-				"\nTestingCategory : " + testingCategory.getName()  + 
-				"\nVersion : "+ version +
-				"\nStatus : " + status + 
-				"\nNumber Question: "+ getQuestions().size() +
-				"\nCreateTime: " + createTime + "\n";
 	}
 
 }

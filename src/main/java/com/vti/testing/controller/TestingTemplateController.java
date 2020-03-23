@@ -1,6 +1,7 @@
 package com.vti.testing.controller;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -9,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
+import org.springframework.data.jpa.domain.Specification;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,14 +24,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vti.testing.dto.QuestionDto;
 import com.vti.testing.dto.TestingTemplateDto;
-import com.vti.testing.entity.Answer;
 import com.vti.testing.entity.Exam;
 import com.vti.testing.entity.Question;
 import com.vti.testing.entity.Testing;
-import com.vti.testing.form.QuestionForm;
 import com.vti.testing.form.TestingTemplateForm;
 import com.vti.testing.service.TestingTemplateService;
+import com.vti.testing.specification.SpecificationTemplate;
+import com.vti.testing.validation.Search;
 
 @CrossOrigin("*")
 @RestController
@@ -58,11 +59,12 @@ public class TestingTemplateController {
 	 * @return
 	 */
 	@GetMapping()
-	public ResponseEntity<?> getAllTestingTemplate(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
-			@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
+	public ResponseEntity<?> getAllTestingTemplate(Pageable pageable, @Search String search) throws ParseException {
+		// filter
+		Specification<Testing> specification = SpecificationTemplate.buildSpecification(search);
 
 		// get page entity
-		Page<Testing> entityPage = service.getAllTestingTemplate(pageable);
+		Page<Testing> entityPage = service.getAllTestingTemplate(specification, pageable);
 
 		// Convert entity to dto
 		Page<TestingTemplateDto> dtoPage = convertEntityPageToDtoPage(entityPage, pageable);
@@ -72,7 +74,7 @@ public class TestingTemplateController {
 	}
 
 	/**
-	 * This method is .
+	 * This method is convert entity to dto.
 	 * 
 	 * @Description: .
 	 * @author: HVHanh
@@ -121,12 +123,12 @@ public class TestingTemplateController {
 		TestingTemplateDto dto = modelMapper.map(entity, TestingTemplateDto.class);
 
 		// return result
-		return new ResponseEntity<>(dto.toString(), HttpStatus.OK);
+		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 
 	/**
 	 * 
-	 *This method is created Question.
+	 * This method is created Question.
 	 * 
 	 * @Description: .
 	 * @author: HVHanh
@@ -144,9 +146,9 @@ public class TestingTemplateController {
 		Testing entity = modelMapper.map(form, Testing.class);
 
 		// set child element
-		if(null != entity.getExams()) {
-			for(Exam exam : entity.getExams()) {
-			//	exam.setTestings(entity)
+		if (null != entity.getExams()) {
+			for (Exam exam : entity.getExams()) {
+				// exam.setTestings(entity)
 			}
 		}
 
@@ -174,7 +176,7 @@ public class TestingTemplateController {
 
 	/**
 	 * 
-	 *  This method is deleted Question.
+	 * This method is deleted Question.
 	 * 
 	 * @Description: .
 	 * @author: HVHanh

@@ -35,8 +35,7 @@ public class QuestionServiceImpl implements QuestionService {
 	 * data.domain.Pageable)
 	 */
 	@Override
-	public Page<Question> getAllQuestion(Specification<Question> specification,
-			Pageable pageable) {
+	public Page<Question> getAllQuestion(Specification<Question> specification, Pageable pageable) {
 
 		return repository.findAll(specification, pageable);
 
@@ -97,14 +96,5 @@ public class QuestionServiceImpl implements QuestionService {
 		return repository.existsById(id);
 
 	}
-
-	/*
-	 * @see com.vti.testing.service.QuestionService#existsQuestion(java.lang.String)
-	 */
-	// @Override
-	// public boolean existsQuestion(String name) {
-	// return repository.existsByName(name);
-
-	// }
 
 }

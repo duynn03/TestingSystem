@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.vti.testing.entity.Question;
 import com.vti.testing.entity.Testing;
 
 /**
@@ -32,7 +33,8 @@ public interface TestingTemplateService {
 	 * @param pageable
 	 * @return
 	 */
-	public Page<Testing> getAllTestingTemplate( Pageable pageable);
+	public Page<Testing> getAllTestingTemplate( Specification<Testing> specification,
+			Pageable pageable);
 
 	/**
 	 * 

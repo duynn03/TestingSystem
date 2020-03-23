@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
+
 /**
  * The persistent class for the question_level database table.
  * 
