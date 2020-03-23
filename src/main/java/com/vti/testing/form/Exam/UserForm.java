@@ -1,25 +1,11 @@
-/**
- * 
- */
-package com.vti.testing.dto;
+package com.vti.testing.form.Exam;
 
 import java.util.Date;
 
 import com.vti.testing.entity.enumerate.Gender;
 import com.vti.testing.entity.enumerate.Role;
 
-/**
- * This class is .
- * 
- * @Description: .
- * @author: NTHung
- * @create_date: Mar 6, 2020
- * @version: 1.0
- * @modifer: NTHung
- * @modifer_date: Mar 6, 2020
- */
-
-public class UserDto {
+public class UserForm {
 	private int id;
 	private String userName;
 	private String email;
@@ -27,7 +13,7 @@ public class UserDto {
 	private String firstName;
 	private String lastName;
 	private Gender gender;
-	private Date birthday;
+	private Date birthDay;
 	private String address;
 	private String phone;
 	private Role role;
@@ -42,7 +28,7 @@ public class UserDto {
 	/**
 	 * @param account the account to set
 	 */
-	public UserDto setuserName(String userName) {
+	public UserForm setuserName(String userName) {
 		this.userName = userName;
 		return this;
 	}
@@ -57,7 +43,7 @@ public class UserDto {
 	/**
 	 * @param email the email to set
 	 */
-	public UserDto setEmail(String email) {
+	public UserForm setEmail(String email) {
 		this.email = email;
 		return this;
 	}
@@ -72,7 +58,7 @@ public class UserDto {
 	/**
 	 * @param password the password to set
 	 */
-	public UserDto setPassword(String password) {
+	public UserForm setPassword(String password) {
 		this.password = password;
 		return this;
 	}
@@ -87,7 +73,7 @@ public class UserDto {
 	/**
 	 * @param firstName the firstName to set
 	 */
-	public UserDto setFirstName(String firstName) {
+	public UserForm setFirstName(String firstName) {
 		this.firstName = firstName;
 		return this;
 	}
@@ -102,7 +88,7 @@ public class UserDto {
 	/**
 	 * @param lastName the lastName to set
 	 */
-	public UserDto setLastName(String lastName) {
+	public UserForm setLastName(String lastName) {
 		this.lastName = lastName;
 		return this;
 	}
@@ -117,23 +103,23 @@ public class UserDto {
 	/**
 	 * @param gender the gender to set
 	 */
-	public UserDto setGender(Gender gender) {
+	public UserForm setGender(Gender gender) {
 		this.gender = gender;
 		return this;
 	}
 
 	/**
-	 * @return the birthday
+	 * @return the birthDay
 	 */
-	public Date getBirthday() {
-		return birthday;
+	public Date getBirthDay() {
+		return birthDay;
 	}
 
 	/**
-	 * @param birthday the birthday to set
+	 * @param birthDay the birthDay to set
 	 */
-	public UserDto setBirthday(Date birthday) {
-		this.birthday = birthday;
+	public UserForm setBirthDay(Date birthDay) {
+		this.birthDay = birthDay;
 		return this;
 	}
 
@@ -147,7 +133,7 @@ public class UserDto {
 	/**
 	 * @param address the address to set
 	 */
-	public UserDto setAddress(String address) {
+	public UserForm setAddress(String address) {
 		this.address = address;
 		return this;
 	}
@@ -162,7 +148,7 @@ public class UserDto {
 	/**
 	 * @param phone the phone to set
 	 */
-	public UserDto setPhone(String phone) {
+	public UserForm setPhone(String phone) {
 		this.phone = phone;
 		return this;
 	}
@@ -177,7 +163,7 @@ public class UserDto {
 	/**
 	 * @param role the role to set
 	 */
-	public UserDto setRole(Role role) {
+	public UserForm setRole(Role role) {
 		this.role = role;
 		return this;
 	}
@@ -191,9 +177,9 @@ public class UserDto {
 
 	/**
 	 * @param id the id to set
-	 * @return 
+	 * @return
 	 */
-	public UserDto setId(int id) {
+	public UserForm setId(int id) {
 		this.id = id;
 		return this;
 	}

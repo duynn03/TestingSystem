@@ -21,7 +21,7 @@ import com.vti.testing.validation.group.onCreate;
  * @modifer_date: Dec 7, 2019
  */
 public class TestingCategoryForm {
-
+	private short id;
 	@NotEmpty(groups = onCreate.class)
 	@Size(max = 50, groups = onCreate.class)
 	@TestingCategoryNameNotExists(groups = onCreate.class)
@@ -32,6 +32,22 @@ public class TestingCategoryForm {
 	private UserForm author;
 
 	private List<@Valid QuestionCategoryForm> questionCategories;
+
+	/**
+	 * @return the id
+	 */
+	public short getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 * @return
+	 */
+	public TestingCategoryForm setId(short id) {
+		this.id = id;
+		return this;
+	}
 
 	/**
 	 * @return the name

@@ -1,15 +1,21 @@
 //
-package com.vti.testing.form;
+package com.vti.testing.form.Exam;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.vti.testing.entity.enumerate.ExamStatus;
-import com.vti.testing.util.Constants;
+import com.vti.testing.utils.Constants;
+import com.vti.testing.validation.form.Exam.ExamNamenotExists;
+import com.vti.testing.validation.group.onCreate;
+import com.vti.testing.validation.group.onUpdate;
 
 /**
  * This class is Exam Form.
@@ -22,34 +28,64 @@ import com.vti.testing.util.Constants;
  * @modifer_date: Mar 11, 2020
  */
 public class ExamForm {
+	@NotNull(groups = onUpdate.class)
+	@Null(groups = onCreate.class)
+	private int id;
 
 	@NotBlank
 	@Length(max = 50)
+	@ExamNamenotExists(groups = onCreate.class)
 	private String name;
+
 	@DateTimeFormat
 	private Date startTime;
+
 	@DateTimeFormat
 	private Date endTime;
-	@NotBlank
+
 	private UserForm author;
-//	private List<TestingForm> testings;
+
+	private List<TestingForm> testings;
+
 	private static int version = Constants.VERSION_STATUS;
+
 	private static ExamStatus status = Constants.EXAM_DRAFT_STATUS;;
+
 	/**
 	 * @return the testings
 	 */
-//	public List<TestingForm> getTestings() {
-//		return testings;
-//	}
-//
-//	/**
-//	 * @param testings the testings to set
-//	 * @return
-//	 */
-//	public ExamForm setTestings(List<TestingForm> testings) {
-//		this.testings = testings;
-//		return this;
-//	}
+
+	/**
+	 * @return the testings
+	 */
+	public List<TestingForm> getTestings() {
+		return testings;
+	}
+
+	/**
+	 * @param testings the testings to set
+	 * @return
+	 */
+	public ExamForm setTestings(List<TestingForm> testings) {
+		this.testings = testings;
+		return this;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 * @return
+	 */
+	public ExamForm setId(int id) {
+		this.id = id;
+		return this;
+	}
 
 	/**
 	 * @return the name

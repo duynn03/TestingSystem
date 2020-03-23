@@ -21,6 +21,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.vti.testing.entity.enumerate.ExamStatus;
 
@@ -58,6 +60,7 @@ public class Exam implements Serializable {
 
 	// bi-directional many-to-one association to User
 	@ManyToOne(cascade = CascadeType.MERGE)
+	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JoinColumn(name = "author_ID")
 	private User author;
 
@@ -71,7 +74,7 @@ public class Exam implements Serializable {
 	private String note;
 
 	// bi-directional many-to-many association to Testing
-	@ManyToMany(mappedBy = "exams", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "exams", cascade = CascadeType.MERGE)
 	private List<Testing> testings;
 
 	/**

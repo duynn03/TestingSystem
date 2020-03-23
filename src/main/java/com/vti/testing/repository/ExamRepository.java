@@ -2,6 +2,7 @@
 package com.vti.testing.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.vti.testing.entity.Exam;
 
@@ -15,7 +16,7 @@ import com.vti.testing.entity.Exam;
  * @modifer: CTANH
  * @modifer_date: Mar 10, 2020
  */
-public interface ExamRepository extends JpaRepository<Exam, Integer> {
+public interface ExamRepository extends JpaRepository<Exam, Integer>, JpaSpecificationExecutor<Exam> {
 
 	/**
 	 * This method is checked Exam exists by name.

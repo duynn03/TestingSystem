@@ -17,7 +17,7 @@ import com.vti.testing.service.UserService;
  * @modifer: NNDuy
  * @modifer_date: Feb 8, 2020
  */
-public class UserIDNotExistsValidator implements ConstraintValidator<UserIDNotExists, Integer> {
+public class UserNameNotExistsValidator implements ConstraintValidator<UserNameNotExists, Integer> {
 
 	@Autowired
 	private UserService service;

@@ -1,8 +1,11 @@
 package com.vti.testing.controller;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -11,10 +14,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,14 +28,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vti.testing.dto.ExamDto;
+import com.vti.testing.dto.Exam.ExamDto;
 import com.vti.testing.entity.Exam;
 import com.vti.testing.entity.Testing;
-import com.vti.testing.entity.User;
-import com.vti.testing.form.ExamForm;
+import com.vti.testing.form.Exam.ExamForm;
 import com.vti.testing.service.ExamService;
+import com.vti.testing.specification.SpecificationTemplate;
+import com.vti.testing.validation.Search;
+import com.vti.testing.validation.form.Exam.ExamIDExists;
+import com.vti.testing.validation.group.onCreate;
 
 @CrossOrigin("*")
 @RestController
@@ -52,14 +62,20 @@ public class ExamController {
 	 * @return List<Question>
 	 */
 	@GetMapping()
-	public ResponseEntity<Page<?>> getAllExam(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
-			@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
+	public ResponseEntity<Page<?>> getAllExam(
+			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
+					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable,
+			@RequestParam(value = "search") @Search String search) throws ParseException {
+
+		// filter
+		Specification<Exam> specification = SpecificationTemplate.buildSpecification(search);
 
 		// get page entity
-		Page<Exam> exam = service.getAllExam(pageable);
+		Page<Exam> exam = service.getAllExam(pageable, specification);
 
 		// covert entity to dto
 		Page<ExamDto> dtopage = convertEntityPageToDtoPage(exam, pageable);
+
 		return new ResponseEntity<>(dtopage, HttpStatus.OK);
 	}
 
@@ -104,18 +120,15 @@ public class ExamController {
 	 * @return Question
 	 */
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getExamByID(@PathVariable(name = "id") int id) {
-		// get exam by id
-		// check exam
-		if (service.existsExamByID(id)) {
-			Exam exam = service.getExamById(id);
+	public ResponseEntity<?> getExamByID(@ExamIDExists @PathVariable(name = "id") int id) {
 
-			// convert entity to dto
-			ExamDto dto = modelMapper.map(exam, ExamDto.class);
-			return new ResponseEntity<>(dto, HttpStatus.OK);
+		// get exam
+		Exam exam = service.getExamById(id);
 
-		}
-		return new ResponseEntity<>("Exam not exists!!!", HttpStatus.NOT_FOUND);
+		// convert entity to dto
+		ExamDto dto = modelMapper.map(exam, ExamDto.class);
+		return new ResponseEntity<>(dto, HttpStatus.OK);
+
 	}
 
 	/**
@@ -130,23 +143,18 @@ public class ExamController {
 	 * @param form
 	 */
 	@PostMapping()
-	public ResponseEntity<?> createExam(@RequestBody ExamForm form) {
+	@Validated(onCreate.class)
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
+	public ResponseEntity<?> createExam(@Valid @RequestBody ExamForm form) {
 		// get exam by name
 		// check exam
 		if (!service.existsExamByName(form.getName())) {
 			Exam exam = modelMapper.map(form, Exam.class);
 			// set child element
-			if (exam.getAuthor() != null) {
-				User user = exam.getAuthor();
-				List<Exam> listExam = new ArrayList<Exam>();
-				listExam.add(exam);
-				user.setExamAuthors(listExam);
-			}
+//			
 			if (exam.getTestings() != null) {
 				for (Testing testing : exam.getTestings()) {
-					List<Exam> listExam = new ArrayList<Exam>();
-					listExam.add(exam);
-					testing.setExams(listExam);
+					testing.setExams(Arrays.asList(exam));
 				}
 			}
 
@@ -185,16 +193,11 @@ public class ExamController {
 	 * @param id
 	 */
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteExam(@PathVariable(name = "id") int id) {
+	@PreAuthorize("hasRole('ROLE_MANAGER')")
+	public ResponseEntity<?> deleteExam(@ExamIDExists @PathVariable(name = "id") int id) {
+		service.deleteExam(id);
+		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 
-		// get exam by id
-		// check exam
-		if (service.existsExamByID(id)) {
-			service.deleteExam(id);
-			return new ResponseEntity<>("Delete success!", HttpStatus.OK);
-
-		}
-		return new ResponseEntity<>("Delete Fail!", HttpStatus.BAD_REQUEST);
 	}
 
 }

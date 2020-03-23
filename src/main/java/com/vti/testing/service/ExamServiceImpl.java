@@ -4,6 +4,7 @@ package com.vti.testing.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -30,8 +31,8 @@ public class ExamServiceImpl implements ExamService {
 	 * domain.Pageable)
 	 */
 	@Override
-	public Page<Exam> getAllExam(Pageable pageable) {
-		return repository.findAll(pageable);
+	public Page<Exam> getAllExam(Pageable pageable, Specification<Exam> specification) {
+		return repository.findAll(specification, pageable);
 	}
 
 	/*

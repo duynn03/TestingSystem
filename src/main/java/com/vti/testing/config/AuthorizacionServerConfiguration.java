@@ -50,8 +50,8 @@ public class AuthorizacionServerConfiguration extends AuthorizationServerConfigu
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory().withClient("client")
 				.authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
-				.authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT", "USER").scopes("read", "write").autoApprove(true)
-				.secret(passwordEncoder.encode("client"));
+				.authorities("ROLE_MANAGER", "ROLE_ADMIN", "ROLE_EMPLOYEE").scopes("read", "write").autoApprove(true)
+				.secret(passwordEncoder.encode("client")).accessTokenValiditySeconds(60);
 	}
 
 	/*

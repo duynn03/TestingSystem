@@ -3,6 +3,7 @@ package com.vti.testing.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.vti.testing.entity.Exam;
 
@@ -29,7 +30,7 @@ public interface ExamService {
 	 * @param pageable
 	 * @return List<Exam>
 	 */
-	public Page<Exam> getAllExam(Pageable pageable);
+	public Page<Exam> getAllExam(Pageable pageable, Specification<Exam> specification);
 
 	/**
 	 * This method is for getting Exam by id.
@@ -75,10 +76,10 @@ public interface ExamService {
 	public void updateExam(int ID, Exam exam);
 
 	/**
-	 * This method is for deleting Exam. 
+	 * This method is for deleting Exam.
 	 * 
 	 * @Description: .
-	 * @author: CTANH	
+	 * @author: CTANH
 	 * @create_date: Mar 10, 2020
 	 * @version: 1.0
 	 * @modifer: CTANH
@@ -87,12 +88,12 @@ public interface ExamService {
 	 * @return
 	 */
 	public void deleteExam(int ID);
-	
+
 	/**
-	 * This method is checked Exam exists by ID . 
+	 * This method is checked Exam exists by ID .
 	 * 
 	 * @Description: .
-	 * @author: CTANH	
+	 * @author: CTANH
 	 * @create_date: Mar 10, 2020
 	 * @version: 1.0
 	 * @modifer: CTANH
@@ -101,12 +102,12 @@ public interface ExamService {
 	 * @return
 	 */
 	public boolean existsExamByID(int id);
-	
+
 	/**
-	 * This method is checked Exam exists by name . 
+	 * This method is checked Exam exists by name .
 	 * 
 	 * @Description: .
-	 * @author: CTANH	
+	 * @author: CTANH
 	 * @create_date: Mar 10, 2020
 	 * @version: 1.0
 	 * @modifer: CTANH
@@ -115,4 +116,5 @@ public interface ExamService {
 	 * @return
 	 */
 	public boolean existsExamByName(String name);
+	
 }

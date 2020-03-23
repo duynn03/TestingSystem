@@ -1,4 +1,4 @@
-package com.vti.testing.validation.form.user;
+package com.vti.testing.validation.form.Exam;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -29,10 +29,10 @@ import javax.validation.Payload;
 @Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { UserIDNotExistsValidator.class })
-public @interface UserIDNotExists {
+@Constraint(validatedBy = { ExamIDnotExistsValidator.class })
+public @interface ExamIDnotExists {
 
-	String message() default "The User's id already exists";
+	String message() default "The Exam ID does exist yet";
 
 	Class<?>[] groups() default {};
 
@@ -42,6 +42,6 @@ public @interface UserIDNotExists {
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		UserIDExists[] value();
+		ExamIDnotExists[] value();
 	}
 }

@@ -81,11 +81,11 @@ public class Testing implements Serializable {
 	private String note;
 
 	// bi-directional many-to-many association to Question
-	@ManyToMany(mappedBy = "testings",cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "testings", cascade = CascadeType.ALL)
 	private List<Question> questions;
 
 	// bi-directional many-to-many association to Exam
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "testing_exam", joinColumns = {
 			@JoinColumn(name = "testing_id", nullable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "exam_id", nullable = false) })

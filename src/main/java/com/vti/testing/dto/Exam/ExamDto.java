@@ -1,7 +1,8 @@
 //
-package com.vti.testing.dto;
+package com.vti.testing.dto.Exam;
 
 import java.util.Date;
+import java.util.List;
 
 import com.vti.testing.entity.enumerate.ExamStatus;
 
@@ -24,8 +25,39 @@ public class ExamDto {
 	private UserDto author;
 	private int version;
 	private Date createTime;
-	
+	private List<TestingDto> testings;
 
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 * @return
+	 */
+	public ExamDto setId(int id) {
+		this.id = id;
+		return this;
+	}
+
+	/**
+	 * @return the testings
+	 */
+	public List<TestingDto> getTestings() {
+		return testings;
+	}
+
+	/**
+	 * @param testings the testings to set
+	 * @return
+	 */
+	public ExamDto setTestings(List<TestingDto> testings) {
+		this.testings = testings;
+		return this;
+	}
 
 	/**
 	 * @return the version
@@ -56,22 +88,6 @@ public class ExamDto {
 	 */
 	public ExamDto setCreateTime(Date createTime) {
 		this.createTime = createTime;
-		return this;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 * @return
-	 */
-	public ExamDto setId(int id) {
-		this.id = id;
 		return this;
 	}
 

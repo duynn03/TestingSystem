@@ -1,5 +1,5 @@
 //
-package com.vti.testing.util;
+package com.vti.testing.utils;
 
 import com.vti.testing.entity.enumerate.ExamStatus;
 
