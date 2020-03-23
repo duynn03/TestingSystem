@@ -32,7 +32,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = { UserIDNotExistsValidator.class })
 public @interface UserIDNotExists {
 
-	String message() default "The User's id already exists";
+	String message() default "{UserForm.id.NotExists}";
 
 	Class<?>[] groups() default {};
 

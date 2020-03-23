@@ -11,6 +11,9 @@ import com.vti.testing.validation.form.questioncategory.QuestionCategoryNameNotE
 import com.vti.testing.validation.group.onCreate;
 import com.vti.testing.validation.group.onUpdate;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * This class is question category form.
  * 
@@ -21,21 +24,25 @@ import com.vti.testing.validation.group.onUpdate;
  * @modifer: NNDuy
  * @modifer_date: Mar 11, 2020
  */
+@ApiModel(description = "This is Question Category form when creating or updating Testing Category")
 public class QuestionCategoryForm {
 
-	@Null(groups = onCreate.class)
-	@NotNull(groups = onUpdate.class)
+	@ApiModelProperty(notes = "The Question Category's ID")
+	@Null(message = "{QuestionCategoryForm.id.Null}", groups = onCreate.class)
+	@NotNull(message = "{QuestionCategoryForm.id.NotNull}", groups = onUpdate.class)
 	@QuestionCategoryIDExists(groups = onUpdate.class)
 	private Integer id;
 
-	@NotEmpty(groups = { onCreate.class, onUpdate.class })
+	@ApiModelProperty(notes = "The Question Category's Name")
+	@NotEmpty(message = "{QuestionCategoryForm.name.NotEmpty}", groups = { onCreate.class, onUpdate.class })
 	@QuestionCategoryNameNotExists(groups = { onCreate.class, onUpdate.class })
-	@Size(max = 50, groups = { onCreate.class, onUpdate.class })
+	@Size(max = 50, message = "{QuestionCategoryForm.name.Size}", groups = { onCreate.class, onUpdate.class })
 	private String name;
 
-	@NotNull(groups = onCreate.class)
+	@ApiModelProperty(notes = "The Question Category's Author")
+	@NotNull(message = "{UserForm.NotNull}", groups = onCreate.class)
 	@Valid
-	@Null(groups = onUpdate.class)
+	@Null(message = "{UserForm.Null}", groups = onUpdate.class)
 	private UserForm author;
 
 	/**

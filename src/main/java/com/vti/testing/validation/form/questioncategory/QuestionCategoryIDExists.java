@@ -32,7 +32,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = { QuestionCategoryIDExistsValidator.class })
 public @interface QuestionCategoryIDExists {
 
-	String message() default "The QuestionCategory's id does not exist yet";
+	String message() default "{QuestionCategoryForm.id.Exists}";
 
 	Class<?>[] groups() default {};
 

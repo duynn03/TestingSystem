@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vti.testing.dto.testingcategory.TestingCategoryDto;
@@ -46,6 +42,11 @@ import com.vti.testing.validation.form.testingcategory.TestingCategoryNameNotExi
 import com.vti.testing.validation.form.testingcategory.TestingCategoryUpdatingByQuestionCategories;
 import com.vti.testing.validation.group.onCreate;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+@Api(value = "Testing Category Management", description = "Including API to manipulate Testing Category")
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/api/v1/testingcategories")
@@ -70,11 +71,10 @@ public class TestingCategoryController {
 	 * @return Page<TestingCategory>
 	 * @throws ParseException
 	 */
+	@ApiOperation(value = "View a list of available Testing Category", response = Page.class)
 	@GetMapping()
-	public ResponseEntity<Page<?>> getAllTestingCategories(
-			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
-					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable,
-			@RequestParam(value = "search") @Search String search) throws ParseException {
+	public ResponseEntity<Page<?>> getAllTestingCategories(Pageable pageable, @Search String search)
+			throws ParseException {
 
 		// filter
 		Specification<TestingCategory> specification = SpecificationTemplate.buildSpecification(search);
@@ -129,8 +129,10 @@ public class TestingCategoryController {
 	 * @param id
 	 * @return TestingCategory
 	 */
+	@ApiOperation(value = "Get a Testing Category By ID")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getTestingCategoryByID(@TestingCategoryIDExists @PathVariable(name = "id") short id) {
+	public ResponseEntity<?> getTestingCategoryByID(
+			@ApiParam(value = "Testing Category's id from which Testing Category object will retrieve") @TestingCategoryIDExists @PathVariable(name = "id") short id) {
 		// get entity
 		TestingCategory entity = service.getTestingCategoryByID(id);
 
@@ -152,9 +154,11 @@ public class TestingCategoryController {
 	 * @modifer_date: Dec 7, 2019
 	 * @param form
 	 */
+	@ApiOperation(value = "Add a Testing Category")
 	@PostMapping()
 	@Validated(onCreate.class)
-	public ResponseEntity<?> createTestingCategory(@Valid @RequestBody TestingCategoryForm form) {
+	public ResponseEntity<?> createTestingCategory(
+			@ApiParam(value = "Form to create Testing Category", required = true) @Valid @RequestBody TestingCategoryForm form) {
 		// convert form to entity
 		TestingCategory entity = modelMapper.map(form, TestingCategory.class);
 
@@ -184,8 +188,10 @@ public class TestingCategoryController {
 	 * @param form
 	 * @param body
 	 */
+	@ApiOperation(value = "Update Testing Category's Name")
 	@PutMapping(value = "/{id}/name")
-	public ResponseEntity<?> updateTestingCategoryByName(@TestingCategoryIDExists @PathVariable(name = "id") short id,
+	public ResponseEntity<?> updateTestingCategoryByName(
+			@ApiParam(value = "Testing Category's Id to update TestingCategory object", required = true) @TestingCategoryIDExists @PathVariable(name = "id") short id,
 			@RequestBody Map<String, String> body) {
 
 		// get name
@@ -217,10 +223,11 @@ public class TestingCategoryController {
 	 * @param form
 	 * @param body
 	 */
+	@ApiOperation(value = "Update Testing Category's Question Categories")
 	@PutMapping(value = "/{id}/questioncategories")
 	public ResponseEntity<?> updateTestingCategoryByQuestionCategories(
-			@TestingCategoryIDExists @PathVariable(name = "id") short id,
-			@RequestBody List<@TestingCategoryUpdatingByQuestionCategories QuestionCategoryForm> questionCategories) {
+			@ApiParam(value = "Testing Category's Id to update TestingCategory object", required = true) @TestingCategoryIDExists @PathVariable(name = "id") short id,
+			@ApiParam(value = "Form to update List Question Categories of Testing Category", required = true) @RequestBody List<@TestingCategoryUpdatingByQuestionCategories QuestionCategoryForm> questionCategories) {
 
 		// Convert form to entity
 		List<QuestionCategory> questionCategoryEntities = convertListQuestionCategoryFormsToListEntities(
@@ -294,8 +301,10 @@ public class TestingCategoryController {
 	 * @modifer_date: Dec 13, 2019
 	 * @param id
 	 */
+	@ApiOperation(value = "Delete a Testing Category By ID")
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteTestingCategory(@TestingCategoryIDExists @PathVariable(name = "id") short id) {
+	public ResponseEntity<?> deleteTestingCategory(
+			@ApiParam(value = "Testing Category's Id from which TestingCategory object will delete from database table", required = true) @TestingCategoryIDExists @PathVariable(name = "id") short id) {
 		service.deleteTestingCategory(id);
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 	}
