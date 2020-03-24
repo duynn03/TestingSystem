@@ -74,7 +74,7 @@ public class Exam implements Serializable {
 	private String note;
 
 	// bi-directional many-to-many association to Testing
-	@ManyToMany(mappedBy = "exams", cascade = CascadeType.MERGE)
+	@ManyToMany(mappedBy = "exams", cascade = CascadeType.ALL)
 	private List<Testing> testings;
 
 	/**

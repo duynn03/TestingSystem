@@ -1,9 +1,6 @@
 //
-package com.vti.testing.dto.Exam;
+package com.vti.testing.dto.Exam.User;
 
-import com.vti.testing.dto.testingcategory.TestingCategoryDto;
-import com.vti.testing.dto.testingcategory.UserDto;
-import com.vti.testing.entity.enumerate.TestingStatus;
 
 /**
  * This class is TestingDto.
@@ -15,12 +12,10 @@ import com.vti.testing.entity.enumerate.TestingStatus;
  * @modifer: CTANH
  * @modifer_date: Mar 18, 2020
  */
-public class TestingDto {
+public class TestingUserDto {
 
 	private String name;
 	private short time;
-	private int version;
-	private TestingStatus status;
 	private UserDto examiner;
 	private TestingCategoryDto testingCategory;
 
@@ -35,7 +30,7 @@ public class TestingDto {
 	 * @param testingCategory the testingCategory to set
 	 * @return
 	 */
-	public TestingDto setTestingCategory(TestingCategoryDto testingCategory) {
+	public TestingUserDto setTestingCategory(TestingCategoryDto testingCategory) {
 		this.testingCategory = testingCategory;
 		return this;
 	}
@@ -51,7 +46,7 @@ public class TestingDto {
 	 * @param name the name to set
 	 * @return
 	 */
-	public TestingDto setName(String name) {
+	public TestingUserDto setName(String name) {
 		this.name = name;
 		return this;
 	}
@@ -67,40 +62,8 @@ public class TestingDto {
 	 * @param time the time to set
 	 * @return
 	 */
-	public TestingDto setTime(short time) {
+	public TestingUserDto setTime(short time) {
 		this.time = time;
-		return this;
-	}
-
-	/**
-	 * @return the version
-	 */
-	public int getVersion() {
-		return version;
-	}
-
-	/**
-	 * @param version the version to set
-	 * @return
-	 */
-	public TestingDto setVersion(int version) {
-		this.version = version;
-		return this;
-	}
-
-	/**
-	 * @return the status
-	 */
-	public TestingStatus getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status the status to set
-	 * @return
-	 */
-	public TestingDto setStatus(TestingStatus status) {
-		this.status = status;
 		return this;
 	}
 
@@ -115,7 +78,7 @@ public class TestingDto {
 	 * @param examiner the examiner to set
 	 * @return
 	 */
-	public TestingDto setExaminer(UserDto examiner) {
+	public TestingUserDto setExaminer(UserDto examiner) {
 		this.examiner = examiner;
 		return this;
 	}

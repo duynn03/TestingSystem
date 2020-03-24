@@ -1,5 +1,5 @@
 //
-package com.vti.testing.config;
+package com.vti.testing.config.login.Oauth2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

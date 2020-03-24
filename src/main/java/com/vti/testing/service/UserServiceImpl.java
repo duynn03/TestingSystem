@@ -27,7 +27,7 @@ import com.vti.testing.repository.UserRepository;
  * @modifer_date: Dec 7, 2019
  */
 @Service
-public class UserServiceImpl implements UserService,UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Autowired
 	private UserRepository repository;
@@ -88,6 +88,7 @@ public class UserServiceImpl implements UserService,UserDetailsService {
 			throw new UsernameNotFoundException(username);
 		}
 		GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().toString());
-		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), Arrays.asList(authority));
+		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+				Arrays.asList(authority));
 	}
 }

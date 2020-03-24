@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,10 +25,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vti.testing.customUser.Principal;
 import com.vti.testing.dto.Exam.ExamDto;
+import com.vti.testing.dto.Exam.User.ExamUserDto;
 import com.vti.testing.entity.Exam;
 import com.vti.testing.entity.Testing;
 import com.vti.testing.form.Exam.ExamForm;
@@ -41,6 +39,11 @@ import com.vti.testing.validation.Search;
 import com.vti.testing.validation.form.Exam.ExamIDExists;
 import com.vti.testing.validation.group.onCreate;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+@Api(value = "Exam Management", description = "Including API to manipulate Exam")
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/api/v1/exams")
@@ -61,22 +64,27 @@ public class ExamController {
 	 * @modifer_date: Dec 7, 2019
 	 * @return List<Question>
 	 */
+	@ApiOperation(value = "View a list of available Exam", response = Page.class)
 	@GetMapping()
-	public ResponseEntity<Page<?>> getAllExam(
-			@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
-					@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable,
-			@RequestParam(value = "search") @Search String search) throws ParseException {
-
+	public ResponseEntity<Page<?>> getAllExam(Pageable pageable, @Search String search) throws ParseException {
 		// filter
 		Specification<Exam> specification = SpecificationTemplate.buildSpecification(search);
-
 		// get page entity
 		Page<Exam> exam = service.getAllExam(pageable, specification);
 
-		// covert entity to dto
-		Page<ExamDto> dtopage = convertEntityPageToDtoPage(exam, pageable);
+		if (Principal.getRole().equals("[ROLE_MANAGER]")) {
 
-		return new ResponseEntity<>(dtopage, HttpStatus.OK);
+			// covert entity to dto
+			Page<ExamDto> dtopage = convertEntityPageToDtoPage(exam, pageable);
+			return new ResponseEntity<>(dtopage, HttpStatus.OK);
+
+		} else {
+
+			// covert entity to dto
+			Page<ExamUserDto> dtopage = convertEntityPageToUserDtoPage(exam, pageable);
+
+			return new ResponseEntity<>(dtopage, HttpStatus.OK);
+		}
 	}
 
 	/**
@@ -108,6 +116,34 @@ public class ExamController {
 	}
 
 	/**
+	 * This method is converted entity page to dto page.
+	 * 
+	 * @Description: .
+	 * @author: CTAnh
+	 * @create_date: Mar 11, 2020
+	 * @version: 1.0
+	 * @modifer: CTAnh
+	 * @modifer_date: Mar 11, 2020
+	 * @param entityPage
+	 * @param pageable
+	 * @return Page<ExamUserDto>
+	 */
+	private Page<ExamUserDto> convertEntityPageToUserDtoPage(Page<Exam> entityPage, Pageable pageable) {
+		// get list TestingCategory
+		List<Exam> entities = entityPage.getContent();
+
+		// create conversion type
+		Type listType = new TypeToken<List<ExamUserDto>>() {
+		}.getType();
+
+		// convert list entities to dtos
+		List<ExamUserDto> dtos = modelMapper.map(entities, listType);
+
+		// return page dto
+		return new PageImpl<>(dtos, pageable, entityPage.getTotalElements());
+	}
+
+	/**
 	 * This method is got Exam by ID.
 	 * 
 	 * @Description: .
@@ -119,15 +155,25 @@ public class ExamController {
 	 * @param id
 	 * @return Question
 	 */
+	@ApiOperation(value = "Get a Exam By ID")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getExamByID(@ExamIDExists @PathVariable(name = "id") int id) {
+	public ResponseEntity<?> getExamByID(
+			@ApiParam(value = "Exam's id from which Exam object will retrieve") @ExamIDExists @PathVariable(name = "id") int id) {
 
 		// get exam
 		Exam exam = service.getExamById(id);
 
-		// convert entity to dto
-		ExamDto dto = modelMapper.map(exam, ExamDto.class);
-		return new ResponseEntity<>(dto, HttpStatus.OK);
+		if (Principal.getRole().equals("[ROLE_MANAGER]")) {
+			// convert entity to dto
+			ExamDto dto = modelMapper.map(exam, ExamDto.class);
+			return new ResponseEntity<>(dto, HttpStatus.OK);
+
+		} else {
+			// convert entity to ExamUserdto
+			ExamUserDto dto = modelMapper.map(exam, ExamUserDto.class);
+			return new ResponseEntity<>(dto, HttpStatus.OK);
+
+		}
 
 	}
 
@@ -142,27 +188,26 @@ public class ExamController {
 	 * @modifer_date: Dec 7, 2019
 	 * @param form
 	 */
+	@ApiOperation(value = "Add a Exam")
 	@PostMapping()
 	@Validated(onCreate.class)
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
-	public ResponseEntity<?> createExam(@Valid @RequestBody ExamForm form) {
+	public ResponseEntity<?> createExam(
+			@ApiParam(value = "Form to create Exam", required = true) @Valid @RequestBody ExamForm form) {
 		// get exam by name
 		// check exam
-		if (!service.existsExamByName(form.getName())) {
-			Exam exam = modelMapper.map(form, Exam.class);
-			// set child element
-//			
-			if (exam.getTestings() != null) {
-				for (Testing testing : exam.getTestings()) {
-					testing.setExams(Arrays.asList(exam));
-				}
+
+		Exam exam = modelMapper.map(form, Exam.class);
+		// set child element
+		if (exam.getTestings() != null) {
+			for (Testing testing : exam.getTestings()) {
+				testing.setExams(Arrays.asList(exam));
 			}
-
-			service.createExam(exam);
-			return new ResponseEntity<>("Create success!", HttpStatus.OK);
-
 		}
-		return new ResponseEntity<>("Create Fail!", HttpStatus.PRECONDITION_FAILED);
+
+		service.createExam(exam);
+		return new ResponseEntity<>("Create success!", HttpStatus.OK);
+
 	}
 
 	/**
@@ -192,12 +237,13 @@ public class ExamController {
 	 * @modifer_date: Dec 13, 2019
 	 * @param id
 	 */
+	@ApiOperation(value = "Delete a Exam By ID")
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
-	public ResponseEntity<?> deleteExam(@ExamIDExists @PathVariable(name = "id") int id) {
+	public ResponseEntity<?> deleteExam(
+			@ApiParam(value = "Exam's Id from which Exam object will delete from database table", required = true) @ExamIDExists @PathVariable(name = "id") int id) {
 		service.deleteExam(id);
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
-
 	}
 
 }

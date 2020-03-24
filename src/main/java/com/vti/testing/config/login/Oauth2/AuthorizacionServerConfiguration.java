@@ -1,5 +1,5 @@
 //
-package com.vti.testing.config;
+package com.vti.testing.config.login.Oauth2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+
+import com.vti.testing.config.exception.customobject.OauthException.MyOAuth2WebResponseExceptionTranslator;
 
 /**
  * This class is Configuration Authorizacion on Server.
@@ -31,10 +33,15 @@ public class AuthorizacionServerConfiguration extends AuthorizationServerConfigu
 	@Autowired
 	@Qualifier("authenticationManagerBean")
 	private AuthenticationManager authenticationManager;
+
 	@Autowired
 	private TokenStore tokenStore;
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	MyOAuth2WebResponseExceptionTranslator webResponseExceptionTranslator;
 
 	@Override
 	public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
@@ -51,7 +58,7 @@ public class AuthorizacionServerConfiguration extends AuthorizationServerConfigu
 		clients.inMemory().withClient("client")
 				.authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
 				.authorities("ROLE_MANAGER", "ROLE_ADMIN", "ROLE_EMPLOYEE").scopes("read", "write").autoApprove(true)
-				.secret(passwordEncoder.encode("client")).accessTokenValiditySeconds(60);
+				.secret(passwordEncoder.encode("client")).accessTokenValiditySeconds(1200);
 	}
 
 	/*
@@ -62,7 +69,8 @@ public class AuthorizacionServerConfiguration extends AuthorizationServerConfigu
 	 */
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-		endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore);
+		endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore)
+				.exceptionTranslator(webResponseExceptionTranslator);
 	}
 
 	@Bean

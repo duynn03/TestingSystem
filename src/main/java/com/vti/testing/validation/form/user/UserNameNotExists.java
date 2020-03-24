@@ -32,9 +32,11 @@ import javax.validation.Payload;
 @Constraint(validatedBy = { UserNameNotExistsValidator.class })
 public @interface UserNameNotExists {
 
-	String message() default "The UserName already exists";
+	String message() default "{UserForm.id.NotExists}";
 
-	Class<?>[] groups() default {};
+	Class<?>[]
+
+	groups() default {};
 
 	Class<? extends Payload>[] payload() default {};
 

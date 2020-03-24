@@ -1,5 +1,5 @@
 //
-package com.vti.testing.dto.Exam;
+package com.vti.testing.dto.Exam.User;
 
 /**
  * This class is TestingCategoryDto.

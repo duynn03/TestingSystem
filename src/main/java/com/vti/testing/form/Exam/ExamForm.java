@@ -1,4 +1,4 @@
-//
+
 package com.vti.testing.form.Exam;
 
 import java.util.Date;
@@ -17,6 +17,8 @@ import com.vti.testing.validation.form.Exam.ExamNamenotExists;
 import com.vti.testing.validation.group.onCreate;
 import com.vti.testing.validation.group.onUpdate;
 
+import io.swagger.annotations.ApiModel;
+
 /**
  * This class is Exam Form.
  * 
@@ -27,19 +29,21 @@ import com.vti.testing.validation.group.onUpdate;
  * @modifer: CTANH
  * @modifer_date: Mar 11, 2020
  */
+@ApiModel(value = "This is form when creating or updating Exam")
 public class ExamForm {
-	@NotNull(groups = onUpdate.class)
 	@Null(groups = onCreate.class)
 	private int id;
 
-	@NotBlank
-	@Length(max = 50)
+	@NotBlank(message = "ExamForm.name.NotBlank")
+	@Length(max = 50, message = "ExamForm.name.Length")
 	@ExamNamenotExists(groups = onCreate.class)
 	private String name;
 
+	@NotNull(message = "ExamForm.startTime.NotNull")
 	@DateTimeFormat
 	private Date startTime;
 
+	@NotNull(message = "ExamForm.endTime.NotNull")
 	@DateTimeFormat
 	private Date endTime;
 

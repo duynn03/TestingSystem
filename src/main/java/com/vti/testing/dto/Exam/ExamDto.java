@@ -4,10 +4,11 @@ package com.vti.testing.dto.Exam;
 import java.util.Date;
 import java.util.List;
 
+import com.vti.testing.dto.testingcategory.UserDto;
 import com.vti.testing.entity.enumerate.ExamStatus;
 
 /**
- * This class is Exam Dto.
+ * This class is Exam Dto in ROLE MANAGER.
  * 
  * @Description: .
  * @author: CTANH

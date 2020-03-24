@@ -1,5 +1,5 @@
 //
-package com.vti.testing.config;
+package com.vti.testing.config.login.Oauth2;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
+
 	private static final String RESOURCE_ID = "resource_id";
 
 	/*
@@ -30,6 +31,7 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) {
 		resources.resourceId(RESOURCE_ID).stateless(false);
+
 	}
 
 	/*
