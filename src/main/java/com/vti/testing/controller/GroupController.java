@@ -1,5 +1,17 @@
 package com.vti.testing.controller;
 
+import java.lang.reflect.Type;
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,10 +23,21 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vti.testing.dto.testingcategory.GroupDto;
+import com.vti.testing.dto.testingcategory.TestingCategoryDto;
+import com.vti.testing.entity.Group;
+import com.vti.testing.entity.TestingCategory;
+import com.vti.testing.service.GroupService;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/api/v1/groups")
 public class GroupController {
+	@Autowired
+	private GroupService service;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	/**
 	 * This method is got all Group.
@@ -28,9 +51,31 @@ public class GroupController {
 	 * @return List<Question>
 	 */
 	@GetMapping()
-	public ResponseEntity<?> getAllGroups() {
+	public ResponseEntity<Page<?>> getAllGroups(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
+			@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
 
-		return new ResponseEntity<>("View List ok", HttpStatus.OK);
+		// get page entity
+		Page<Group> entityPage = service.getAllGroup(pageable);
+
+		// Convert entity to dto
+		Page<GroupDto> dtoPage = convertEntityPageToDtoPage(entityPage, pageable);
+
+		return new ResponseEntity<>(dtoPage, HttpStatus.OK);
+	}
+
+	private Page<GroupDto> convertEntityPageToDtoPage(Page<Group> entityPage, Pageable pageable) {
+		// get list TestingCategory
+		List<Group> entities = entityPage.getContent();
+
+		// create conversion type
+		Type listType = new TypeToken<List<GroupDto>>() {
+		}.getType();
+
+		// convert list entities to dtos
+		List<GroupDto> dtos = modelMapper.map(entities, listType);
+
+		// return page dto
+		return new PageImpl<>(dtos, pageable, entityPage.getTotalElements());
 	}
 
 	/**
