@@ -1,4 +1,4 @@
-package com.vti.testing.exception;
+package com.vti.testing.config.exception.customobject;
 
 /**
  * This class is .
@@ -10,6 +10,6 @@ package com.vti.testing.exception;
  * @modifer: NNDuy
  * @modifer_date: Mar 16, 2020
  */
-public abstract class ApiSubError {
+public abstract class ErrorResponse {
 
 }

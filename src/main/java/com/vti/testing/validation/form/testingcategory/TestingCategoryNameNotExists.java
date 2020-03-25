@@ -32,7 +32,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = { TestingCategoryNameNotExistsValidator.class })
 public @interface TestingCategoryNameNotExists {
 
-	String message() default "The TestingCategory's name already exists";
+	String message() default "{TestingCategoryForm.name.NotExists}";
 
 	Class<?>[] groups() default {};
 

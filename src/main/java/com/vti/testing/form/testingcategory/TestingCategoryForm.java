@@ -10,6 +10,9 @@ import javax.validation.constraints.Size;
 import com.vti.testing.validation.form.testingcategory.TestingCategoryNameNotExists;
 import com.vti.testing.validation.group.onCreate;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * This class is TestingCategory Form.
  * 
@@ -20,18 +23,22 @@ import com.vti.testing.validation.group.onCreate;
  * @modifer: NNDuy
  * @modifer_date: Dec 7, 2019
  */
+@ApiModel(description = "This is form when creating or updating Testing Category")
 public class TestingCategoryForm {
 
-	@NotEmpty(groups = onCreate.class)
-	@Size(max = 50, groups = onCreate.class)
+	@ApiModelProperty(notes = "The Testing Category's Name")
+	@NotEmpty(message = "{TestingCategoryForm.name.NotEmpty}", groups = onCreate.class)
+	@Size(max = 50, message = "{TestingCategoryForm.name.Size}", groups = onCreate.class)
 	@TestingCategoryNameNotExists(groups = onCreate.class)
 	private String name;
 
-	@NotNull(groups = onCreate.class)
+	@ApiModelProperty(notes = "The Testing Category's Author")
+	@NotNull(message = "{UserForm.NotNull}", groups = onCreate.class)
 	@Valid
 	private UserForm author;
 
-	private List<QuestionCategoryForm> questionCategories;
+	@ApiModelProperty(notes = "The List Question Categories of Testing Category")
+	private List<@Valid QuestionCategoryForm> questionCategories;
 
 	/**
 	 * @return the name

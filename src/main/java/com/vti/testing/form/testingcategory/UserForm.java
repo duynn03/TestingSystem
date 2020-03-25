@@ -5,6 +5,9 @@ import javax.validation.constraints.NotNull;
 import com.vti.testing.validation.form.user.UserIDExists;
 import com.vti.testing.validation.group.onCreate;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * This class is user form.
  * 
@@ -15,10 +18,12 @@ import com.vti.testing.validation.group.onCreate;
  * @modifer: NNDuy
  * @modifer_date: Mar 11, 2020
  */
+@ApiModel(description = "This is User form when creating or updating Testing Category")
 public class UserForm {
 
+	@ApiModelProperty(notes = "The Author's ID")
 	@UserIDExists(groups = onCreate.class)
-	@NotNull(groups = onCreate.class)
+	@NotNull(message = "{UserForm.id.NotNull}", groups = onCreate.class)
 	private Integer id;
 
 	/**
