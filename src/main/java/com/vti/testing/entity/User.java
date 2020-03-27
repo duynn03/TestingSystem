@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Formula;
 
 import com.vti.testing.entity.enumerate.Gender;
+import com.vti.testing.entity.enumerate.Role;
 import com.vti.testing.entity.enumerate.UserStatus;
 
 /**
@@ -70,7 +71,7 @@ public class User implements Serializable {
 	private String phone;
 
 	@Column(name = "role", nullable = false)
-	private String role;
+	private Role role;
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "`status`", nullable = false)
@@ -300,14 +301,14 @@ public class User implements Serializable {
 	/**
 	 * @return the role
 	 */
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
 	/**
 	 * @param role the role to set
 	 */
-	public User setRole(String role) {
+	public User setRole(Role role) {
 		this.role = role;
 		return this;
 	}
