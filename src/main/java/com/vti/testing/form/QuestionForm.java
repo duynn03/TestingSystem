@@ -4,15 +4,11 @@ package com.vti.testing.form;
 import java.util.Date;
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
-
-import com.vti.testing.entity.Answer;
-import com.vti.testing.entity.Image;
-import com.vti.testing.entity.QuestionCategory;
 import com.vti.testing.entity.QuestionLevel;
-import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.entity.enumerate.QuestionStatus;
 import com.vti.testing.entity.enumerate.QuestionType;
+import com.vti.testing.form.testingcategory.QuestionCategoryForm;
+import com.vti.testing.form.testingcategory.TestingCategoryForm;
 
 /**
  * This class is form create question.
@@ -27,17 +23,33 @@ import com.vti.testing.entity.enumerate.QuestionType;
 public class QuestionForm {
 
 	private Short id;
-	private TestingCategory testingCategory;
-	private QuestionCategory questionCategory;
+	private TestingCategoryForm testingCategory;
+	private QuestionCategoryForm questionCategory;
 	private QuestionLevel level;
 	private String title;
-	private List<Answer> answer;
-	private Image image;
+	private List<AnswerForm> answers;
+	private ImageForm image;
 	private QuestionStatus status;
 	private QuestionType type;
 	private int version;
 	private UserForm author;
 	private Date createTime;
+
+	/**
+	 * @return the answers
+	 */
+	public List<AnswerForm> getAnswers() {
+		return answers;
+	}
+
+	/**
+	 * @param answers the answers to set
+	 * @return 
+	 */
+	public QuestionForm setAnswers(List<AnswerForm> answers) {
+		this.answers = answers;
+		return this;
+	}
 
 	/**
 	 * @return the id
@@ -56,28 +68,28 @@ public class QuestionForm {
 	/**
 	 * @return the testingCategory
 	 */
-	public TestingCategory getTestingCategory() {
+	public TestingCategoryForm getTestingCategory() {
 		return testingCategory;
 	}
 
 	/**
 	 * @param testingCategory the testingCategory to set
 	 */
-	public void setTestingCategory(TestingCategory testingCategory) {
+	public void setTestingCategory(TestingCategoryForm testingCategory) {
 		this.testingCategory = testingCategory;
 	}
 
 	/**
 	 * @return the questionCategory
 	 */
-	public QuestionCategory getQuestionCategory() {
+	public QuestionCategoryForm getQuestionCategory() {
 		return questionCategory;
 	}
 
 	/**
 	 * @param questionCategory the questionCategory to set
 	 */
-	public void setQuestionCategory(QuestionCategory questionCategory) {
+	public void setQuestionCategory(QuestionCategoryForm questionCategory) {
 		this.questionCategory = questionCategory;
 	}
 
@@ -110,31 +122,17 @@ public class QuestionForm {
 	}
 
 	/**
-	 * @return the answer
-	 */
-	public List<Answer> getAnswer() {
-		return answer;
-	}
-
-	/**
-	 * @param answer the answer to set
-	 */
-	public void setAnswer(List<Answer> answer) {
-		this.answer = answer;
-	}
-
-	/**
 	 * @return the image
 	 */
-	public Image getImage() {
+	public ImageForm getImage() {
 		return image;
 	}
 
 	/**
 	 * @param image the image to set
 	 */
-	public void setImage(Image image) {
-		
+	public void setImage(ImageForm image) {
+
 		this.image = image;
 	}
 

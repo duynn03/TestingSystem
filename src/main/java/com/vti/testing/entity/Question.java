@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -80,7 +81,7 @@ public class Question implements Serializable {
 	private Image image;
 
 	// bi-directional many-to-one association to Answer
-	@OneToMany(mappedBy = "question")
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
 	private List<Answer> answers;
 
 	// bi-directional many-to-many association to Testing
@@ -263,9 +264,9 @@ public class Question implements Serializable {
 	/**
 	 * @param answers the answers to set
 	 */
-	public Question setAnswers(List<Answer> answers) {
+	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
-		return this;
+		
 	}
 
 	/**

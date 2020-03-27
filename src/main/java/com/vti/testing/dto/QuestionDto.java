@@ -27,8 +27,8 @@ public class QuestionDto {
 	/**
 	 * @return the testingCategory
 	 */
-	public TestingCategoryDto getTestingCategory() {
-		return testingCategory;
+	public String getTestingCategory() {
+		return testingCategory.getName();
 	}
 
 	/**
@@ -57,8 +57,8 @@ public class QuestionDto {
 	/**
 	 * @return the questionCategory
 	 */
-	public QuestionCategoryDto getQuestionCategory() {
-		return questionCategory;
+	public String getQuestionCategory() {
+		return questionCategory.getName();
 	}
 
 	/**
@@ -102,8 +102,8 @@ public class QuestionDto {
 	/**
 	 * @return the author
 	 */
-	public UserDto getAuthor() {
-		return author;
+	public String getAuthor() {
+		return author.getFullName();
 	}
 
 	/**

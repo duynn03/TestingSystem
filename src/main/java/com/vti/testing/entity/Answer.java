@@ -32,7 +32,7 @@ public class Answer implements Serializable {
 	private Question question;
 
 	@Lob
-	@Column(nullable = false)
+	@Column(nullable = false,name = "`key`")
 	private String key;
 
 	@Column(name = "is_correct", nullable = false, columnDefinition = "boolean default false")

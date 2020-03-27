@@ -1,4 +1,4 @@
-package com.vti.testing.exception.customobject;
+package com.vti.testing.config.exception.customobject;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +18,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.vti.testing.exception.customobject.validation.ValidationErrorResponse;
+import com.vti.testing.Application;
+import com.vti.testing.config.exception.customobject.validation.ValidationErrorResponse;
+import com.vti.testing.config.internationalization.MessageProperty;
 
 /**
  * This class is api exception.
@@ -40,6 +42,8 @@ public class ApiErrorResponse {
 
 	private ErrorResponse errorResponse;
 
+	private MessageProperty messageProperty = Application.getBean(MessageProperty.class);
+
 	/**
 	 * Constructor for class ApiErrorResponse.
 	 * 
@@ -54,7 +58,7 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, Exception exception) {
 		this.status = status;
-		this.message = "Unexpected error";
+		this.message = messageProperty.getExceptionMessageFromPropertiesFile("Exception.message");
 		this.detailMessage = exception.getLocalizedMessage();
 	}
 
@@ -72,7 +76,7 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, EntityNotFoundException exception) {
 		this.status = status;
-		this.message = "Not Found Entity";
+		this.message = messageProperty.getExceptionMessageFromPropertiesFile("EntityNotFoundException.message");
 		this.detailMessage = exception.getLocalizedMessage();
 	}
 
@@ -90,7 +94,8 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, NoHandlerFoundException exception) {
 		this.status = status;
-		this.message = "No handler found for " + exception.getHttpMethod() + " " + exception.getRequestURL();
+		this.message = messageProperty.getExceptionMessageFromPropertiesFile("NoHandlerFoundException.message")
+				+ exception.getHttpMethod() + " " + exception.getRequestURL();
 		this.detailMessage = exception.getLocalizedMessage();
 	}
 
@@ -126,7 +131,8 @@ public class ApiErrorResponse {
 	 */
 	private String getMessageFromHttpRequestMethodNotSupportedException(
 			HttpRequestMethodNotSupportedException exception) {
-		String message = exception.getMethod() + " method is not supported for this request. Supported methods are ";
+		String message = exception.getMethod() + messageProperty
+				.getExceptionMessageFromPropertiesFile("HttpRequestMethodNotSupportedException.message");
 		for (HttpMethod method : exception.getSupportedHttpMethods()) {
 			message += method + " ";
 		}
@@ -164,7 +170,8 @@ public class ApiErrorResponse {
 	 * @return
 	 */
 	private String getMessageFromHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException exception) {
-		String message = exception.getContentType() + " media type is not supported. Supported media types are ";
+		String message = exception.getContentType()
+				+ messageProperty.getExceptionMessageFromPropertiesFile("HttpMediaTypeNotSupportedException.message");
 		for (MediaType method : exception.getSupportedMediaTypes()) {
 			message += method + ", ";
 		}
@@ -185,7 +192,7 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, ConstraintViolationException exception) {
 		this.status = status;
-		this.message = "Validation: Parameter is error!";
+		this.message = messageProperty.getExceptionMessageFromPropertiesFile("ConstraintViolationException.message");
 		handleConstraintViolationException(exception);
 		this.detailMessage = exception.getLocalizedMessage();
 	}
@@ -228,7 +235,7 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, MethodArgumentNotValidException exception) {
 		this.status = status;
-		this.message = "Validation: Method argument not valid!";
+		this.message = messageProperty.getExceptionMessageFromPropertiesFile("MethodArgumentNotValidException.message");
 		handleMethodArgumentNotValidException(exception);
 		this.detailMessage = exception.getLocalizedMessage();
 	}
@@ -267,7 +274,8 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, MissingServletRequestParameterException exception) {
 		this.status = status;
-		this.message = exception.getParameterName() + " parameter is missing";
+		this.message = exception.getParameterName() + messageProperty
+				.getExceptionMessageFromPropertiesFile("MissingServletRequestParameterException.message");
 		this.detailMessage = exception.getLocalizedMessage();
 	}
 
@@ -285,7 +293,9 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, MethodArgumentTypeMismatchException exception) {
 		this.status = status;
-		this.message = exception.getName() + " should be of type " + exception.getRequiredType().getName();
+		this.message = exception.getName()
+				+ messageProperty.getExceptionMessageFromPropertiesFile("MethodArgumentTypeMismatchException.message")
+				+ exception.getRequiredType().getName();
 		this.detailMessage = exception.getLocalizedMessage();
 	}
 

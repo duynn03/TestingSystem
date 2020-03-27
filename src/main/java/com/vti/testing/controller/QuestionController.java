@@ -7,7 +7,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeToken;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -34,6 +36,8 @@ import com.vti.testing.service.QuestionService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
 import com.vti.testing.validation.form.question.QuestionIDExists;
+
+import io.swagger.annotations.ApiParam;
 
 @CrossOrigin("*")
 @RestController
@@ -122,6 +126,7 @@ public class QuestionController {
 		// get entity
 		Question entity = service.getQuestionByID(id);
 
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		// convert entity to dto
 		QuestionDto dto = modelMapper.map(entity, QuestionDto.class);
 
@@ -143,7 +148,8 @@ public class QuestionController {
 	 * @return
 	 */
 	@PostMapping()
-	public ResponseEntity<?> createQuestion(@Valid @RequestBody QuestionForm form) {
+	public ResponseEntity<?> createQuestion(
+			@ApiParam(value = "Form to create Question", required = true) @Valid @RequestBody QuestionForm form) {
 
 		// convert form to entity
 		Question entity = modelMapper.map(form, Question.class);

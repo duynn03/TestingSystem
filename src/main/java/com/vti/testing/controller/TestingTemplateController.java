@@ -24,10 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vti.testing.dto.QuestionDto;
 import com.vti.testing.dto.TestingTemplateDto;
 import com.vti.testing.entity.Exam;
-import com.vti.testing.entity.Question;
 import com.vti.testing.entity.Testing;
 import com.vti.testing.form.TestingTemplateForm;
 import com.vti.testing.service.TestingTemplateService;
@@ -148,7 +146,7 @@ public class TestingTemplateController {
 		// set child element
 		if (null != entity.getExams()) {
 			for (Exam exam : entity.getExams()) {
-				// exam.setTestings(entity)
+			//	exam.setTestings(  entity);
 			}
 		}
 
@@ -187,8 +185,9 @@ public class TestingTemplateController {
 	 * @return
 	 */
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteTestingTemplate() {
+	public ResponseEntity<?> deleteTestingTemplate(@PathVariable(name = "id") short id) {
 
+		service.deleteTesting(id);
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 	}
 

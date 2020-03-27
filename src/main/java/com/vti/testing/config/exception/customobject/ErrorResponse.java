@@ -1,4 +1,4 @@
-package com.vti.testing.exception.customobject;
+package com.vti.testing.config.exception.customobject;
 
 /**
  * This class is .

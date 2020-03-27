@@ -1,9 +1,9 @@
-package com.vti.testing.exception.customobject.validation;
+package com.vti.testing.config.exception.customobject.validation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vti.testing.exception.customobject.ErrorResponse;
+import com.vti.testing.config.exception.customobject.ErrorResponse;
 
 /**
  * This class is validation error.
