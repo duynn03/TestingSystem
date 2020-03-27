@@ -19,7 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
  * 
  */
 @Entity
-@Table(name = "User_Group")
+@Table(name = "`User_Group`")
 public class UserGroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -28,16 +28,16 @@ public class UserGroup implements Serializable {
 
 	// bi-directional many-to-one association to Group
 	@ManyToOne
-	@JoinColumn(name = "group_id", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "`group_id`", nullable = false, insertable = false, updatable = false)
 	private Group group;
 
 	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "`user_id`", nullable = false, insertable = false, updatable = false)
 	private User user;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "join_time", nullable = false)
+	@Column(name = "`join_time`", nullable = false)
 	@CreationTimestamp
 	private Date joinTime;
 

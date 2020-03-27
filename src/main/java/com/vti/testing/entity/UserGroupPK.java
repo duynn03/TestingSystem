@@ -14,10 +14,10 @@ public class UserGroupPK implements Serializable {
 	// default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "group_id", nullable = false)
+	@Column(name = "`group_id`", nullable = false)
 	private int groupId;
 
-	@Column(name = "user_id", nullable = false)
+	@Column(name = "`user_id`", nullable = false)
 	private int userId;
 
 	/*
