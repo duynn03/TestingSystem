@@ -61,8 +61,8 @@ public class User implements Serializable {
 	private Gender gender;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name = "`date_Of_Birth`", nullable = false)
-	private Date date_Of_Birth;
+	@Column(name = "date_Of_Birth", nullable = false)
+	private Date birthday;
 
 	@Column(name = "`address`", nullable = false, length = 100)
 	private String address;
@@ -70,7 +70,7 @@ public class User implements Serializable {
 	@Column(name = "`phone`", nullable = false, length = 15, unique = true)
 	private String phone;
 
-	@Column(name = "`role`", nullable = false)
+	@Column(name = "role", nullable = false)
 	private Role role;
 
 	@Enumerated(EnumType.ORDINAL)
@@ -256,15 +256,15 @@ public class User implements Serializable {
 	/**
 	 * @return the date_Of_Birth
 	 */
-	public Date getDate_Of_Birth() {
-		return date_Of_Birth;
+	public Date getBirthday() {
+		return birthday;
 	}
 
 	/**
 	 * @param date_Of_Birth the date_Of_Birth to set
 	 */
-	public User setDate_Of_Birth(Date date_Of_Birth) {
-		this.date_Of_Birth = date_Of_Birth;
+	public User setBirthday(Date birthday) {
+		this.birthday = birthday;
 		return this;
 	}
 

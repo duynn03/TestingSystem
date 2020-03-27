@@ -72,4 +72,9 @@ public class UserServiceImpl implements UserService {
 	public boolean existsUser(int id) {
 		return repository.existsById(id);
 	}
+
+	@Override
+	public boolean existsByAccount(String account) {
+		return repository.existsByAccount(account);
+	}
 }
