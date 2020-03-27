@@ -22,7 +22,6 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Formula;
 
 import com.vti.testing.entity.enumerate.Gender;
-import com.vti.testing.entity.enumerate.Role;
 import com.vti.testing.entity.enumerate.UserStatus;
 
 /**
@@ -62,7 +61,7 @@ public class User implements Serializable {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_Of_Birth", nullable = false)
-	private Date date_Of_Birth;
+	private Date birthday;
 
 	@Column(name = "address", nullable = false, length = 100)
 	private String address;
@@ -71,7 +70,7 @@ public class User implements Serializable {
 	private String phone;
 
 	@Column(name = "role", nullable = false)
-	private Role role;
+	private String role;
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "status", nullable = false)
@@ -256,15 +255,15 @@ public class User implements Serializable {
 	/**
 	 * @return the date_Of_Birth
 	 */
-	public Date getDate_Of_Birth() {
-		return date_Of_Birth;
+	public Date getBirthday() {
+		return birthday;
 	}
 
 	/**
 	 * @param date_Of_Birth the date_Of_Birth to set
 	 */
-	public User setDate_Of_Birth(Date date_Of_Birth) {
-		this.date_Of_Birth = date_Of_Birth;
+	public User setBirthday(Date birthday) {
+		this.birthday = birthday;
 		return this;
 	}
 
@@ -301,14 +300,14 @@ public class User implements Serializable {
 	/**
 	 * @return the role
 	 */
-	public Role getRole() {
+	public String getRole() {
 		return role;
 	}
 
 	/**
 	 * @param role the role to set
 	 */
-	public User setRole(Role role) {
+	public User setRole(String role) {
 		this.role = role;
 		return this;
 	}
