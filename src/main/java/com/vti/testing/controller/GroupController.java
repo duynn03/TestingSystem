@@ -1,6 +1,7 @@
 package com.vti.testing.controller;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,13 @@ import com.vti.testing.dto.testingcategory.TestingCategoryDto;
 import com.vti.testing.entity.Group;
 import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.service.GroupService;
+import com.vti.testing.specification.SpecificationTemplate;
+import com.vti.testing.validation.Search;
+import com.vti.testing.validation.form.group.GroupIDExists;
+import com.vti.testing.validation.form.testingcategory.TestingCategoryIDExists;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @CrossOrigin("*")
 @RestController
@@ -51,8 +60,10 @@ public class GroupController {
 	 * @return List<Question>
 	 */
 	@GetMapping()
-	public ResponseEntity<Page<?>> getAllGroups(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults({
-			@SortDefault(sort = "id", direction = Sort.Direction.ASC) }) Pageable pageable) {
+	public ResponseEntity<Page<?>> getAllGroups(Pageable pageable, @Search String search) throws ParseException {
+
+		// filter
+		Specification<Group> specification = SpecificationTemplate.buildSpecification(search);
 
 		// get page entity
 		Page<Group> entityPage = service.getAllGroup(pageable);
@@ -90,10 +101,20 @@ public class GroupController {
 	 * @param id
 	 * @return Question
 	 */
+	@ApiOperation(value = "Get a Group By ID")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getGroupByID(@PathVariable(name = "id") short id) {
-		return new ResponseEntity<>("View Detail ok", HttpStatus.OK);
+	public ResponseEntity<?> getGroupByID(
+			@ApiParam(value = "Group Controller's id from which Group Controller object will retrieve") @GroupIDExists @PathVariable(name = "id") short id) {
+		// get entity
+		TestingCategory entity = service.getGroupByID(id);
+
+		// convert entity to dto
+		TestingCategoryDto dto = modelMapper.map(entity, TestingCategoryDto.class);
+
+		// return result
+		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
+
 
 	/**
 	 * This method is created Group.
