@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -25,6 +26,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.vti.testing.entity.enumerate.ExamStatus;
+import com.vti.testing.utils.Constants;
 
 /**
  * The persistent class for the exam database table.
@@ -51,8 +53,8 @@ public class Exam implements Serializable {
 	@Column(name = "end_time", nullable = false)
 	private Date endTime;
 
-	@Column(name = "version", nullable = false, columnDefinition = "int default 1")
-	private int version;
+	@Column(name = "version", nullable = false)
+	private int version=Constants.VERSION_STATUS;
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "status", nullable = false)
@@ -74,7 +76,10 @@ public class Exam implements Serializable {
 	private String note;
 
 	// bi-directional many-to-many association to Testing
-	@ManyToMany(mappedBy = "exams", cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(name = "testing_exam", joinColumns = {
+			@JoinColumn(name = "exam_id", nullable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "testing_id", nullable = false) })
 	private List<Testing> testings;
 
 	/**

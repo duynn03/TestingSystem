@@ -2,7 +2,6 @@ package com.vti.testing.controller;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -31,12 +30,12 @@ import com.vti.testing.customUser.Principal;
 import com.vti.testing.dto.Exam.ExamDto;
 import com.vti.testing.dto.Exam.User.ExamUserDto;
 import com.vti.testing.entity.Exam;
-import com.vti.testing.entity.Testing;
 import com.vti.testing.form.Exam.ExamForm;
 import com.vti.testing.service.ExamService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
 import com.vti.testing.validation.form.Exam.ExamIDExists;
+import com.vti.testing.validation.form.Exam.ExamStatusDraft;
 import com.vti.testing.validation.group.onCreate;
 
 import io.swagger.annotations.Api;
@@ -72,7 +71,7 @@ public class ExamController {
 		// get page entity
 		Page<Exam> exam = service.getAllExam(pageable, specification);
 
-		if (Principal.getRole().equals("[ROLE_MANAGER]")) {
+		if (Principal.getRoleManager()) {
 
 			// covert entity to dto
 			Page<ExamDto> dtopage = convertEntityPageToDtoPage(exam, pageable);
@@ -158,7 +157,7 @@ public class ExamController {
 	@ApiOperation(value = "Get a Exam By ID")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getExamByID(
-			@ApiParam(value = "Exam's id from which Exam object will retrieve") @ExamIDExists @PathVariable(name = "id") int id) {
+			@ApiParam(value = "Exam's id from which Exam object will retrieve") @PathVariable(name = "id") @ExamIDExists int id) {
 
 		// get exam
 		Exam exam = service.getExamById(id);
@@ -194,18 +193,10 @@ public class ExamController {
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	public ResponseEntity<?> createExam(
 			@ApiParam(value = "Form to create Exam", required = true) @Valid @RequestBody ExamForm form) {
-		// get exam by name
-		// check exam
 
 		Exam exam = modelMapper.map(form, Exam.class);
-		// set child element
-		if (exam.getTestings() != null) {
-			for (Testing testing : exam.getTestings()) {
-				testing.setExams(Arrays.asList(exam));
-			}
-		}
-
 		service.createExam(exam);
+
 		return new ResponseEntity<>("Create success!", HttpStatus.OK);
 
 	}
@@ -241,7 +232,7 @@ public class ExamController {
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasRole('ROLE_MANAGER')")
 	public ResponseEntity<?> deleteExam(
-			@ApiParam(value = "Exam's Id from which Exam object will delete from database table", required = true) @ExamIDExists @PathVariable(name = "id") int id) {
+			@ApiParam(value = "Exam's Id from which Exam object will delete from database table", required = true) @ExamStatusDraft @ExamIDExists @PathVariable(name = "id") int id) {
 		service.deleteExam(id);
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 	}

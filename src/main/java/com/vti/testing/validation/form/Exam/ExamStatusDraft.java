@@ -29,10 +29,10 @@ import javax.validation.Payload;
 @Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { ExamIDnotExistsValidator.class })
-public @interface ExamIDnotExists {
+@Constraint(validatedBy = { ExamStatusValidator.class })
+public @interface ExamStatusDraft {
 
-	String message() default "ExamForm.id.NotExists";
+	String message() default "ExamForm.id.DRAFT";
 
 	Class<?>[] groups() default {};
 
@@ -42,6 +42,6 @@ public @interface ExamIDnotExists {
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		ExamIDnotExists[] value();
+		ExamStatusDraft[] value();
 	}
 }

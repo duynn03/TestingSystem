@@ -6,16 +6,12 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.vti.testing.entity.enumerate.ExamStatus;
-import com.vti.testing.utils.Constants;
 import com.vti.testing.validation.form.Exam.ExamNamenotExists;
 import com.vti.testing.validation.group.onCreate;
-import com.vti.testing.validation.group.onUpdate;
 
 import io.swagger.annotations.ApiModel;
 
@@ -31,8 +27,6 @@ import io.swagger.annotations.ApiModel;
  */
 @ApiModel(value = "This is form when creating or updating Exam")
 public class ExamForm {
-	@Null(groups = onCreate.class)
-	private int id;
 
 	@NotBlank(message = "ExamForm.name.NotBlank")
 	@Length(max = 50, message = "ExamForm.name.Length")
@@ -51,9 +45,7 @@ public class ExamForm {
 
 	private List<TestingForm> testings;
 
-	private static int version = Constants.VERSION_STATUS;
-
-	private static ExamStatus status = Constants.EXAM_DRAFT_STATUS;;
+	private int version = 1;
 
 	/**
 	 * @return the testings
@@ -72,22 +64,6 @@ public class ExamForm {
 	 */
 	public ExamForm setTestings(List<TestingForm> testings) {
 		this.testings = testings;
-		return this;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 * @return
-	 */
-	public ExamForm setId(int id) {
-		this.id = id;
 		return this;
 	}
 
@@ -180,21 +156,7 @@ public class ExamForm {
 	 * @return
 	 */
 	public ExamForm setVersion(int version) {
-		return this;
-	}
-
-	/**
-	 * @return the status
-	 */
-	public ExamStatus getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status the status to set
-	 * @return
-	 */
-	public ExamForm setStatus(ExamStatus status) {
+		this.version = version;
 		return this;
 	}
 

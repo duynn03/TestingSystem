@@ -70,6 +70,7 @@ public class AuthorizacionServerConfiguration extends AuthorizationServerConfigu
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore)
+				// handler exception
 				.exceptionTranslator(webResponseExceptionTranslator);
 	}
 

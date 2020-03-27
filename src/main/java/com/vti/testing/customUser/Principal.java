@@ -4,7 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- * This class is .
+ * This class is get Principal in SecurityContextHolder.
  * 
  * @Description: .
  * @author: CTANH
@@ -19,6 +19,10 @@ public class Principal {
 
 		String role = ((UserDetails) principal).getAuthorities().toString();
 		return role;
+	}
+
+	public static boolean getRoleManager() {
+		return Principal.getRole().equals("[ROLE_MANAGER]");
 	}
 
 }

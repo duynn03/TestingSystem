@@ -1,8 +1,6 @@
 //
 package com.vti.testing.utils;
 
-import com.vti.testing.entity.enumerate.ExamStatus;
-
 /**
  * This class is Constants in program.
  * 
@@ -17,7 +15,5 @@ public class Constants {
 	//Exam
 	//version
 	public static int VERSION_STATUS = 1;
-	//status
-	public static ExamStatus EXAM_DRAFT_STATUS = ExamStatus.DRAFT;
 	// -----------------------------------------------------------
 }

@@ -32,7 +32,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = { ExamNameExistsValidator.class })
 public @interface ExamNameExists {
 
-	String message() default "The Exam Name does not exist yet";
+	String message() default "ExamForm.Name.Exists";
 
 	Class<?>[] groups() default {};
 

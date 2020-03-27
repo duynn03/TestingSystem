@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -85,10 +84,7 @@ public class Testing implements Serializable {
 	private List<Question> questions;
 
 	// bi-directional many-to-many association to Exam
-	@ManyToMany(cascade = CascadeType.MERGE)
-	@JoinTable(name = "testing_exam", joinColumns = {
-			@JoinColumn(name = "testing_id", nullable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "exam_id", nullable = false) })
+	@ManyToMany(mappedBy = "testings")
 	private List<Exam> exams;
 
 	/**
