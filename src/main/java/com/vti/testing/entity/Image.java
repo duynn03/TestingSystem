@@ -23,25 +23,25 @@ import org.hibernate.annotations.CreationTimestamp;
  * 
  */
 @Entity
-@Table(name = "Image")
+@Table(name = "`Image`")
 public class Image implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
+	@Column(name = "`id`", unique = true, nullable = false)
 	private short id;
 
-	@Column(name = "name", nullable = false, length = 50)
+	@Column(name = "`name`", nullable = false, length = 50)
 	private String name;
 
 	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "author_ID", nullable = false)
+	@JoinColumn(name = "`author_ID`", nullable = false)
 	private User author;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_time", nullable = false)
+	@Column(name = "`create_time`", nullable = false)
 	@CreationTimestamp
 	private Date createTime;
 
