@@ -95,6 +95,7 @@ public class GenericSpecification<T> implements Specification<T> {
 			} else {
 				return builder.notEqual(getKey(root), criteria.getValue());
 			}
+			
 		case GREATER_THAN:
 			if (criteria.getValue() instanceof Date) {
 				return builder.greaterThan(getKey(root), (Date) criteria.getValue());
