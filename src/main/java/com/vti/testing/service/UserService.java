@@ -99,4 +99,18 @@ public interface UserService {
 	 * @return boolean
 	 */
 	public boolean existsUser(int id);
+
+	/**
+	 * This method is exists By Account. 
+	 * 
+	 * @Description: .
+	 * @author: NTHung
+	 * @create_date: Mar 26, 2020
+	 * @version: 1.0
+	 * @modifer: NTHung
+	 * @modifer_date: Mar 26, 2020
+	 * @param account
+	 * @return
+	 */
+	public boolean existsByAccount(String account);
 }

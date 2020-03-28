@@ -65,7 +65,7 @@ public class GenericSpecification<T> implements Specification<T> {
 	 * persistence.criteria.Root, javax.persistence.criteria.CriteriaQuery,
 	 * javax.persistence.criteria.CriteriaBuilder)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
@@ -80,7 +80,13 @@ public class GenericSpecification<T> implements Specification<T> {
 					return builder.equal(getKey(root).as(java.sql.Date.class), date);
 				}
 			} else {
-				return builder.equal(getKey(root), criteria.getValue());
+				Path key = getKey(root);
+				// check attribute is enum
+				if (!isEnumType(key)) {
+					return builder.equal(key, criteria.getValue());
+				} else {
+					return builder.equal(key, Enum.valueOf(getKey(root).getJavaType(), criteria.getValue().toString()));
+				}
 			}
 
 		case NEGATION:
@@ -93,9 +99,15 @@ public class GenericSpecification<T> implements Specification<T> {
 					return builder.notEqual(getKey(root).as(java.sql.Date.class), date);
 				}
 			} else {
-				return builder.notEqual(getKey(root), criteria.getValue());
+				Path key = getKey(root);
+				// check attribute is enum
+				if (!isEnumType(key)) {
+					return builder.notEqual(key, criteria.getValue());
+				} else {
+					return builder.notEqual(key, Enum.valueOf(getKey(root).getJavaType(), criteria.getValue().toString()));
+				}
 			}
-			
+
 		case GREATER_THAN:
 			if (criteria.getValue() instanceof Date) {
 				return builder.greaterThan(getKey(root), (Date) criteria.getValue());
@@ -139,6 +151,23 @@ public class GenericSpecification<T> implements Specification<T> {
 		default:
 			return null;
 		}
+	}
+
+	/**
+	 * This method is checked Enum Type.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Mar 28, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 28, 2020
+	 * @param key
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	private boolean isEnumType(Path key) {
+		return key.getJavaType().isEnum() ? true : false;
 	}
 
 	/**
