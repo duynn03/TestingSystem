@@ -73,7 +73,6 @@ public class UserServiceImpl implements UserService {
 		// save user
 		updateUser(user);
 
-		repository.deleteById(id);
 	}
 
 	/*
