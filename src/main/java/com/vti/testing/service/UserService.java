@@ -112,5 +112,5 @@ public interface UserService {
 	 * @param account
 	 * @return
 	 */
-	public boolean existsByAccount(String account);
+	public boolean existsByUserName(String userName);
 }

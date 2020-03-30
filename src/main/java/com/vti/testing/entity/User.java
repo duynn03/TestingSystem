@@ -39,8 +39,8 @@ public class User implements Serializable {
 	@Column(name = "`id`", unique = true, nullable = false)
 	private int id;
 
-	@Column(name = "`account`", nullable = false, length = 50, unique = true)
-	private String account;
+	@Column(name = "`username`", nullable = false, length = 50, unique = true)
+	private String userName;
 
 	@Column(name = "`email`", nullable = false, length = 50, unique = true)
 	private String email;
@@ -149,17 +149,17 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * @return the account
+	 * @return the userName
 	 */
-	public String getAccount() {
-		return account;
+	public String getUserName() {
+		return userName;
 	}
 
 	/**
-	 * @param account the account to set
+	 * @param userName the userName to set
 	 */
-	public User setAccount(String account) {
-		this.account = account;
+	public User setUserName(String userName) {
+		this.userName = userName;
 		return this;
 	}
 

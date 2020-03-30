@@ -35,7 +35,7 @@ import com.vti.testing.form.user.UserForm;
 import com.vti.testing.service.UserService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
-import com.vti.testing.validation.form.user.UserAccountNotExists;
+import com.vti.testing.validation.form.user.UserNameNotExists;
 import com.vti.testing.validation.form.user.UserIDExists;
 import com.vti.testing.validation.group.onCreate;
 
@@ -183,17 +183,17 @@ public class UserController {
 	@ApiOperation(value = "Update a User By ID")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> updateUser(
-			@ApiParam(value = "Account's Id to update account object", required = true) @UserAccountNotExists @PathVariable(name = "id") short id,
+			@ApiParam(value = "Account's Id to update account object", required = true) @UserNameNotExists @PathVariable(name = "id") short id,
 			@RequestBody Map<String, String> body) {
 
 		// get name
 		@NotEmpty
 		@Size(max = 50)
-		String account = body.get("account");
+		String userName = body.get("username");
 
 		// convert form to entity
 		User entity = service.getUserByID(id);
-		entity.setAccount(account);
+		entity.setUserName(userName);
  
 		// update Testingcategory
 		service.updateUser(entity);

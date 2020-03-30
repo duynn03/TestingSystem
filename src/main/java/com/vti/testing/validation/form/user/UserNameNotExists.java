@@ -29,10 +29,10 @@ import javax.validation.Payload;
 @Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { UserAccountNotExistsValidator.class })
-public @interface UserAccountNotExists {
+@Constraint(validatedBy = { UserNameNotExistsValidator.class })
+public @interface UserNameNotExists {
 
-	String message() default "{UserForm.account.NotExists}";
+	String message() default "{UserForm.userName.NotExists}";
 
 	Class<?>[] groups() default {};
 
@@ -42,6 +42,6 @@ public @interface UserAccountNotExists {
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		UserAccountNotExists[] value();
+		UserNameNotExists[] value();
 	}
 }
