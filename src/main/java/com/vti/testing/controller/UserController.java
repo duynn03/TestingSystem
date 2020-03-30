@@ -183,7 +183,7 @@ public class UserController {
 	@ApiOperation(value = "Update a User By ID")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> updateUser(
-			@ApiParam(value = "Account's Id to update account object", required = true) @UserNameNotExists @PathVariable(name = "id") short id,
+			@ApiParam(value = "User's Id to update UserName object", required = true) @UserNameNotExists @PathVariable(name = "id") short id,
 			@RequestBody Map<String, String> body) {
 
 		// get name
@@ -195,7 +195,7 @@ public class UserController {
 		User entity = service.getUserByID(id);
 		entity.setUserName(userName);
 
-		// update Testingcategory
+		// update User
 		service.updateUser(entity);
 
 		return new ResponseEntity<>("Update success!", HttpStatus.OK);
