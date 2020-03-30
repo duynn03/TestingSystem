@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.util.StringUtils;
 
+import com.vti.testing.Application;
+import com.vti.testing.config.resourceproperties.searchparameter.GroupPatternProperty;
+import com.vti.testing.config.resourceproperties.searchparameter.OtherProperty;
 import com.vti.testing.utils.MethodUtil;
 
 /**
@@ -22,6 +25,10 @@ import com.vti.testing.utils.MethodUtil;
  * @modifer_date: Mar 12, 2020
  */
 public class SearchCriteria {
+
+	private OtherProperty otherProperty;
+
+	private GroupPatternProperty groupPatternProperty;
 
 	// Ex: Category.Account.id to List key
 	private List<String> keys;
@@ -46,6 +53,9 @@ public class SearchCriteria {
 	 */
 	public SearchCriteria(String key, String operation, String prefix, String value, String suffix)
 			throws ParseException {
+		otherProperty = Application.getBean(OtherProperty.class);
+		groupPatternProperty = Application.getBean(GroupPatternProperty.class);
+
 		this.operation = convertStringToSearchOperationObject(operation, prefix, suffix);
 		parseKey(key);
 		parseValue(value);
@@ -65,19 +75,19 @@ public class SearchCriteria {
 	 * @param suffix
 	 * @return
 	 */
-	public static SearchOperation convertStringToSearchOperationObject(String operation, String prefix, String suffix) {
+	private SearchOperation convertStringToSearchOperationObject(String operation, String prefix, String suffix) {
 		// convert operator from String to SearchOperation Object
 		SearchOperation op = SearchOperation.getSimpleOperation(operation);
 		if (op != null && op == SearchOperation.EQUALITY) { // the operation may be complex operation
 			final boolean isStartWithAsterisk;
-			if (!StringUtils.isEmpty(prefix) && prefix.contains(SearchOperation.WILDCARD_LIKE)) {
+			if (!StringUtils.isEmpty(prefix) && prefix.contains(otherProperty.getWildcardLike())) {
 				isStartWithAsterisk = true;
 			} else {
 				isStartWithAsterisk = false;
 			}
 
 			final boolean isEndWithAsterisk;
-			if (!StringUtils.isEmpty(suffix) && suffix.contains(SearchOperation.WILDCARD_LIKE)) {
+			if (!StringUtils.isEmpty(suffix) && suffix.contains(otherProperty.getWildcardLike())) {
 				isEndWithAsterisk = true;
 			} else {
 				isEndWithAsterisk = false;
@@ -106,8 +116,9 @@ public class SearchCriteria {
 	 * @param key
 	 */
 	private void parseKey(String key) {
-		if (key.contains(SearchOperation.LINKING_ATTRIBUTE)) {
-			this.keys = Arrays.stream(key.split(SearchOperation.LINKING_ATTRIBUTE_ENCODE)).collect(Collectors.toList());
+		if (key.contains(otherProperty.getLinkingAttribute())) {
+			this.keys = Arrays.stream(key.split(otherProperty.getLinkingAttributeEncode()))
+					.collect(Collectors.toList());
 		} else {
 			this.keys = new ArrayList<>();
 			this.keys.add(key);
@@ -127,9 +138,9 @@ public class SearchCriteria {
 	 * @throws ParseException
 	 */
 	public void parseValue(String value) throws ParseException {
-		if (MethodUtil.checkRegularExpression(value, SearchOperation.DATETIME_VALUE_PATTERN)) {
+		if (MethodUtil.checkRegularExpression(value, groupPatternProperty.getDateTimeValue())) {
 			this.value = MethodUtil.convertStringToDateTime(value);
-		} else if (MethodUtil.checkRegularExpression(value, SearchOperation.DATE_VALUE_PATTERN)) {
+		} else if (MethodUtil.checkRegularExpression(value, groupPatternProperty.getDateValue())) {
 			Date date = MethodUtil.convertStringToDate(value);
 			switch (operation) {
 			case GREATER_THAN:
@@ -145,7 +156,8 @@ public class SearchCriteria {
 				break;
 			}
 		} else {
-			this.value = value;
+			// replace character + to space
+			this.value = value.replace(".", " ");
 		}
 	}
 

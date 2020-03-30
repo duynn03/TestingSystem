@@ -5,8 +5,10 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.util.StringUtils;
 
+import com.vti.testing.Application;
+import com.vti.testing.config.resourceproperties.searchparameter.GroupPatternProperty;
+import com.vti.testing.config.resourceproperties.searchparameter.OperatorProperty;
 import com.vti.testing.specification.CriteriaParser;
-import com.vti.testing.specification.SearchOperation;
 import com.vti.testing.utils.MethodUtil;
 
 /**
@@ -21,6 +23,10 @@ import com.vti.testing.utils.MethodUtil;
  */
 public class SearchValidator implements ConstraintValidator<Search, String> {
 
+	private GroupPatternProperty groupPatternProperty;
+
+	private OperatorProperty operatorProperty;
+
 	private String message;
 
 	/*
@@ -29,6 +35,8 @@ public class SearchValidator implements ConstraintValidator<Search, String> {
 	 */
 	@Override
 	public void initialize(Search constraintAnnotation) {
+		groupPatternProperty = Application.getBean(GroupPatternProperty.class);
+		operatorProperty = Application.getBean(OperatorProperty.class);
 
 		// get default message
 		message = constraintAnnotation.message();
@@ -47,9 +55,9 @@ public class SearchValidator implements ConstraintValidator<Search, String> {
 
 		String[] tokens = data.split("\\s+");
 		for (String token : tokens) {
-			if (!CriteriaParser.OPERATORS.containsKey(token) && !token.equals(SearchOperation.LEFT_PARANTHESIS)
-					&& !token.equals(SearchOperation.RIGHT_PARANTHESIS)) {
-				if (!MethodUtil.checkRegularExpression(token, CriteriaParser.CRITERIA_REGEX)) {
+			if (!CriteriaParser.OPERATORS.containsKey(token) && !token.equals(operatorProperty.getLeftParanthesis())
+					&& !token.equals(operatorProperty.getRightParanthesis())) {
+				if (!MethodUtil.checkRegularExpression(token, groupPatternProperty.getCriteraRegex())) {
 					addTokenNotMatchingToDefaultMessage(context, token);
 					return false;
 				}
