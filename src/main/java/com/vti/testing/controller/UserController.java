@@ -35,9 +35,8 @@ import com.vti.testing.form.user.UserForm;
 import com.vti.testing.service.UserService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
-import com.vti.testing.validation.form.user.UserNameNotExists;
-import com.vti.testing.validation.form.testingcategory.TestingCategoryIDExists;
 import com.vti.testing.validation.form.user.UserIDExists;
+import com.vti.testing.validation.form.user.UserNameNotExists;
 import com.vti.testing.validation.group.onCreate;
 
 import io.swagger.annotations.Api;
@@ -216,7 +215,7 @@ public class UserController {
 	@ApiOperation(value = "Delete a User By ID")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> deleteUser(
-			@ApiParam(value = "User's Id from which User object will delete from database table", required = true) @TestingCategoryIDExists @PathVariable(name = "id") short id) {
+			@ApiParam(value = "User's Id from which User object will delete from database table", required = true) @UserIDExists @PathVariable(name = "id") int id) {
 		service.deleteUser(id);
 
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);

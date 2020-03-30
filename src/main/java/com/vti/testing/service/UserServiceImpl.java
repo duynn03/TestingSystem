@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.vti.testing.entity.User;
+import com.vti.testing.entity.enumerate.UserStatus;
 import com.vti.testing.repository.UserRepository;
 
 /**
@@ -62,6 +63,16 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public void deleteUser(int id) {
+		
+		// get current user by id
+		User user = getUserByID(id);
+		
+		// update status to block
+		user.setStatus(UserStatus.BLOCK);
+		
+		// save user
+		updateUser(user);
+		
 		repository.deleteById(id);
 	}
 
