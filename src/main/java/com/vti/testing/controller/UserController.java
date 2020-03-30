@@ -36,6 +36,7 @@ import com.vti.testing.service.UserService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
 import com.vti.testing.validation.form.user.UserNameNotExists;
+import com.vti.testing.validation.form.testingcategory.TestingCategoryIDExists;
 import com.vti.testing.validation.form.user.UserIDExists;
 import com.vti.testing.validation.group.onCreate;
 
@@ -194,7 +195,7 @@ public class UserController {
 		// convert form to entity
 		User entity = service.getUserByID(id);
 		entity.setUserName(userName);
- 
+
 		// update Testingcategory
 		service.updateUser(entity);
 
@@ -214,9 +215,10 @@ public class UserController {
 	 */
 	@ApiOperation(value = "Delete a User By ID")
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteUser() {
+	public ResponseEntity<?> deleteUser(
+			@ApiParam(value = "User's Id from which User object will delete from database table", required = true) @TestingCategoryIDExists @PathVariable(name = "id") short id) {
+		service.deleteUser(id);
 
 		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 	}
-
 }
