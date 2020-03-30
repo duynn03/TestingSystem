@@ -18,24 +18,27 @@ import com.vti.testing.entity.enumerate.Role;
  */
 
 public class UserDto {
-	private String account;
+	private String userName;
 	private String email;
 	private String fullname;
+	private String birthday;
+	private String address;
+	private String phone;
 	private Gender gender;
 	private Role role;
 
 	/**
-	 * @return the account
+	 * @return the userName
 	 */
-	public String getAccount() {
-		return account;
+	public String getUserName() {
+		return userName;
 	}
 
 	/**
-	 * @param account the account to set
+	 * @param userName the userName to set
 	 */
-	public UserDto setAccount(String account) {
-		this.account = account;
+	public UserDto setUserName(String userName) {
+		this.userName = userName;
 		return this;
 	}
 
@@ -96,6 +99,51 @@ public class UserDto {
 	 */
 	public UserDto setRole(Role role) {
 		this.role = role;
+		return this;
+	}
+
+	/**
+	 * @return the birthday
+	 */
+	public String getBirthday() {
+		return birthday;
+	}
+
+	/**
+	 * @param birthday the birthday to set
+	 */
+	public UserDto setBirthday(String birthday) {
+		this.birthday = birthday;
+		return this;
+	}
+
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address the address to set
+	 */
+	public UserDto setAddress(String address) {
+		this.address = address;
+		return this;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+
+	/**
+	 * @param phone the phone to set
+	 */
+	public UserDto setPhone(String phone) {
+		this.phone = phone;
 		return this;
 	}
 
