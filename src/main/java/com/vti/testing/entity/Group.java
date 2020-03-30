@@ -18,6 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 
 /**
  * The persistent class for the group database table.
@@ -54,6 +55,12 @@ public class Group implements Serializable {
 	@OneToMany(mappedBy = "group")
 	private List<UserGroup> userGroups;
 
+	@Formula(
+			"(	SELECT 	COUNT(*) "
+			+ "	FROM 	User_Group UG "
+			+ "	WHERE 	UG.group_id = id )")
+	private int memberTotal;
+	
 	/**
 	 * Constructor for class Group.
 	 * 
@@ -156,5 +163,22 @@ public class Group implements Serializable {
 		this.userGroups = userGroups;
 		return this;
 	}
+
+	/**
+	 * @return the memberTotal
+	 */
+	public int getMemberTotal() {
+		return memberTotal;
+	}
+
+	/**
+	 * @param memberTotal the memberTotal to set
+	 */
+	public Group setMemberTotal(int memberTotal) {
+		this.memberTotal = memberTotal;
+		return this;
+	}
+	
+	
 
 }
