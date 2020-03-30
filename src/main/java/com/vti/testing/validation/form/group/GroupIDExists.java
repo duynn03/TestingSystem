@@ -16,8 +16,6 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.vti.testing.validation.form.testingcategory.TestingCategoryIDExists;
-
 /**
  * This interface is a annotation bean validation.
  * 
@@ -33,7 +31,7 @@ import com.vti.testing.validation.form.testingcategory.TestingCategoryIDExists;
 @Documented
 @Constraint(validatedBy = { GroupIDExistsValidator.class })
 public @interface GroupIDExists {
-	String message() default "{TestingCategoryForm.id.Exists}";
+	String message() default "{GroupForm.id.Exists}";
 
 	Class<?>[] groups() default {};
 
@@ -43,7 +41,7 @@ public @interface GroupIDExists {
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		TestingCategoryIDExists[] value();
+		GroupIDExists[] value();
 	}
 
 }

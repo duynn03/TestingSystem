@@ -3,6 +3,7 @@ package com.vti.testing.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.vti.testing.entity.Group;
 
@@ -29,7 +30,7 @@ public interface GroupService {
 	 * @param pageable
 	 * @return
 	 */
-	public Page<Group> getAllGroup(Pageable pageable);
+	public Page<Group> getAllGroup(Specification<Group> specification, Pageable pageable);
 
 	/**
 	 * 
@@ -60,5 +61,20 @@ public interface GroupService {
 	 * @return
 	 */
 	public boolean existsGroup(String name);
+
+	/**
+	 * 
+	 * This method is checked Group by id.
+	 * 
+	 * @Description: .
+	 * @author: NAToan
+	 * @create_date: Mar 27, 2020
+	 * @version: 1.0
+	 * @modifer: NAToan
+	 * @modifer_date: Mar 27, 2020
+	 * @param id
+	 * @return
+	 */
+	public Group getGroupByID(int id);
 
 }

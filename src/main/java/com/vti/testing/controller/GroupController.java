@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,22 +23,22 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vti.testing.dto.testingcategory.GroupDto;
-import com.vti.testing.dto.testingcategory.TestingCategoryDto;
+import com.vti.testing.dto.group.GroupDto;
 import com.vti.testing.entity.Group;
-import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.service.GroupService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
 import com.vti.testing.validation.form.group.GroupIDExists;
-import com.vti.testing.validation.form.testingcategory.TestingCategoryIDExists;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+@Api(value = "Group Management", description = "Including API to manipulate Group")
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/api/v1/groups")
+@Validated
 public class GroupController {
 	@Autowired
 	private GroupService service;
@@ -52,13 +50,14 @@ public class GroupController {
 	 * This method is got all Group.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
+	 * @author: NAToan
 	 * @create_date: Dec 7, 2019
 	 * @version: 1.0
-	 * @modifer: NNDuy
+	 * @modifer: NAToan
 	 * @modifer_date: Dec 7, 2019
-	 * @return List<Question>
+	 * @return List<Group>
 	 */
+	@ApiOperation(value = "View a list of available Group", response = Page.class)
 	@GetMapping()
 	public ResponseEntity<Page<?>> getAllGroups(Pageable pageable, @Search String search) throws ParseException {
 
@@ -66,7 +65,7 @@ public class GroupController {
 		Specification<Group> specification = SpecificationTemplate.buildSpecification(search);
 
 		// get page entity
-		Page<Group> entityPage = service.getAllGroup(pageable);
+		Page<Group> entityPage = service.getAllGroup(specification,   pageable);
 
 		// Convert entity to dto
 		Page<GroupDto> dtoPage = convertEntityPageToDtoPage(entityPage, pageable);
@@ -93,23 +92,23 @@ public class GroupController {
 	 * This method is got Group by ID.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
+	 * @author: NAToan
 	 * @create_date: Dec 7, 2019
 	 * @version: 1.0
-	 * @modifer: NNDuy
+	 * @modifer: NAToan
 	 * @modifer_date: Dec 7, 2019
 	 * @param id
-	 * @return Question
+	 * @return Group
 	 */
 	@ApiOperation(value = "Get a Group By ID")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getGroupByID(
-			@ApiParam(value = "Group Controller's id from which Group Controller object will retrieve") @GroupIDExists @PathVariable(name = "id") short id) {
+			@ApiParam(value = "Group's id from which Group object will retrieve") @GroupIDExists @PathVariable(name = "id") int id) {
 		// get entity
-		TestingCategory entity = service.getGroupByID(id);
+		Group entity = service.getGroupByID(id);
 
 		// convert entity to dto
-		TestingCategoryDto dto = modelMapper.map(entity, TestingCategoryDto.class);
+		GroupDto dto = modelMapper.map(entity, GroupDto.class);
 
 		// return result
 		return new ResponseEntity<>(dto, HttpStatus.OK);
@@ -120,10 +119,10 @@ public class GroupController {
 	 * This method is created Group.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
+	 * @author: NAToan
 	 * @create_date: Dec 7, 2019
 	 * @version: 1.0
-	 * @modifer: NNDuy
+	 * @modifer: NAToan
 	 * @modifer_date: Dec 7, 2019
 	 * @param form
 	 */
@@ -136,10 +135,10 @@ public class GroupController {
 	 * This method is updated Group.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
+	 * @author: NAToan
 	 * @create_date: Dec 13, 2019
 	 * @version: 1.0
-	 * @modifer: NNDuy
+	 * @modifer: NAToan
 	 * @modifer_date: Dec 13, 2019
 	 * @param form
 	 */
@@ -153,10 +152,10 @@ public class GroupController {
 	 * This method is deleted Group.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
+	 * @author: NAToan
 	 * @create_date: Dec 13, 2019
 	 * @version: 1.0
-	 * @modifer: NNDuy
+	 * @modifer: NAToan
 	 * @modifer_date: Dec 13, 2019
 	 * @param id
 	 */

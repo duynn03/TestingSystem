@@ -1,4 +1,3 @@
-//
 package com.vti.testing.validation.form.group;
 
 import javax.validation.ConstraintValidator;
@@ -18,13 +17,13 @@ import com.vti.testing.service.GroupService;
  * @modifer: NAToan
  * @modifer_date: Mar 25, 2020
  */
-public class GroupIDExistsValidator implements ConstraintValidator<GroupIDExists, Short> {
+public class GroupIDExistsValidator implements ConstraintValidator<GroupIDExists, Integer> {
 
 	@Autowired
 	private GroupService service;
 
 	@Override
-	public boolean isValid(Short data, ConstraintValidatorContext constraintValidatorContext) {
+	public boolean isValid(Integer data, ConstraintValidatorContext constraintValidatorContext) {
 
 		if (data <= 0) {
 			return false;

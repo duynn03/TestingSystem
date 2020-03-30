@@ -1,4 +1,3 @@
-//
 package com.vti.testing.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -6,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.vti.testing.entity.Group;
 
 /**
- * This class is . 
+ * This class is group repository.
  * 
  * @Description: .
  * @author: NATOAN
@@ -15,6 +14,19 @@ import com.vti.testing.entity.Group;
  * @modifer: NAToan
  * @modifer_date: Mar 12, 2020
  */
-public interface GroupRepository extends JpaRepository<Group, Short> {
+public interface GroupRepository extends JpaRepository<Group, Integer> {
 
+	/**
+	 * This method is checked Group exists by name
+	 * 
+	 * @Description: .
+	 * @author: NAToan
+	 * @create_date: Jan 15, 2020
+	 * @version: 1.0
+	 * @modifer: NAToan
+	 * @modifer_date: Jan 15, 2020
+	 * @param name
+	 * @return boolean
+	 */
+	public boolean existsByName(String name);
 }
