@@ -9,7 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-import com.vti.testing.validation.form.user.UserAccountNotExists;
+import com.vti.testing.validation.form.user.UserNameNotExists;
 import com.vti.testing.validation.group.onCreate;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -27,11 +27,11 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class UserForm {
 
-	@ApiModelProperty(notes = "The User's Account")
-	@NotEmpty(message = "{UserForm.account.NotEmpty}", groups = onCreate.class)
-	@UserAccountNotExists(groups = onCreate.class)
-	@Size(min = 6, max = 50, message = "{UserForm.account.NotEmpty.Size}", groups = onCreate.class)
-	private String account;
+	@ApiModelProperty(notes = "The User's userName")
+	@NotEmpty(message = "{UserForm.userName.NotEmpty}", groups = onCreate.class)
+	@UserNameNotExists(groups = onCreate.class)
+	@Size(min = 6, max = 50, message = "{UserForm.userName.NotEmpty.Size}", groups = onCreate.class)
+	private String userName;
 
 	@ApiModelProperty(notes = "The User's Email")
 	@NotEmpty(message = "{UserForm.email.NotEmpty}", groups = onCreate.class)
@@ -74,17 +74,17 @@ public class UserForm {
 	private String role;
 
 	/**
-	 * @return the account
+	 * @return the userName
 	 */
-	public String getAccount() {
-		return account;
+	public String getUserName() {
+		return userName;
 	}
 
 	/**
-	 * @param account the account to set
+	 * @param userName the userName to set
 	 */
-	public UserForm setAccount(String account) {
-		this.account = account;
+	public UserForm setUserName(String userName) {
+		this.userName = userName;
 		return this;
 	}
 
