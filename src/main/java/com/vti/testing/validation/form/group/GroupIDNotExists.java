@@ -36,7 +36,7 @@ import javax.validation.Payload;
 public @interface GroupIDNotExists {
 	String message()
 
-	default "{QuestionCategoryForm.id.NotExists}";
+	default "{GroupForm.id.NotExists}";
 
 	Class<?>[] groups() default {};
 
