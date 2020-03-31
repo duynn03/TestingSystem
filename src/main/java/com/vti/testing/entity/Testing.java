@@ -30,53 +30,58 @@ import com.vti.testing.entity.enumerate.TestingStatus;
  * 
  */
 @Entity
-@Table(name = "Testing")
+@Table(name = "`Testing`")
 public class Testing implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+<<<<<<< HEAD
 	@Column(unique = true, nullable = false)
 	private Short id;
+=======
+	@Column(name = "`id`", unique = true, nullable = false)
+	private int id;
+>>>>>>> develop
 
-	@Column(name = "name", nullable = false, length = 200)
+	@Column(name = "`name`", nullable = false, length = 200)
 	private String name;
 
 	// bi-directional many-to-one association to QuestionCategory
 	@ManyToOne
-	@JoinColumn(name = "Testing_Category_ID", nullable = false)
+	@JoinColumn(name = "`Testing_Category_ID`", nullable = false)
 	private TestingCategory testingCategory;
 
-	@Column(name = "time", nullable = false)
+	@Column(name = "`time`", nullable = false)
 	private short time;
 
-	@Column(name = "generation_Type", nullable = false)
+	@Column(name = "`generation_Type`", nullable = false)
 	private GenerationTypeTesting generationType;
 
-	@Column(name = "version", nullable = false, columnDefinition = "int default 1")
+	@Column(name = "`version`", nullable = false, columnDefinition = "int default 1")
 	private int version;
 
 	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "status", nullable = false)
+	@Column(name = "`status`", nullable = false)
 	private TestingStatus status = TestingStatus.DRAFT;
 
 	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "examiner_ID", nullable = false)
+	@JoinColumn(name = "`examiner_ID`", nullable = false)
 	private User examiner;
 
 	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "author_ID", nullable = false)
+	@JoinColumn(name = "`author_ID`", nullable = false)
 	private User author;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_time", nullable = false)
+	@Column(name = "`create_time`", nullable = false)
 	@CreationTimestamp
 	private Date createTime;
 
 	@Lob
-	@Column(name = "note")
+	@Column(name = "`note`")
 	private String note;
 
 	// bi-directional many-to-many association to Question
@@ -85,9 +90,9 @@ public class Testing implements Serializable {
 
 	// bi-directional many-to-many association to Exam
 	@ManyToMany
-	@JoinTable(name = "testing_exam", joinColumns = {
-			@JoinColumn(name = "testing_id", nullable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "exam_id", nullable = false) })
+	@JoinTable(name = "`testing_exam`", joinColumns = {
+			@JoinColumn(name = "`testing_id`", nullable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "`exam_id`", nullable = false) })
 	private List<Exam> exams;
 
 	/**

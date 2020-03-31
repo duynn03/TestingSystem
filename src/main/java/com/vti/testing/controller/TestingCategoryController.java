@@ -129,7 +129,7 @@ public class TestingCategoryController {
 	 * @param id
 	 * @return TestingCategory
 	 */
-	@ApiOperation(value = "Get a Testing Category By ID")
+	@ApiOperation(value = "Get a Testing Category By ID", response = TestingCategoryDto.class)
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getTestingCategoryByID(
 			@ApiParam(value = "Testing Category's id from which Testing Category object will retrieve") @TestingCategoryIDExists @PathVariable(name = "id") short id) {

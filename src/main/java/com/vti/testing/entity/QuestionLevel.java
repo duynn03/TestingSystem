@@ -18,16 +18,16 @@ import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.IgnoreF
  * 
  */
 @Entity
-@Table(name = "Question_Level")
+@Table(name = "`Question_Level`")
 public class QuestionLevel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
+	@Column(name = "`id`", unique = true, nullable = false)
 	private short id;
 
-	@Column(name = "level", nullable = false, length = 20)
+	@Column(name = "`level`", nullable = false, length = 20)
 	private String level;
 
 	// bi-directional many-to-one association to Question

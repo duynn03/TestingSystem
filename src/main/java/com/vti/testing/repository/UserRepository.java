@@ -17,4 +17,18 @@ import com.vti.testing.entity.User;
  */
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
 
+	
+	/**
+	 * This method is . 
+	 * 
+	 * @Description: .
+	 * @author: NTHung
+	 * @create_date: Mar 27, 2020
+	 * @version: 1.0
+	 * @modifer: NTHung
+	 * @modifer_date: Mar 27, 2020
+	 * @param account
+	 * @return
+	 */
+	public boolean existsByUserName(String userName);
 }

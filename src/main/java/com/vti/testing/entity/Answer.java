@@ -17,30 +17,34 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "Answer")
+@Table(name = "`Answer`")
 public class Answer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
+	@Column(name = "`id`", unique = true, nullable = false)
 	private int id;
 
 	// bi-directional many-to-one association to Question
 	@ManyToOne
-	@JoinColumn(name = "question_ID", nullable = false)
+	@JoinColumn(name = "`question_ID`", nullable = false)
 	private Question question;
 
 	@Lob
+<<<<<<< HEAD
 	@Column(nullable = false,name = "`key`")
+=======
+	@Column(name = "`key`", nullable = false)
+>>>>>>> develop
 	private String key;
 
-	@Column(name = "is_correct", nullable = false, columnDefinition = "boolean default false")
+	@Column(name = "`is_correct`", nullable = false, columnDefinition = "boolean default false")
 	private boolean isCorrect;
 
 	// bi-directional many-to-one association to Image
 	@ManyToOne
-	@JoinColumn(name = "Image_ID")
+	@JoinColumn(name = "`Image_ID`")
 	private Image image;
 
 	/**

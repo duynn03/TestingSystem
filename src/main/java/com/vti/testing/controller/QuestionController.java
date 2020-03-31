@@ -7,7 +7,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeToken;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +36,9 @@ import com.vti.testing.service.QuestionService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
 import com.vti.testing.validation.form.question.QuestionIDExists;
+import com.vti.testing.validation.group.onCreate;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @CrossOrigin("*")
@@ -63,6 +65,7 @@ public class QuestionController {
 	 * @param pageable
 	 * @return
 	 */
+	@ApiOperation(value = "View a list of available Question", response = Page.class)
 	@GetMapping()
 	public ResponseEntity<Page<?>> getAllQuestions(Pageable pageable, @Search String search) throws ParseException {
 
@@ -121,6 +124,7 @@ public class QuestionController {
 	 * @param id
 	 * @return
 	 */
+	@ApiOperation(value = "Get a Question By ID")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getQuestionByID(@QuestionIDExists @PathVariable(name = "id") short id) {
 		// get entity
@@ -147,7 +151,9 @@ public class QuestionController {
 	 * @param form
 	 * @return
 	 */
+	@ApiOperation(value = "Add a Question")
 	@PostMapping()
+	@Validated(onCreate.class)
 	public ResponseEntity<?> createQuestion(
 			@ApiParam(value = "Form to create Question", required = true) @Valid @RequestBody QuestionForm form) {
 
@@ -181,6 +187,7 @@ public class QuestionController {
 	 * @param form
 	 * @return
 	 */
+	@ApiOperation(value = "Update Question title")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> updateQuestion(@PathVariable(name = "id") short id, @RequestBody QuestionForm form) {
 
@@ -235,6 +242,7 @@ public class QuestionController {
 	 * @param id
 	 * @return
 	 */
+	@ApiOperation(value = "Delete a Question By ID")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> deleteQuestion(@PathVariable(name = "id") short id) {
 		if (service.deleteQuestion(id) == true) {
