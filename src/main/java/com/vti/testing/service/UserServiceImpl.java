@@ -80,11 +80,16 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public boolean existsUser(int id) {
-		return repository.existsById(id);
+		return repository.existsByIdAndStatus(id, UserStatus.ACTIVE);
 	}
 
 	@Override
 	public boolean existsByUserName(String userName) {
 		return repository.existsByUserName(userName);
+	}
+
+	@Override
+	public boolean existsByEmail(String email) {
+		return repository.existsByEmail(email);
 	}
 }

@@ -3,11 +3,8 @@ package com.vti.testing.controller;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -36,8 +33,8 @@ import com.vti.testing.service.UserService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
 import com.vti.testing.validation.form.user.UserIDExists;
-import com.vti.testing.validation.form.user.UserNameNotExists;
 import com.vti.testing.validation.group.onCreate;
+import com.vti.testing.validation.group.onUpdate;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -101,7 +98,7 @@ public class UserController {
 	 * @return
 	 */
 	private Page<UserDto> convertEntityPageToDtoPage(Page<User> entityPage, Pageable pageable) {
-		// get list TestingCategory
+		// get list user
 		List<User> entities = entityPage.getContent();
 
 		// create conversion type
@@ -182,18 +179,13 @@ public class UserController {
 	 */
 	@ApiOperation(value = "Update a User By ID")
 	@PutMapping(value = "/{id}")
+	@Validated(onUpdate.class)
 	public ResponseEntity<?> updateUser(
-			@ApiParam(value = "User's Id to update UserName object", required = true) @UserNameNotExists @PathVariable(name = "id") short id,
-			@RequestBody Map<String, String> body) {
+			@ApiParam(value = "User's Id to update UserName object", required = true) @UserIDExists @PathVariable(name = "id") int id,
+			@Valid @RequestBody UserForm form) {
 
-		// get name
-		@NotEmpty
-		@Size(max = 50)
-		String userName = body.get("username");
-
-		// convert form to entity
-		User entity = service.getUserByID(id);
-		entity.setUserName(userName);
+		User entity = modelMapper.map(form, User.class);
+		entity.setId(id);
 
 		// update User
 		service.updateUser(entity);
