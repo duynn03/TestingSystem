@@ -2,6 +2,7 @@ package com.vti.testing.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class Answer implements Serializable {
 	private int id;
 
 	// bi-directional many-to-one association to Question
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "`question_ID`", nullable = false)
 	private Question question;
 

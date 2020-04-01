@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -51,7 +52,7 @@ public class QuestionCategory implements Serializable {
 	private Date createTime;
 
 	// bi-directional many-to-one association to Question
-	@OneToMany(mappedBy = "questionCategory")
+	@OneToMany(mappedBy = "questionCategory",cascade = CascadeType.ALL)
 	private List<Question> questions;
 
 	/**

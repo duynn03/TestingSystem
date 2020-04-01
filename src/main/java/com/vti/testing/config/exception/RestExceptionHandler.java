@@ -36,13 +36,13 @@ import com.vti.testing.config.exception.customobject.ApiErrorResponse;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-	
+
 	// default exception
 	@ExceptionHandler({ Exception.class })
 	public ResponseEntity<Object> handleAll(Exception exception) {
 		return buildResponseEntity(new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, exception));
 	}
-	
+
 	// not found entity (getByID not found)
 	@ExceptionHandler(EntityNotFoundException.class)
 	public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException exception) {
@@ -51,43 +51,50 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 	// not found url handler
 	@Override
-	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException exception, 
+	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException exception,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return buildResponseEntity(new ApiErrorResponse(HttpStatus.NOT_FOUND, exception));
 	}
-	
+
 	// not support HTTP Method
 	@Override
-	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException exception, 
-	  HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
+			HttpRequestMethodNotSupportedException exception, HttpHeaders headers, HttpStatus status,
+			WebRequest request) {
 		return buildResponseEntity(new ApiErrorResponse(HttpStatus.METHOD_NOT_ALLOWED, exception));
 	}
-	
+
 	// not support media type
 	@Override
-	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException exception, 
-	  HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException exception,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return buildResponseEntity(new ApiErrorResponse(HttpStatus.UNSUPPORTED_MEDIA_TYPE, exception));
 	}
-	
+
 	// BindException: This exception is thrown when fatal binding errors occur.
-	// MethodArgumentNotValidException: This exception is thrown when argument annotated with @Valid failed validation:
+	// MethodArgumentNotValidException: This exception is thrown when argument
+	// annotated with @Valid failed validation:
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		return buildResponseEntity(new ApiErrorResponse(HttpStatus.BAD_REQUEST, exception));
 	}
 
-	// MissingServletRequestPartException: This exception is thrown when when the part of a multipart request not found
-	// MissingServletRequestParameterException: This exception is thrown when request missing parameter:
+	// MissingServletRequestPartException: This exception is thrown when when the
+	// part of a multipart request not found
+	// MissingServletRequestParameterException: This exception is thrown when
+	// request missing parameter:
 	@Override
-	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException exception,
-			HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleMissingServletRequestParameter(
+			MissingServletRequestParameterException exception, HttpHeaders headers, HttpStatus status,
+			WebRequest request) {
 		return buildResponseEntity(new ApiErrorResponse(HttpStatus.BAD_REQUEST, exception));
 	}
 
-	// TypeMismatchException: This exception is thrown when try to set bean property with wrong type.
-	// MethodArgumentTypeMismatchException: This exception is thrown when method argument is not the expected type:
+	// TypeMismatchException: This exception is thrown when try to set bean property
+	// with wrong type.
+	// MethodArgumentTypeMismatchException: This exception is thrown when method
+	// argument is not the expected type:
 	@ExceptionHandler({ MethodArgumentTypeMismatchException.class })
 	public ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException exception) {
 		return buildResponseEntity(new ApiErrorResponse(HttpStatus.BAD_REQUEST, exception));
@@ -100,9 +107,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	// Spring Security
+	// Access Denied
 	@ExceptionHandler(AccessDeniedException.class)
 	public ResponseEntity<Object> AccessDeniedException(AccessDeniedException exception) {
-		// TODO Message
 		return buildResponseEntity(new ApiErrorResponse(HttpStatus.FORBIDDEN, exception));
 	}
 

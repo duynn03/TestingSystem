@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,7 +39,7 @@ public class Group implements Serializable {
 	private String name;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "`author_ID`", nullable = false)
 	private User author;
 
@@ -48,11 +49,11 @@ public class Group implements Serializable {
 	private Date createTime;
 
 	// bi-directional many-to-many association to User
-	@ManyToMany(mappedBy = "groups")
+	@ManyToMany(mappedBy = "groups",cascade = CascadeType.ALL)
 	private List<User> users;
 
 	// bi-directional many-to-one association to UserGroup
-	@OneToMany(mappedBy = "group")
+	@OneToMany(mappedBy = "group",cascade = CascadeType.ALL)
 	private List<UserGroup> userGroups;
 
 	@Formula(

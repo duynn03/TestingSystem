@@ -1,5 +1,6 @@
 # Compiled class file
-*.class
+*.class 
+*.project
 
 # Log file
 *.log
@@ -9,6 +10,12 @@
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
+# Setting
+.settings/org.eclipse.jdt.core.prefs/
+.settings/org.eclipse.m2e.core.prefs/
+.sts4-cache/classpath-data.json/
+.settings/
 
 # Package Files #
 *.jar
