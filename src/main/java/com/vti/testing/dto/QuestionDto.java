@@ -1,6 +1,5 @@
 package com.vti.testing.dto;
 
-
 import com.vti.testing.entity.enumerate.QuestionStatus;
 
 /**
@@ -15,7 +14,7 @@ import com.vti.testing.entity.enumerate.QuestionStatus;
  * @modifer_date: Mar 5, 2020
  */
 public class QuestionDto {
-
+	private int id;
 	private QuestionCategoryDto questionCategory;
 	private String title;
 	private TestingCategoryDto testingCategory;
@@ -23,6 +22,20 @@ public class QuestionDto {
 	private int version;
 	private UserDto author;
 	private QuestionStatus status;
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	/**
 	 * @return the testingCategory

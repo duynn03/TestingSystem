@@ -56,7 +56,7 @@ public class QuestionServiceImpl implements QuestionService {
 	 * @see com.vti.testing.service.QuestionService#getQuestionByID(short)
 	 */
 	@Override
-	public Question getQuestionByID(short id) {
+	public Question getQuestionByID(Short id) {
 
 		return repository.findById(id).get();
 	}

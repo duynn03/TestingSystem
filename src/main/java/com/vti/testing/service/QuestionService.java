@@ -50,7 +50,7 @@ public interface QuestionService {
 	 * @param id
 	 * @return
 	 */
-	public Question getQuestionByID(short id);
+	public Question getQuestionByID(Short id);
 
 	/**
 	 * 

@@ -31,12 +31,7 @@ public class Answer implements Serializable {
 	@JoinColumn(name = "`question_ID`", nullable = false)
 	private Question question;
 
-	@Lob
-<<<<<<< HEAD
-	@Column(nullable = false,name = "`key`")
-=======
 	@Column(name = "`key`", nullable = false)
->>>>>>> develop
 	private String key;
 
 	@Column(name = "`is_correct`", nullable = false, columnDefinition = "boolean default false")

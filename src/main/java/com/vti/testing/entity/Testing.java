@@ -36,13 +36,8 @@ public class Testing implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-<<<<<<< HEAD
-	@Column(unique = true, nullable = false)
-	private Short id;
-=======
 	@Column(name = "`id`", unique = true, nullable = false)
 	private int id;
->>>>>>> develop
 
 	@Column(name = "`name`", nullable = false, length = 200)
 	private String name;

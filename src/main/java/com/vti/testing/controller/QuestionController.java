@@ -3,8 +3,11 @@ package com.vti.testing.controller;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -126,10 +129,11 @@ public class QuestionController {
 	 */
 	@ApiOperation(value = "Get a Question By ID")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getQuestionByID(@QuestionIDExists @PathVariable(name = "id") short id) {
+	public ResponseEntity<?> getQuestionByID(
+			@ApiParam(value = "Get question by id") @QuestionIDExists @PathVariable(name = "id") short id) {
 		// get entity
 		Question entity = service.getQuestionByID(id);
-
+		// used to match source properties to destination properties.
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		// convert entity to dto
 		QuestionDto dto = modelMapper.map(entity, QuestionDto.class);
@@ -189,39 +193,19 @@ public class QuestionController {
 	 */
 	@ApiOperation(value = "Update Question title")
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateQuestion(@PathVariable(name = "id") short id, @RequestBody QuestionForm form) {
+	public ResponseEntity<?> updateQuestion(@PathVariable(name = "id") short id,
+			@RequestBody Map<String, String> body) {
+
+		// get title
+		@NotEmpty
+		String title = body.get("title");
 
 		// convert form to entity
-		Question entity = modelMapper.map(form, Question.class);
+		Question entity = service.getQuestionByID(id);
+		entity.setTitle(title);
 
-		// get question by id
-		Question question = service.getQuestionByID(id);
+		service.updateQuestion(entity);
 
-		// Record data of fields that are not changed
-		entity.setId(id).setAuthor(question.getAuthor()).setCreateTime(question.getCreateTime())
-				.setVersion(question.getVersion() + 1);
-
-		if (null == entity.getTitle()) {
-			entity.setTitle(question.getTitle());
-		}
-		if (null == entity.getAnswers()) {
-			entity.setAnswers(question.getAnswers());
-		}
-		if (null == entity.getType()) {
-			entity.setType(question.getType());
-		}
-		if (null == entity.getQuestionCategory()) {
-			entity.setQuestionCategory(question.getQuestionCategory());
-		}
-		if (null == entity.getStatus()) {
-			entity.setStatus(question.getStatus());
-		}
-		if (null == entity.getQuestionLevel()) {
-			entity.setQuestionLevel(question.getQuestionLevel());
-		}
-		if (null == entity.getImage()) {
-			entity.setImage(question.getImage());
-		}
 		// update Testingcategory
 		service.updateQuestion(entity);
 

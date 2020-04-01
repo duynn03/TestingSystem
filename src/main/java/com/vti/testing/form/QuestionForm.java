@@ -4,11 +4,16 @@ package com.vti.testing.form;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.vti.testing.entity.QuestionLevel;
 import com.vti.testing.entity.enumerate.QuestionStatus;
 import com.vti.testing.entity.enumerate.QuestionType;
 import com.vti.testing.form.testingcategory.QuestionCategoryForm;
 import com.vti.testing.form.testingcategory.TestingCategoryForm;
+import com.vti.testing.validation.group.onCreate;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * This class is form create question.
@@ -22,10 +27,13 @@ import com.vti.testing.form.testingcategory.TestingCategoryForm;
  */
 public class QuestionForm {
 
-	private Short id;
+	private int id;
 	private TestingCategoryForm testingCategory;
 	private QuestionCategoryForm questionCategory;
 	private QuestionLevel level;
+	
+	@ApiModelProperty(notes = "The Question Title")
+	@NotEmpty(message = "{Question.title.NotEmpty}", groups = onCreate.class)
 	private String title;
 	private List<AnswerForm> answers;
 	private ImageForm image;
@@ -54,7 +62,7 @@ public class QuestionForm {
 	/**
 	 * @return the id
 	 */
-	public Short getId() {
+	public int getId() {
 		return id;
 	}
 

@@ -38,13 +38,9 @@ public class Question implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-<<<<<<< HEAD
-	@Column(unique = true, nullable = false)
-	private Short id;
-=======
+
 	@Column(name = "`id`", unique = true, nullable = false)
 	private int id;
->>>>>>> develop
 
 	@Lob
 	@Column(name = "`title`", nullable = false)
@@ -112,7 +108,7 @@ public class Question implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Short getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -271,7 +267,7 @@ public class Question implements Serializable {
 	 */
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
-		
+
 	}
 
 	/**
@@ -288,7 +284,5 @@ public class Question implements Serializable {
 		this.testings = testings;
 		return this;
 	}
-
-
 
 }

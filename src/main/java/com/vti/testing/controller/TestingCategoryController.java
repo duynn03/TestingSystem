@@ -1,4 +1,4 @@
- package com.vti.testing.controller;
+package com.vti.testing.controller;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -191,7 +191,8 @@ public class TestingCategoryController {
 	@ApiOperation(value = "Update Testing Category's Name")
 	@PutMapping(value = "/{id}/name")
 	public ResponseEntity<?> updateTestingCategoryByName(
-			@ApiParam(value = "Testing Category's Id to update TestingCategory object", required = true) @TestingCategoryIDExists @PathVariable(name = "id") short id,
+			@ApiParam(value = "Testing Category's Id to update TestingCategory object", required = true) 
+			@TestingCategoryIDExists @PathVariable(name = "id") short id,
 			@RequestBody Map<String, String> body) {
 
 		// get name
