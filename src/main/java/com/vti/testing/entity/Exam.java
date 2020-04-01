@@ -22,6 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -54,7 +55,7 @@ public class Exam implements Serializable {
 	private Date endTime;
 
 	@Column(name = "version", nullable = false)
-	private int version=Constants.VERSION_STATUS;
+	private int version = Constants.VERSION_STATUS;
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "status", nullable = false)
@@ -81,6 +82,27 @@ public class Exam implements Serializable {
 			@JoinColumn(name = "exam_id", nullable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "testing_id", nullable = false) })
 	private List<Testing> testings;
+
+	@Formula(value = "( SELECT COUNT(1)"
+			+ " FROM testingsystem.Exam"
+			+ " JOIN testingsystem.testing_exam ON testing_exam.exam_id=Exam.id"
+			+ " WHERE testing_exam.exam_id=id )")
+	private int testingTotal;
+
+	/**
+	 * @return the testingTotal
+	 */
+	public int getTestingTotal() {
+		return testingTotal;
+	}
+
+	/**
+	 * @param testingTotal the testingTotal to set
+	 */
+	public Exam setTestingTotal(int testingTotal) {
+		this.testingTotal = testingTotal;
+		return this;
+	}
 
 	/**
 	 * Constructor for class Exam.

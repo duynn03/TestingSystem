@@ -27,6 +27,22 @@ public class ExamDto {
 	private int version;
 	private Date createTime;
 	private List<TestingDto> testings;
+	private int testingTotal;
+
+	/**
+	 * @return the testingTotal
+	 */
+	public int getTestingTotal() {
+		return testingTotal;
+	}
+
+	/**
+	 * @param testingTotal the testingTotal to set
+	 */
+	public ExamDto setTestingTotal(int testingTotal) {
+		this.testingTotal = testingTotal;
+		return this;
+	}
 
 	/**
 	 * @return the id

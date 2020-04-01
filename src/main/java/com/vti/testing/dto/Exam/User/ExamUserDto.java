@@ -2,7 +2,6 @@
 package com.vti.testing.dto.Exam.User;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * This class is Exam Dto in ROLE MANAGER.
@@ -19,21 +18,21 @@ public class ExamUserDto {
 	private String name;
 	private Date startTime;
 	private Date endTime;
-	private List<TestingUserDto> testings;
+	private int testingTotal;
 
 	/**
-	 * @return the testings
+	 * @return the testingTotal
 	 */
-	public List<TestingUserDto> getTestings() {
-		return testings;
+	public int getTestingTotal() {
+		return testingTotal;
 	}
 
 	/**
-	 * @param testings the testings to set
+	 * @param testingTotal the testingTotal to set
 	 * @return
 	 */
-	public ExamUserDto setTestings(List<TestingUserDto> testings) {
-		this.testings = testings;
+	public ExamUserDto setTestingTotal(int testingTotal) {
+		this.testingTotal = testingTotal;
 		return this;
 	}
 

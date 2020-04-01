@@ -23,6 +23,23 @@ public class TestingDto {
 	private TestingStatus status;
 	private UserDto examiner;
 	private TestingCategoryDto testingCategory;
+	private int questionTotal;
+
+	/**
+	 * @return the questionTotal
+	 */
+	public int getQuestionTotal() {
+		return questionTotal;
+	}
+
+	/**
+	 * @param questionTotal the questionTotal to set
+	 * @return 
+	 */
+	public TestingDto setQuestionTotal(int questionTotal) {
+		this.questionTotal = questionTotal;
+		return this;
+	}
 
 	/**
 	 * @return the testingCategory
