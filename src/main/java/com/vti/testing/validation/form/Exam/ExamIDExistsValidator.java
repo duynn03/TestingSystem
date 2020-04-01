@@ -1,11 +1,11 @@
-package com.vti.testing.validation.form.user;
+package com.vti.testing.validation.form.Exam;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vti.testing.service.UserService;
+import com.vti.testing.service.ExamServiceImpl;
 
 /**
  * This class is implement logic of annotation bean validation.
@@ -17,10 +17,10 @@ import com.vti.testing.service.UserService;
  * @modifer: NNDuy
  * @modifer_date: Feb 8, 2020
  */
-public class UserIDNotExistsValidator implements ConstraintValidator<UserIDNotExists, Integer> {
+public class ExamIDExistsValidator implements ConstraintValidator<ExamIDExists, Integer> {
 
 	@Autowired
-	private UserService service;
+	private ExamServiceImpl service;
 
 	/*
 	 * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
@@ -30,9 +30,9 @@ public class UserIDNotExistsValidator implements ConstraintValidator<UserIDNotEx
 	public boolean isValid(Integer data, ConstraintValidatorContext constraintValidatorContext) {
 
 		if (data <= 0) {
-			return true;
+			return false;
 		}
 
-		return !service.existsUser(data);
+		return service.existsExamByID(data);
 	}
 }

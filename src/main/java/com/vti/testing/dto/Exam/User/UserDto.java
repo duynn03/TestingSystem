@@ -1,15 +1,13 @@
-package com.vti.testing.dto;
-
-import com.vti.testing.entity.enumerate.UserStatus;
+package com.vti.testing.dto.Exam.User;
 
 /**
  * This class is UserDto.
  * 
  * @Description: .
- * @author: NNDuy
+ * @author: CTANH
  * @create_date: Mar 10, 2020
  * @version: 1.0
- * @modifer: NNDuy
+ * @modifer: CTANH
  * @modifer_date: Mar 10, 2020
  */
 public class UserDto {
@@ -17,7 +15,7 @@ public class UserDto {
 	private int id;
 	private String userName;
 	private String fullName;
-	private UserStatus status;
+	
 
 	/**
 	 * @return the userName
@@ -28,7 +26,7 @@ public class UserDto {
 
 	/**
 	 * @param userName the userName to set
-	 * @return 
+	 * @return
 	 */
 	public UserDto setUserName(String userName) {
 		this.userName = userName;
@@ -47,20 +45,6 @@ public class UserDto {
 	 */
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the status
-	 */
-	public UserStatus getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(UserStatus status) {
-		this.status = status;
 	}
 
 	/**

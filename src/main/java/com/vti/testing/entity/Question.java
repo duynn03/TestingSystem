@@ -23,6 +23,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 
 import com.vti.testing.entity.enumerate.QuestionStatus;
 import com.vti.testing.entity.enumerate.QuestionType;
@@ -86,11 +87,17 @@ public class Question implements Serializable {
 	private List<Answer> answers;
 
 	// bi-directional many-to-many association to Testing
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "`question_testing`", joinColumns = {
 			@JoinColumn(name = "`question_id`", nullable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "`testing_id`", nullable = false) })
 	private List<Testing> testings;
+
+	@Formula(value = "( SELECT COUNT(1)" 
+			+ " FROM testingsystem.Question"
+			+ " JOIN testingsystem.question_testing ON testing_exam.question_id=Question.id"
+			+ " WHERE testing_exam.question_id=id )")
+	private int questionTotal;
 
 	/**
 	 * Constructor for class Question.
@@ -103,6 +110,22 @@ public class Question implements Serializable {
 	 * @modifer_date: Mar 4, 2020
 	 */
 	public Question() {
+	}
+
+	/**
+	 * @return the questionTotal
+	 */
+	public int getQuestionTotal() {
+		return questionTotal;
+	}
+
+	/**
+	 * @param questionTotal the questionTotal to set
+	 * @return 
+	 */
+	public Question setQuestionTotal(int questionTotal) {
+		this.questionTotal = questionTotal;
+		return this;
 	}
 
 	/**
