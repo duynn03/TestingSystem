@@ -30,5 +30,5 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 	 * @param account
 	 * @return
 	 */
-	public boolean existsByAccount(String account);
+	public boolean existsByUserName(String userName);
 }
