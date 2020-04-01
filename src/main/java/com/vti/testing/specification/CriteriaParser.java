@@ -9,6 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.ImmutableMap;
+import com.vti.testing.Application;
+import com.vti.testing.config.resourceproperties.searchparameter.GroupPatternProperty;
+import com.vti.testing.config.resourceproperties.searchparameter.OperatorProperty;
 
 /**
  * This class is used for parsing criteria from search String.
@@ -21,6 +24,10 @@ import com.google.common.collect.ImmutableMap;
  * @modifer_date: Mar 12, 2020
  */
 public class CriteriaParser {
+
+	private GroupPatternProperty groupPatternProperty;
+
+	private OperatorProperty operatorProperty;
 
 	private static final Map<String, Operator> OPERATOR_MAPS = ImmutableMap.of("AND", Operator.AND, "OR", Operator.OR,
 			"or", Operator.OR, "and", Operator.AND);
@@ -39,10 +46,6 @@ public class CriteriaParser {
 		}
 	}
 
-	public static final String CRITERIA_REGEX = "^" + SearchOperation.KEY_GROUP_PATTERN
-			+ SearchOperation.OPERATOR_GROUP_PATTERN + SearchOperation.WILDCARD_LIKE_GROUP_PATTERN
-			+ SearchOperation.VALUE_GROUP + SearchOperation.WILDCARD_LIKE_GROUP_PATTERN + "$";
-
 	/**
 	 * Constructor for class CriteriaParser.
 	 * 
@@ -54,7 +57,10 @@ public class CriteriaParser {
 	 * @modifer_date: Mar 13, 2020
 	 */
 	public CriteriaParser() {
-		criteriaRegex = Pattern.compile(CRITERIA_REGEX);
+		groupPatternProperty = Application.getBean(GroupPatternProperty.class);
+		operatorProperty = Application.getBean(OperatorProperty.class);
+
+		criteriaRegex = Pattern.compile(groupPatternProperty.getCriteraRegex());
 	}
 
 	/**
@@ -98,16 +104,16 @@ public class CriteriaParser {
 		for (String token : tokens) {
 			if (OPERATORS.containsKey(token)) {
 				while (!stack.isEmpty() && isHigerPriorityOperator(token, stack.peek()))
-					output.push(stack.pop().equalsIgnoreCase(SearchOperation.OR_OPERATOR) ? SearchOperation.OR_OPERATOR
-							: SearchOperation.AND_OPERATOR);
-				stack.push(token.equalsIgnoreCase(SearchOperation.OR_OPERATOR) ? SearchOperation.OR_OPERATOR
-						: SearchOperation.AND_OPERATOR);
+					output.push(stack.pop().equalsIgnoreCase(operatorProperty.getOr()) ? operatorProperty.getOr()
+							: operatorProperty.getAnd());
+				stack.push(token.equalsIgnoreCase(operatorProperty.getOr()) ? operatorProperty.getOr()
+						: operatorProperty.getAnd());
 
-			} else if (token.equals(SearchOperation.LEFT_PARANTHESIS)) {
-				stack.push(SearchOperation.LEFT_PARANTHESIS);
+			} else if (token.equals(operatorProperty.getLeftParanthesis())) {
+				stack.push(operatorProperty.getLeftParanthesis());
 
-			} else if (token.equals(SearchOperation.RIGHT_PARANTHESIS)) {
-				while (!stack.peek().equals(SearchOperation.LEFT_PARANTHESIS))
+			} else if (token.equals(operatorProperty.getRightParanthesis())) {
+				while (!stack.peek().equals(operatorProperty.getLeftParanthesis()))
 					output.push(stack.pop());
 				stack.pop();
 

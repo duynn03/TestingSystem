@@ -1,27 +1,33 @@
-package com.vti.testing.validation.form.user;
+package com.vti.testing.validation.enumerate;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-
-import com.vti.testing.service.UserService;
 
 /**
  * This class is implement logic of annotation bean validation.
  * 
  * @Description: .
- * @author: NNDuy
+ * @author: NTHung
  * @create_date: Feb 8, 2020
  * @version: 1.0
- * @modifer: NNDuy
+ * @modifer: NTHung
  * @modifer_date: Feb 8, 2020
  */
-public class UserNameNotExistsValidator implements ConstraintValidator<UserNameNotExists, String> {
+public class EnumValidationValidator implements ConstraintValidator<EnumValidation, String> {
 
-	@Autowired
-	private UserService service;
+	private List<String> acceptedValues;
+
+	@Override
+	public void initialize(EnumValidation annotation) {
+		acceptedValues = Stream.of(annotation.enumClass().getEnumConstants()).map(Enum::name)
+				.collect(Collectors.toList());
+	}
 
 	/*
 	 * @see javax.validation.ConstraintValidator#isValid(java.lang.Object,
@@ -34,6 +40,6 @@ public class UserNameNotExistsValidator implements ConstraintValidator<UserNameN
 			return true;
 		}
 
-		return !service.existsByUserName(data);
+		return acceptedValues.contains(data);
 	}
 }

@@ -33,52 +33,52 @@ import com.vti.testing.entity.enumerate.QuestionType;
  * 
  */
 @Entity
-@Table(name = "Question")
+@Table(name = "`Question`")
 public class Question implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
+	@Column(name = "`id`", unique = true, nullable = false)
 	private int id;
 
 	@Lob
-	@Column(name = "title", nullable = false)
+	@Column(name = "`title`", nullable = false)
 	private String title;
 
 	// bi-directional many-to-one association to QuestionCategory
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "Question_Category_ID", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "`Question_Category_ID`", nullable = false)
 	private QuestionCategory questionCategory;
 
-	@Column(name = "type", nullable = false)
+	@Column(name = "`type`", nullable = false)
 	private QuestionType type;
 
 	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "status", nullable = false)
+	@Column(name = "`status`", nullable = false)
 	private QuestionStatus status = QuestionStatus.DRAFT;
 
 	// bi-directional many-to-one association to QuestionLevel
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "level_ID", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "`level_ID`", nullable = false)
 	private QuestionLevel questionLevel;
 
-	@Column(name = "version", nullable = false, columnDefinition = "int default 1")
+	@Column(name = "`version`", nullable = false, columnDefinition = "int default 1")
 	private int version;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "author_ID", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "`author_ID`", nullable = false)
 	private User author;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_time", nullable = false)
+	@Column(name = "`create_time`", nullable = false)
 	@CreationTimestamp
 	private Date createTime;
 
 	// bi-directional many-to-one association to Image
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "Image_ID")
+	@ManyToOne
+	@JoinColumn(name = "`Image_ID`")
 	private Image image;
 
 	// bi-directional many-to-one association to Answer
@@ -87,9 +87,9 @@ public class Question implements Serializable {
 
 	// bi-directional many-to-many association to Testing
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "question_testing", joinColumns = {
-			@JoinColumn(name = "question_id", nullable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "testing_id", nullable = false) })
+	@JoinTable(name = "`question_testing`", joinColumns = {
+			@JoinColumn(name = "`question_id`", nullable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "`testing_id`", nullable = false) })
 	private List<Testing> testings;
 
 	@Formula(value = "( SELECT COUNT(1)" 

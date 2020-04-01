@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.vti.testing.entity.User;
+import com.vti.testing.entity.enumerate.UserStatus;
 import com.vti.testing.repository.UserRepository;
 
 /**
@@ -69,7 +70,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	 */
 	@Override
 	public void deleteUser(int id) {
-		repository.deleteById(id);
+
+		// get current user by id
+		User user = getUserByID(id);
+
+		// update status to block
+		user.setStatus(UserStatus.BLOCK);
+
+		// save user
+		updateUser(user);
+
 	}
 
 	/*
@@ -80,6 +90,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return repository.existsById(id);
 	}
 
+	@Override
+	public boolean existsByUserName(String userName) {
+		return repository.existsByUserName(userName);
+	}
+
+	/*
+	 * @see org.springframework.security.core.userdetails.UserDetailsService#
+	 * loadUserByUsername(java.lang.String)
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// Kiểm tra xem user có tồn tại trong database không?

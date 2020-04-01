@@ -3,7 +3,6 @@ package com.vti.testing.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -20,7 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
  * 
  */
 @Entity
-@Table(name = "User_Group")
+@Table(name = "`User_Group`")
 public class UserGroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -28,17 +27,17 @@ public class UserGroup implements Serializable {
 	private UserGroupPK id;
 
 	// bi-directional many-to-one association to Group
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "group_id", nullable = false, insertable = false, updatable = false)
+	@ManyToOne
+	@JoinColumn(name = "`group_id`", nullable = false, insertable = false, updatable = false)
 	private Group group;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+	@ManyToOne
+	@JoinColumn(name = "`user_id`", nullable = false, insertable = false, updatable = false)
 	private User user;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "join_time", nullable = false)
+	@Column(name = "`join_time`", nullable = false)
 	@CreationTimestamp
 	private Date joinTime;
 

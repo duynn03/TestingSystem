@@ -1,4 +1,4 @@
-package com.vti.testing.validation.form.user;
+package com.vti.testing.validation.enumerate;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -29,10 +29,12 @@ import javax.validation.Payload;
 @Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { UserNameNotExistsValidator.class })
-public @interface UserNameNotExists {
+@Constraint(validatedBy = { EnumValidationValidator.class })
+public @interface EnumValidation {
 
-	String message() default "{UserForm.userName.NotExists}";
+	Class<? extends Enum<?>> enumClass();
+
+	String message() default "{EnumValidationForm}";
 
 	Class<?>[] groups() default {};
 
@@ -42,6 +44,6 @@ public @interface UserNameNotExists {
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		UserNameNotExists[] value();
+		EnumValidation[] value();
 	}
 }

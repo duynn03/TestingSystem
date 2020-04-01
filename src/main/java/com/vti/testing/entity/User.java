@@ -31,51 +31,51 @@ import com.vti.testing.entity.enumerate.UserStatus;
  * 
  */
 @Entity
-@Table(name = "User")
+@Table(name = "`User`")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
+	@Column(name = "`id`", unique = true, nullable = false)
 	private int id;
 
-	@Column(name = "username", nullable = false, length = 50, unique = true)
+	@Column(name = "`username`", nullable = false, length = 50, unique = true)
 	private String userName;
 
-	@Column(name = "email", nullable = false, length = 50, unique = true)
+	@Column(name = "`email`", nullable = false, length = 50, unique = true)
 	private String email;
 
-	@Column(name = "password", nullable = false, length = 800)
+	@Column(name = "`password`", nullable = false, length = 800)
 	private String password;
 
-	@Column(name = "firstName", nullable = false, length = 50)
+	@Column(name = "`firstName`", nullable = false, length = 50)
 	private String firstName;
 
-	@Column(name = "lastName", nullable = false, length = 50)
+	@Column(name = "`lastName`", nullable = false, length = 50)
 	private String lastName;
 
 	@Formula("concat(firstName, ' ', lastName)")
 	private String fullName;
 
-	@Column(name = "gender", nullable = false, length = 1)
+	@Column(name = "`gender`", nullable = false, length = 1)
 	private Gender gender;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_Of_Birth", nullable = false)
 	private Date birthday;
 
-	@Column(name = "address", nullable = false, length = 100)
+	@Column(name = "`address`", nullable = false, length = 100)
 	private String address;
 
-	@Column(name = "phone", nullable = false, length = 15, unique = true)
+	@Column(name = "`phone`", nullable = false, length = 15, unique = true)
 	private String phone;
 
 	@Column(name = "role", nullable = false)
 	private Role role;
 
 	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "status", nullable = false)
+	@Column(name = "`status`", nullable = false)
 	private UserStatus status = UserStatus.ACTIVE;
 
 	// bi-directional many-to-one association to Group
@@ -88,9 +88,9 @@ public class User implements Serializable {
 
 	// bi-directional many-to-many association to Group
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_group", joinColumns = {
-			@JoinColumn(name = "user_id", nullable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "group_id", nullable = false) })
+	@JoinTable(name = "`user_group`", joinColumns = {
+			@JoinColumn(name = "`user_id`", nullable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "`group_id`", nullable = false) })
 	private List<Group> groups;
 
 	// bi-directional many-to-one association to TestingCategory
@@ -150,17 +150,17 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * @return the account
+	 * @return the userName
 	 */
 	public String getUserName() {
 		return userName;
 	}
 
 	/**
-	 * @param account the account to set
+	 * @param userName the userName to set
 	 */
-	public User setUserName(String username) {
-		this.userName = username;
+	public User setUserName(String userName) {
+		this.userName = userName;
 		return this;
 	}
 

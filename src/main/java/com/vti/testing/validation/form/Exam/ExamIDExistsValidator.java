@@ -29,7 +29,7 @@ public class ExamIDExistsValidator implements ConstraintValidator<ExamIDExists, 
 	@Override
 	public boolean isValid(Integer data, ConstraintValidatorContext constraintValidatorContext) {
 
-		if (data == null) {
+		if (data <= 0) {
 			return false;
 		}
 

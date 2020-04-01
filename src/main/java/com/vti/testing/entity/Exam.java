@@ -34,46 +34,46 @@ import com.vti.testing.utils.Constants;
  * 
  */
 @Entity
-@Table(name = "Exam")
+@Table(name = "`Exam`")
 public class Exam implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
+	@Column(name = "`id`", unique = true, nullable = false)
 	private int id;
 
-	@Column(name = "name", nullable = false, length = 50)
+	@Column(name = "`name`", nullable = false, length = 50)
 	private String name;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "start_time", nullable = false)
+	@Column(name = "`start_time`", nullable = false)
 	private Date startTime;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "end_time", nullable = false)
+	@Column(name = "`end_time`", nullable = false)
 	private Date endTime;
 
-	@Column(name = "version", nullable = false)
-	private int version = Constants.VERSION_STATUS;
+	@Column(name = "`version`", nullable = false, columnDefinition = "int default 1")
+	private int version = Constants.VERSION_STATUS;;
 
 	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "status", nullable = false)
+	@Column(name = "`status`", nullable = false)
 	private ExamStatus status = ExamStatus.DRAFT;
 
 	// bi-directional many-to-one association to User
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@OnDelete(action = OnDeleteAction.NO_ACTION)
-	@JoinColumn(name = "author_ID")
+	@JoinColumn(name = "`author_ID`", nullable = false)
 	private User author;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_time", nullable = false)
+	@Column(name = "`create_time`", nullable = false)
 	@CreationTimestamp
 	private Date createTime;
 
 	@Lob
-	@Column(name = "note")
+	@Column(name = "`note`")
 	private String note;
 
 	// bi-directional many-to-many association to Testing
@@ -83,10 +83,10 @@ public class Exam implements Serializable {
 					@JoinColumn(name = "testing_id", nullable = false) })
 	private List<Testing> testings;
 
-	@Formula(value = "( SELECT COUNT(1)"
-			+ " FROM testingsystem.Exam"
-			+ " JOIN testingsystem.testing_exam ON testing_exam.exam_id=Exam.id"
-			+ " WHERE testing_exam.exam_id=id )")
+	@Formula(value = "( SELECT COUNT(1)" 
+					+ " FROM Exam"
+					+ " JOIN testingsystem.testing_exam ON testing_exam.exam_id=Exam.id" 
+					+ " WHERE testing_exam.exam_id=id )")
 	private int testingTotal;
 
 	/**

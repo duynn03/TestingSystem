@@ -1,4 +1,5 @@
-package com.vti.testing.validation.form.user;
+//
+package com.vti.testing.validation.form.group;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -16,32 +17,37 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+
 /**
- * This interface is a annotation bean validation.
+ * This class is . 
  * 
  * @Description: .
- * @author: NNDuy
- * @create_date: Feb 8, 2020
+ * @author: NATOAN
+ * @create_date: Mar 25, 2020
  * @version: 1.0
- * @modifer: NNDuy
- * @modifer_date: Feb 8, 2020
+ * @modifer: NAToan
+ * @modifer_date: Mar 25, 2020
+ * 
  */
 @Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { UserNameNotExistsValidator.class })
-public @interface UserNameNotExists {
+@Constraint(validatedBy = { GroupIDNotExistsValidator.class })
+public @interface GroupIDNotExists {
+	String message()
 
-	String message() default "{UserForm.userName.NotExists}";
+	default "{GroupForm.id.NotExists}";
 
 	Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload()default{};
 
 	@Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		UserNameNotExists[] value();
+		GroupIDNotExists[] value();
+
 	}
+
 }
