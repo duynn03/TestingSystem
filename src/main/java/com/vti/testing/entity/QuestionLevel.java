@@ -3,6 +3,7 @@ package com.vti.testing.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class QuestionLevel implements Serializable {
 	private String level;
 
 	// bi-directional many-to-one association to Question
-	@OneToMany(mappedBy = "questionLevel")
+	@OneToMany(mappedBy = "questionLevel",cascade = CascadeType.ALL)
 	private List<Question> questions;
 
 	/**

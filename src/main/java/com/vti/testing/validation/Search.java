@@ -15,9 +15,6 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.vti.testing.specification.CriteriaParser;
-import com.vti.testing.specification.SearchOperation;
-
 /**
  * This interface is a annotation bean validation.
  * 

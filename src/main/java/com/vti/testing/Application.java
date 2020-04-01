@@ -6,7 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
+@EnableAuthorizationServer
 @SpringBootApplication
 @ConfigurationPropertiesScan("com.vti.testing")
 public class Application {
@@ -49,4 +51,5 @@ public class Application {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+	
 }
