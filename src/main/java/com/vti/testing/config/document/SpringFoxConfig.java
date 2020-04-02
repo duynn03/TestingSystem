@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import com.vti.testing.config.document.property.EmailAnnotationPlugin;
+import com.vti.testing.config.document.property.SearchAnnotationPlugin;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.PathSelectors;
@@ -90,5 +91,21 @@ public class SpringFoxConfig {
 	@Bean
 	public EmailAnnotationPlugin emailPlugin() {
 		return new EmailAnnotationPlugin();
+	}
+	
+	/**
+	 * This method is used for enable document of search parameter . 
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Mar 21, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 21, 2020
+	 * @return
+	 */
+	@Bean
+	public SearchAnnotationPlugin searchPlugin() {
+		return new SearchAnnotationPlugin();
 	}
 }
