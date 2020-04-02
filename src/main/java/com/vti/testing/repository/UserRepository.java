@@ -17,9 +17,8 @@ import com.vti.testing.entity.User;
  */
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
 
-	
 	/**
-	 * This method is . 
+	 * This method is .
 	 * 
 	 * @Description: .
 	 * @author: NTHung
@@ -31,4 +30,18 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 	 * @return
 	 */
 	public boolean existsByUserName(String userName);
+
+	/**
+	 * This method is find User by userName.
+	 * 
+	 * @Description: .
+	 * @author: CTANH
+	 * @create_date: Apr 1, 2020
+	 * @version: 1.0
+	 * @modifer: CTANH
+	 * @modifer_date: Apr 1, 2020
+	 * @param name
+	 * @return
+	 */
+	public User findByUserName(String name);
 }

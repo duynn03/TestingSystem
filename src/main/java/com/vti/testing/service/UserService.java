@@ -101,7 +101,7 @@ public interface UserService {
 	public boolean existsUser(int id);
 
 	/**
-	 * This method is exists By Account. 
+	 * This method is exists By Account.
 	 * 
 	 * @Description: .
 	 * @author: NTHung

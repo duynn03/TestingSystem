@@ -37,7 +37,7 @@ public class TestingCategory implements Serializable {
 	private String name;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "`author_ID`", nullable = false, updatable = false)
 	private User author;
 
@@ -51,7 +51,7 @@ public class TestingCategory implements Serializable {
 	private List<QuestionCategory> questionCategories;
 
 	// bi-directional many-to-one association to TestingCategory
-	@OneToMany(mappedBy = "testingCategory")
+	@OneToMany(mappedBy = "testingCategory",cascade = CascadeType.ALL)
 	private List<Testing> testings;
 
 	/**

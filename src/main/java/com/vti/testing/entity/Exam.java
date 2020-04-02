@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -20,8 +22,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.vti.testing.entity.enumerate.ExamStatus;
+import com.vti.testing.utils.Constants;
 
 /**
  * The persistent class for the exam database table.
@@ -49,14 +55,15 @@ public class Exam implements Serializable {
 	private Date endTime;
 
 	@Column(name = "`version`", nullable = false, columnDefinition = "int default 1")
-	private int version;
+	private int version = Constants.VERSION_STATUS;;
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "`status`", nullable = false)
 	private ExamStatus status = ExamStatus.DRAFT;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@OnDelete(action = OnDeleteAction.NO_ACTION)
 	@JoinColumn(name = "`author_ID`", nullable = false)
 	private User author;
 
@@ -70,17 +77,41 @@ public class Exam implements Serializable {
 	private String note;
 
 	// bi-directional many-to-many association to Testing
-	@ManyToMany(mappedBy = "exams")
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(name = "testing_exam", joinColumns = {
+			@JoinColumn(name = "exam_id", nullable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "testing_id", nullable = false) })
 	private List<Testing> testings;
+
+	@Formula(value = "( SELECT COUNT(1)" 
+					+ " FROM Exam"
+					+ " JOIN testingsystem.testing_exam ON testing_exam.exam_id=Exam.id" 
+					+ " WHERE testing_exam.exam_id=id )")
+	private int testingTotal;
+
+	/**
+	 * @return the testingTotal
+	 */
+	public int getTestingTotal() {
+		return testingTotal;
+	}
+
+	/**
+	 * @param testingTotal the testingTotal to set
+	 */
+	public Exam setTestingTotal(int testingTotal) {
+		this.testingTotal = testingTotal;
+		return this;
+	}
 
 	/**
 	 * Constructor for class Exam.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
+	 * @author: CTAnh
 	 * @create_date: Mar 4, 2020
 	 * @version: 1.0
-	 * @modifer: NNDuy
+	 * @modifer: CTAnh
 	 * @modifer_date: Mar 4, 2020
 	 */
 	public Exam() {
