@@ -37,10 +37,10 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "`id`", unique = true, nullable = false)
+	@Column(name = "`id`", unique = true, nullable = false, updatable = false)
 	private int id;
 
-	@Column(name = "`username`", nullable = false, length = 50, unique = true)
+	@Column(name = "`username`", nullable = false, length = 50, unique = true, updatable = false)
 	private String userName;
 
 	@Column(name = "`email`", nullable = false, length = 50, unique = true)

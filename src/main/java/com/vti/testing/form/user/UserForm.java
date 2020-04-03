@@ -6,11 +6,14 @@ package com.vti.testing.form.user;
 import java.util.Date;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import com.vti.testing.validation.form.user.EmailNotExists;
 import com.vti.testing.validation.form.user.UserNameNotExists;
 import com.vti.testing.validation.group.onCreate;
+import com.vti.testing.validation.group.onUpdate;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -30,47 +33,51 @@ public class UserForm {
 	@ApiModelProperty(notes = "The User's userName")
 	@NotEmpty(message = "{UserForm.userName.NotEmpty}", groups = onCreate.class)
 	@UserNameNotExists(groups = onCreate.class)
-	@Size(min = 6, max = 50, message = "{UserForm.userName.NotEmpty.Size}", groups = onCreate.class)
+	@Size(min = 6, max = 50, message = "{UserForm.userName.Size}", groups = onCreate.class)
+	@Null(message = "{UserForm.userName.Null}", groups = onUpdate.class)
 	private String userName;
 
 	@ApiModelProperty(notes = "The User's Email")
-	@NotEmpty(message = "{UserForm.email.NotEmpty}", groups = onCreate.class)
-	@Size(min = 6, max = 50, message = "{UserForm.email.Size}", groups = onCreate.class)
+	@NotEmpty(message = "{UserForm.email.NotEmpty}", groups = { onCreate.class, onUpdate.class })
+	@Size(min = 6, max = 50, message = "{UserForm.email.Size}", groups = { onCreate.class, onUpdate.class })
+	@EmailNotExists(groups = { onCreate.class})
 	private String email;
 
 	@ApiModelProperty(notes = "The User's Password")
-	@NotEmpty(message = "{UserForm.password.NotEmpty}", groups = onCreate.class)
-	@Size(max = 50, message = "{UserForm.password.Size}", groups = onCreate.class)
+	@NotEmpty(message = "{UserForm.password.NotEmpty}", groups = { onCreate.class, onUpdate.class })
+	@Size(max = 50, message = "{UserForm.password.Size}", groups = { onCreate.class, onUpdate.class })
 	private String password;
 
 	@ApiModelProperty(notes = "The User's Gender")
+	@NotEmpty(message = "UserForm.gender.NotEmpty", groups = { onCreate.class, onUpdate.class })
 	private String gender;
 
 	@ApiModelProperty(notes = "The User's FirstName")
-	@NotEmpty(message = "{UserForm.firstName.NotEmpty}", groups = onCreate.class)
-	@Size(max = 50, message = "{UserForm.firstName.Size}", groups = onCreate.class)
+	@NotEmpty(message = "{UserForm.firstName.NotEmpty}", groups = { onCreate.class, onUpdate.class })
+	@Size(max = 50, message = "{UserForm.firstName.Size}", groups = { onCreate.class, onUpdate.class })
 	private String firstName;
 
 	@ApiModelProperty(notes = "The User's LastName")
-	@NotEmpty(message = "{UserForm.lastName.NotEmpty}", groups = onCreate.class)
-	@Size(max = 50, message = "{UserForm.lastName.Size}", groups = onCreate.class)
+	@NotEmpty(message = "{UserForm.lastName.NotEmpty}", groups = { onCreate.class, onUpdate.class })
+	@Size(max = 50, message = "{UserForm.lastName.Size}", groups = { onCreate.class, onUpdate.class })
 	private String lastName;
 
 	@ApiModelProperty(notes = "The User's Birthday")
-	@Past(message = "{UserForm.birthday}", groups = onCreate.class)
+	@Past(message = "{UserForm.birthday}", groups = { onCreate.class, onUpdate.class })
 	private Date birthday;
 
 	@ApiModelProperty(notes = "The User's Address")
-	@NotEmpty(message = "{UserForm.address.NotEmpty}", groups = onCreate.class)
-	@Size(max = 100, message = "{UserForm.address.Size}", groups = onCreate.class)
+	@NotEmpty(message = "{UserForm.address.NotEmpty}", groups = { onCreate.class, onUpdate.class })
+	@Size(max = 100, message = "{UserForm.address.Size}", groups = { onCreate.class, onUpdate.class })
 	private String address;
 
 	@ApiModelProperty(notes = "The User's Phone")
-	@NotEmpty(message = "{UserForm.phone.NotEmpty}", groups = onCreate.class)
-	@Size(min = 9, max = 15, message = "{UserForm.phone.Size}", groups = onCreate.class)
+	@NotEmpty(message = "{UserForm.phone.NotEmpty}", groups = { onCreate.class, onUpdate.class })
+	@Size(min = 9, max = 15, message = "{UserForm.phone.Size}", groups = { onCreate.class, onUpdate.class })
 	private String phone;
 
 	@ApiModelProperty(notes = "The User's Role")
+	@NotEmpty(message = "UserForm.role.NotEmpty", groups = { onCreate.class, onUpdate.class })
 	private String role;
 
 	/**
