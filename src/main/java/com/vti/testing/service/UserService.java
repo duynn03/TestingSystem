@@ -127,4 +127,18 @@ public interface UserService {
 	 * @return
 	 */
 	public boolean existsByEmail(String email);
+	
+	/**
+	 * This method is exists By Phone. 
+	 * 
+	 * @Description: .
+	 * @author: NTHung
+	 * @create_date: Apr 3, 2020
+	 * @version: 1.0
+	 * @modifer: NTHung
+	 * @modifer_date: Apr 3, 2020
+	 * @param phone
+	 * @return
+	 */
+	public boolean existsByPhone(String phone);
 }

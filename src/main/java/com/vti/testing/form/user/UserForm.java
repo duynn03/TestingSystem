@@ -11,6 +11,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import com.vti.testing.validation.form.user.EmailNotExists;
+import com.vti.testing.validation.form.user.PhoneNotExists;
 import com.vti.testing.validation.form.user.UserNameNotExists;
 import com.vti.testing.validation.group.onCreate;
 import com.vti.testing.validation.group.onUpdate;
@@ -40,7 +41,7 @@ public class UserForm {
 	@ApiModelProperty(notes = "The User's Email")
 	@NotEmpty(message = "{UserForm.email.NotEmpty}", groups = { onCreate.class, onUpdate.class })
 	@Size(min = 6, max = 50, message = "{UserForm.email.Size}", groups = { onCreate.class, onUpdate.class })
-	@EmailNotExists(groups = { onCreate.class})
+	@EmailNotExists(groups = { onCreate.class })
 	private String email;
 
 	@ApiModelProperty(notes = "The User's Password")
@@ -74,6 +75,7 @@ public class UserForm {
 	@ApiModelProperty(notes = "The User's Phone")
 	@NotEmpty(message = "{UserForm.phone.NotEmpty}", groups = { onCreate.class, onUpdate.class })
 	@Size(min = 9, max = 15, message = "{UserForm.phone.Size}", groups = { onCreate.class, onUpdate.class })
+	@PhoneNotExists(groups = onCreate.class)
 	private String phone;
 
 	@ApiModelProperty(notes = "The User's Role")

@@ -34,6 +34,6 @@ public class EmailNotExistsValidator implements ConstraintValidator<EmailNotExis
 			return true;
 		}
 
-		return !service.existsByUserName(data);
+		return !service.existsByEmail(data);
 	}
 }

@@ -115,4 +115,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
 				Arrays.asList(authority));
 	}
+
+	@Override
+	public boolean existsByPhone(String phone) {
+		return repository.existsByPhone(phone);
+	}
 }

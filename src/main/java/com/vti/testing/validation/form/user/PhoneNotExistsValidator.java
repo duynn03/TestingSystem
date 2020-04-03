@@ -18,7 +18,7 @@ import com.vti.testing.service.UserService;
  * @modifer: NNDuy
  * @modifer_date: Feb 8, 2020
  */
-public class PhoneNotExistsValidator implements ConstraintValidator<UserNameNotExists, String> {
+public class PhoneNotExistsValidator implements ConstraintValidator<PhoneNotExists, String> {
 
 	@Autowired
 	private UserService service;
@@ -34,6 +34,6 @@ public class PhoneNotExistsValidator implements ConstraintValidator<UserNameNotE
 			return true;
 		}
 
-		return !service.existsByUserName(data);
+		return !service.existsByPhone(data);
 	}
 }
