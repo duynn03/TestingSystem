@@ -18,7 +18,7 @@ import com.vti.testing.service.UserService;
  * @modifer: NNDuy
  * @modifer_date: Feb 8, 2020
  */
-public class EmailNotExistsValidator implements ConstraintValidator<EmailNotExists, String> {
+public class PhoneNotExistsValidator implements ConstraintValidator<UserNameNotExists, String> {
 
 	@Autowired
 	private UserService service;

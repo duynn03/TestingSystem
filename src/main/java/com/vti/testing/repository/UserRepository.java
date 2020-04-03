@@ -33,7 +33,6 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 	public boolean existsByUserName(String userName);
 
 	/**
-<<<<<<< HEAD
 	 * This method is exists By Email.
 	 * 
 	 * @Description: .
@@ -61,7 +60,8 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 	 * @return
 	 */
 	public boolean existsByIdAndStatus(int id, UserStatus status);
-=======
+
+	/**
 	 * This method is find User by userName.
 	 * 
 	 * @Description: .
@@ -74,5 +74,4 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 	 * @return
 	 */
 	public User findByUserName(String name);
->>>>>>> develop
 }

@@ -95,11 +95,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return repository.existsByUserName(userName);
 	}
 
-<<<<<<< HEAD
 	@Override
 	public boolean existsByEmail(String email) {
 		return repository.existsByEmail(email);
-=======
+	}
+
 	/*
 	 * @see org.springframework.security.core.userdetails.UserDetailsService#
 	 * loadUserByUsername(java.lang.String)
@@ -114,6 +114,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().toString());
 		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
 				Arrays.asList(authority));
->>>>>>> develop
 	}
 }

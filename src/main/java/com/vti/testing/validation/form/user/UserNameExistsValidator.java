@@ -18,7 +18,7 @@ import com.vti.testing.service.UserService;
  * @modifer: NNDuy
  * @modifer_date: Feb 8, 2020
  */
-public class EmailNotExistsValidator implements ConstraintValidator<EmailNotExists, String> {
+public class UserNameExistsValidator implements ConstraintValidator<UserNameExists, String> {
 
 	@Autowired
 	private UserService service;
@@ -29,11 +29,11 @@ public class EmailNotExistsValidator implements ConstraintValidator<EmailNotExis
 	 */
 	@Override
 	public boolean isValid(String data, ConstraintValidatorContext constraintValidatorContext) {
-
+		// null values aren't valid
 		if (StringUtils.isEmpty(data)) {
-			return true;
+			return false;
 		}
 
-		return !service.existsByUserName(data);
+		return service.existsByUserName(data);
 	}
 }

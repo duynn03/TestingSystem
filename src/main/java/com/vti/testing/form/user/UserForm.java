@@ -33,14 +33,14 @@ public class UserForm {
 	@ApiModelProperty(notes = "The User's userName")
 	@NotEmpty(message = "{UserForm.userName.NotEmpty}", groups = onCreate.class)
 	@UserNameNotExists(groups = onCreate.class)
-	@Size(min = 6, max = 50, message = "{UserForm.userName.NotEmpty.Size}", groups = onCreate.class)
-	@Null(message = "", groups = onUpdate.class)
+	@Size(min = 6, max = 50, message = "{UserForm.userName.Size}", groups = onCreate.class)
+	@Null(message = "{UserForm.userName.Null}", groups = onUpdate.class)
 	private String userName;
 
 	@ApiModelProperty(notes = "The User's Email")
 	@NotEmpty(message = "{UserForm.email.NotEmpty}", groups = { onCreate.class, onUpdate.class })
 	@Size(min = 6, max = 50, message = "{UserForm.email.Size}", groups = { onCreate.class, onUpdate.class })
-	@EmailNotExists(groups = { onCreate.class, onUpdate.class })
+	@EmailNotExists(groups = { onCreate.class})
 	private String email;
 
 	@ApiModelProperty(notes = "The User's Password")
