@@ -13,8 +13,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.vti.testing.entity.RegistrationUserToken;
 import com.vti.testing.entity.User;
 import com.vti.testing.entity.enumerate.UserStatus;
+import com.vti.testing.repository.RegistrationUserTokenRepository;
 import com.vti.testing.repository.UserRepository;
 
 /**
@@ -32,6 +34,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Autowired
 	private UserRepository repository;
+
+	@Autowired
+	private RegistrationUserTokenRepository tokenRepository;
 
 	/*
 	 * @see com.vti.template.service.UserService#getAllUsers()
@@ -53,8 +58,33 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	 * @see com.vti.template.service.UserService#createUser( User)
 	 */
 	@Override
-	public void createUser(User entity) {
-		repository.save(entity);
+	public User createUser(User entity) {
+		return repository.save(entity);
+	}
+
+	/*
+	 * @see com.vti.testing.service.UserService#createToken(com.vti.testing.entity.
+	 * RegistrationUserToken)
+	 */
+	@Override
+	public void createToken(RegistrationUserToken token) {
+		tokenRepository.save(token);
+	}
+
+	/*
+	 * @see com.vti.testing.service.UserService#getToken(java.lang.String)
+	 */
+	@Override
+	public RegistrationUserToken getToken(String token) {
+		return tokenRepository.findByToken(token);
+	}
+
+	/*
+	 * @see com.vti.testing.service.UserService#existsToken(java.lang.String)
+	 */
+	@Override
+	public boolean existsToken(String token) {
+		return tokenRepository.existsByToken(token);
 	}
 
 	/*

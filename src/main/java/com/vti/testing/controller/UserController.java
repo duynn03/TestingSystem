@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -29,12 +30,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vti.testing.config.registration.OnRegistrationUserCompleteEvent;
 import com.vti.testing.dto.user.UserDto;
+import com.vti.testing.entity.RegistrationUserToken;
 import com.vti.testing.entity.User;
+import com.vti.testing.entity.enumerate.UserStatus;
 import com.vti.testing.form.user.UserForm;
 import com.vti.testing.service.UserService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
+import com.vti.testing.validation.form.user.RegistrationUserTokenActive;
+import com.vti.testing.validation.form.user.RegistrationUserTokenExists;
 import com.vti.testing.validation.form.user.UserIDExists;
 import com.vti.testing.validation.form.user.UserNameNotExists;
 import com.vti.testing.validation.group.onCreate;
@@ -55,6 +61,9 @@ public class UserController {
 
 	@Autowired
 	private ModelMapper modelMapper;
+
+	@Autowired
+	private ApplicationEventPublisher eventPublisher;
 
 	/**
 	 * This method is get All Users.
@@ -164,9 +173,28 @@ public class UserController {
 		User entity = modelMapper.map(form, User.class);
 
 		// create User
-		service.createUser(entity);
+		User registeredUser = service.createUser(entity);
+
+		// Create the Token and Send the Registration Confirm to User's Email
+		eventPublisher.publishEvent(new OnRegistrationUserCompleteEvent(registeredUser));
 
 		return new ResponseEntity<>("Create success!", HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "Confirm registration via Email")
+	@GetMapping("/registrationConfirm/{token}")
+	public ResponseEntity<?> confirmRegistrationViaEmail(
+			@ApiParam(value = "Token to confirm registration", required = true) @RegistrationUserTokenActive @RegistrationUserTokenExists @PathVariable(name = "token") String token) {
+
+		// get token
+		RegistrationUserToken registrationToken = service.getToken(token);
+
+		User user = registrationToken.getUser();
+
+		user.setStatus(UserStatus.ACTIVE);
+		service.updateUser(user);
+
+		return new ResponseEntity<>("Confirm success!", HttpStatus.OK);
 	}
 
 	/**

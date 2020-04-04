@@ -71,8 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors() // Ngăn chặn request từ một domain khác
-				.and().authorizeRequests().antMatchers("/oauth/token").permitAll() // Cho phép tất cả mọi người truy cập
-																					// vào địa chỉ này
+				.and().authorizeRequests().antMatchers("/oauth/token", "/api/v1/Users/registrationConfirm/**")
+				.permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
 				.anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
 
 	}
@@ -94,6 +94,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
-		}
-
 	}
+
+}

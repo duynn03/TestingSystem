@@ -81,7 +81,7 @@ public class SearchValidator implements ConstraintValidator<Search, String> {
 	 */
 	private void addTokenNotMatchingToDefaultMessage(ConstraintValidatorContext context, String token) {
 
-		message = messageProperty.getExceptionMessageFromPropertiesFile("SearchParameter.couldNotParseRegex") + token;
+		message = messageProperty.getMessage("SearchParameter.couldNotParseRegex") + token;
 
 		// disable existing violation message
 		context.disableDefaultConstraintViolation();

@@ -34,7 +34,7 @@ public class MessageProperty {
 	 * @modifer_date: Mar 22, 2020
 	 * @param key
 	 */
-	public String getExceptionMessageFromPropertiesFile(String key) {
+	public String getMessage(String key) {
 		return messageSource.getMessage(key, null, LocaleContextHolder.getLocale());
 	}
 }

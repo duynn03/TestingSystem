@@ -11,5 +11,5 @@ package com.vti.testing.entity.enumerate;
  * @modifer_date: Feb 6, 2020
  */
 public enum UserStatus {
-	ACTIVE, BLOCK;
+	NOT_ACTIVE, ACTIVE, BLOCK;
 }

@@ -76,7 +76,7 @@ public class User implements Serializable {
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "`status`", nullable = false)
-	private UserStatus status = UserStatus.ACTIVE;
+	private UserStatus status = UserStatus.NOT_ACTIVE;
 
 	// bi-directional many-to-one association to Group
 	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
