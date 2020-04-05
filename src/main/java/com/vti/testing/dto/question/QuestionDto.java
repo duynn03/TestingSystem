@@ -1,5 +1,8 @@
-package com.vti.testing.dto;
+package com.vti.testing.dto.question;
 
+import com.vti.testing.dto.QuestionCategoryDto;
+import com.vti.testing.dto.TestingCategoryDto;
+import com.vti.testing.dto.UserDto;
 import com.vti.testing.entity.enumerate.QuestionStatus;
 
 /**

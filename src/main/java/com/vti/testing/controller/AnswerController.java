@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vti.testing.entity.Answer;
 import com.vti.testing.entity.Question;
 import com.vti.testing.form.AnswerForm;
-import com.vti.testing.form.QuestionForm;
+import com.vti.testing.form.question.QuestionForm;
 import com.vti.testing.service.AnswerService;
 
 import io.swagger.annotations.ApiParam;

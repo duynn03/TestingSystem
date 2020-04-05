@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.vti.testing.entity.Question;
 import com.vti.testing.entity.Testing;
 
 /**
@@ -33,8 +32,7 @@ public interface TestingTemplateService {
 	 * @param pageable
 	 * @return
 	 */
-	public Page<Testing> getAllTestingTemplate( Specification<Testing> specification,
-			Pageable pageable);
+	public Page<Testing> getAllTestingTemplate(Specification<Testing> specification, Pageable pageable);
 
 	/**
 	 * 
@@ -107,5 +105,20 @@ public interface TestingTemplateService {
 	 * @param id
 	 * @return
 	 */
-	public boolean existsTesting(short id);
+	public boolean existsTestingByID(Short id);
+
+	/**
+	 * 
+	 * This method  is find testing by name.
+	 * 
+	 * @Description: .
+	 * @author: HVHanh
+	 * @create_date: Apr 3, 2020
+	 * @version: 1.0
+	 * @modifer: HVHanh
+	 * @modifer_date: Apr 3, 2020
+	 * @param name
+	 * @return
+	 */
+	public boolean existsTestingTemplateByName(String name);
 }

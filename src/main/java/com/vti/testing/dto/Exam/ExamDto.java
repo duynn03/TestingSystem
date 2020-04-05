@@ -4,7 +4,7 @@ package com.vti.testing.dto.Exam;
 import java.util.Date;
 import java.util.List;
 
-import com.vti.testing.dto.testingcategory.UserDto;
+import com.vti.testing.dto.UserDto;
 import com.vti.testing.entity.enumerate.ExamStatus;
 
 /**

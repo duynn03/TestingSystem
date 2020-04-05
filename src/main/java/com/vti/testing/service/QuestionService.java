@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.vti.testing.entity.Question;
 import com.vti.testing.entity.TestingCategory;
-import com.vti.testing.form.QuestionForm;
+import com.vti.testing.form.question.QuestionForm;
 
 /**
  * This class is interface of QuestionService .
@@ -50,7 +50,7 @@ public interface QuestionService {
 	 * @param id
 	 * @return
 	 */
-	public Question getQuestionByID(Short id);
+	public Question getQuestionByID(short id);
 
 	/**
 	 * 

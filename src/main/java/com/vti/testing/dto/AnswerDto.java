@@ -1,6 +1,7 @@
 //
 package com.vti.testing.dto;
 
+import com.vti.testing.dto.question.QuestionDto;
 import com.vti.testing.entity.Image;
 
 /**

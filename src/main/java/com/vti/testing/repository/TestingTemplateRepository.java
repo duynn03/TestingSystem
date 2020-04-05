@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.support.JpaRepositoryImplementati
 import com.vti.testing.entity.Testing;
 
 /**
- * This class is . 
+ * This class is .
  * 
  * @Description: .
  * @author: HVHanh
@@ -17,4 +17,18 @@ import com.vti.testing.entity.Testing;
  */
 public interface TestingTemplateRepository extends JpaRepositoryImplementation<Testing, Short> {
 
+	/**
+	 * 
+	 * This method is checked Testing Template exists by name.
+	 * 
+	 * @Description: .
+	 * @author: HVHanh
+	 * @create_date: Apr 3, 2020
+	 * @version: 1.0
+	 * @modifer: HVHanh
+	 * @modifer_date: Apr 3, 2020
+	 * @param name
+	 * @return
+	 */
+	public boolean existsByName(String name);
 }

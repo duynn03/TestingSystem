@@ -42,6 +42,21 @@ public class TestingCategoryForm {
 	private List<@Valid QuestionCategoryForm> questionCategories;
 
 	/**
+	 * @return the id
+	 */
+	public Short getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(short id) {
+		this.id = id;
+
+	}
+
+	/**
 	 * @return the name
 	 */
 	public String getName() {

@@ -57,7 +57,7 @@ public class Group implements Serializable {
 	private List<UserGroup> userGroups;
 
 	@Formula(
-			"(	SELECT 	COUNT(*) "
+			"(	SELECT 	COUNT(1) "
 			+ "	FROM 	User_Group UG "
 			+ "	WHERE 	UG.group_id = id )")
 	private int memberTotal;

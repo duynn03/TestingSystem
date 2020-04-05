@@ -15,8 +15,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 
-import com.vti.testing.validation.form.questioncategory.QuestionCategoryIDNotExistsValidator;
 
 /**
  * This class is . 
@@ -31,7 +31,19 @@ import com.vti.testing.validation.form.questioncategory.QuestionCategoryIDNotExi
 @Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { QuestionCategoryIDNotExistsValidator.class })
-public @interface QuestionNotExists {
+@Constraint(validatedBy = { QuestionIDNotExistsValidation.class })
+public @interface QuestionIDNotExists {
 
+	String message() default "{QuestionForm.id.NotExists}";
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
+
+	@Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
+	@Retention(RUNTIME)
+	@Documented
+	@interface List {
+		QuestionIDNotExists[] value();
+	}
 }

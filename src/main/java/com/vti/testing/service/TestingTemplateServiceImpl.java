@@ -7,9 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.vti.testing.entity.Question;
 import com.vti.testing.entity.Testing;
-import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.repository.TestingTemplateRepository;
 
 /**
@@ -84,9 +82,17 @@ public class TestingTemplateServiceImpl implements TestingTemplateService {
 	 * @see com.vti.testing.service.TestingTemplateService#existsTesting(short)
 	 */
 	@Override
-	public boolean existsTesting(short id) {
+	public boolean existsTestingByID(Short id) {
 		
 		return repository.existsById(id);
+	}
+
+	/* 
+	* @see com.vti.testing.service.TestingTemplateService#existsTestingTemplateByName(java.lang.String)
+	*/
+	@Override
+	public boolean existsTestingTemplateByName(String name) {
+		return repository.existsByName(name);
 	}
 
 }

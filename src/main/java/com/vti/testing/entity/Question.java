@@ -41,14 +41,14 @@ public class Question implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
 	@Column(name = "`id`", unique = true, nullable = false)
-	private int id;
+	private short id;
 
 	@Lob
 	@Column(name = "`title`", nullable = false)
 	private String title;
 
 	// bi-directional many-to-one association to QuestionCategory
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "`Question_Category_ID`", nullable = false)
 	private QuestionCategory questionCategory;
 
@@ -93,21 +93,20 @@ public class Question implements Serializable {
 					@JoinColumn(name = "`testing_id`", nullable = false) })
 	private List<Testing> testings;
 
-	@Formula(value = "( SELECT COUNT(1)" 
-			+ " FROM testingsystem.Question"
-			+ " JOIN testingsystem.question_testing ON testing_exam.question_id=Question.id"
-			+ " WHERE testing_exam.question_id=id )")
+	@Formula(value = "( SELECT COUNT(1)" + " FROM TestingSystem.Question "
+			+ " JOIN TestingSystem.question_testing ON question_testing.question_id = Question.id "
+			+ " WHERE question_testing.question_id = id )")
 	private int questionTotal;
 
 	/**
 	 * Constructor for class Question.
 	 * 
 	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Mar 4, 2020
+	 * @author: HVHanh
+	 * @create_date: Apr 3, 2020
 	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Mar 4, 2020
+	 * @modifer: HVHanh
+	 * @modifer_date: Apr 3, 2020
 	 */
 	public Question() {
 	}
@@ -121,7 +120,7 @@ public class Question implements Serializable {
 
 	/**
 	 * @param questionTotal the questionTotal to set
-	 * @return 
+	 * @return
 	 */
 	public Question setQuestionTotal(int questionTotal) {
 		this.questionTotal = questionTotal;
@@ -138,7 +137,7 @@ public class Question implements Serializable {
 	/**
 	 * @param id the id to set
 	 */
-	public Question setId(Short id) {
+	public Question setId(short id) {
 		this.id = id;
 		return this;
 	}

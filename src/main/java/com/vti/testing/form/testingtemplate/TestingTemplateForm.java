@@ -1,8 +1,15 @@
 //
-package com.vti.testing.form;
+package com.vti.testing.form.testingtemplate;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.vti.testing.entity.Exam;
 import com.vti.testing.entity.Question;
@@ -10,6 +17,10 @@ import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.entity.User;
 import com.vti.testing.entity.enumerate.GenerationTypeTesting;
 import com.vti.testing.entity.enumerate.TestingStatus;
+import com.vti.testing.validation.form.Exam.ExamNamenotExists;
+import com.vti.testing.validation.group.onCreate;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * This class is .
@@ -23,10 +34,22 @@ import com.vti.testing.entity.enumerate.TestingStatus;
  */
 public class TestingTemplateForm {
 	private Short id;
+
+	@NotBlank(message = "TestingTemplateForm.name.NotBlank")
+	@Length(max = 50, message = "TestingTemplateForm.name.Length")
 	private String name;
+
+	@Size(max = 50, message = "{QuestionCategoryForm.name.Size}")
 	private TestingCategory testingCategory;
+
+	@NotNull(message = "TestingTemplateForm.time.NotNull")
+	@DateTimeFormat
 	private short time;
+
+	@ApiModelProperty(notes = "The Generation Type Testing (RANDOM or Custom)")
+	@NotNull(message = "TestingTemplateForm.GenerationTypeTesting.NotNull")
 	private GenerationTypeTesting generationType;
+
 	private int version;
 	private TestingStatus status = TestingStatus.DRAFT;
 	private User examiner;

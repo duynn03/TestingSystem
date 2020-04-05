@@ -1,17 +1,25 @@
 //
-package com.vti.testing.form;
+package com.vti.testing.form.question;
 
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.vti.testing.entity.QuestionLevel;
 import com.vti.testing.entity.enumerate.QuestionStatus;
 import com.vti.testing.entity.enumerate.QuestionType;
+import com.vti.testing.form.AnswerForm;
+import com.vti.testing.form.ImageForm;
+import com.vti.testing.form.UserForm;
 import com.vti.testing.form.testingcategory.QuestionCategoryForm;
 import com.vti.testing.form.testingcategory.TestingCategoryForm;
 import com.vti.testing.validation.group.onCreate;
+import com.vti.testing.validation.group.onUpdate;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -28,19 +36,35 @@ import io.swagger.annotations.ApiModelProperty;
 public class QuestionForm {
 
 	private int id;
+	
+	@Size(max = 50, message = "{TestingCategoryForm.name.Size}", groups = onCreate.class)
 	private TestingCategoryForm testingCategory;
+	
+	@ApiModelProperty(notes = "The Question Category Of Question")
+	@Size(max = 50, message = "{QuestionCategoryForm.name.Size}", groups = { onCreate.class, onUpdate.class })
 	private QuestionCategoryForm questionCategory;
+	
+	@ApiModelProperty(notes = "The Question Level")
+	@NotNull(message = "QuestionForm.level.NotNull")
 	private QuestionLevel level;
 	
 	@ApiModelProperty(notes = "The Question Title")
 	@NotEmpty(message = "{Question.title.NotEmpty}", groups = onCreate.class)
 	private String title;
+	
+	@ApiModelProperty(notes = "The List Answers  of Question")
 	private List<AnswerForm> answers;
+	
 	private ImageForm image;
 	private QuestionStatus status;
 	private QuestionType type;
 	private int version;
+	
+	@NotNull(message = "QuestionForm.author.NotNull")
 	private UserForm author;
+	
+	@NotNull(message = "QuestionForm.createTime.NotNull")
+	@DateTimeFormat
 	private Date createTime;
 
 	/**
@@ -62,7 +86,7 @@ public class QuestionForm {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 

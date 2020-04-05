@@ -56,7 +56,7 @@ public class QuestionServiceImpl implements QuestionService {
 	 * @see com.vti.testing.service.QuestionService#getQuestionByID(short)
 	 */
 	@Override
-	public Question getQuestionByID(Short id) {
+	public Question getQuestionByID(short id) {
 
 		return repository.findById(id).get();
 	}
@@ -68,6 +68,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public void updateQuestion(Question entity) {
 
+		
 		repository.save(entity);
 
 	}

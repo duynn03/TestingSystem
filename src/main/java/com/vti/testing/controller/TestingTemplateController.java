@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vti.testing.dto.TestingTemplateDto;
 import com.vti.testing.entity.Exam;
 import com.vti.testing.entity.Testing;
-import com.vti.testing.form.TestingTemplateForm;
+import com.vti.testing.form.testingtemplate.TestingTemplateForm;
 import com.vti.testing.service.TestingTemplateService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;

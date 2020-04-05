@@ -1,8 +1,9 @@
 //
 package com.vti.testing.dto.Exam;
 
-import com.vti.testing.dto.testingcategory.TestingCategoryDto;
-import com.vti.testing.dto.testingcategory.UserDto;
+
+import com.vti.testing.dto.TestingCategoryDto;
+import com.vti.testing.dto.UserDto;
 import com.vti.testing.entity.enumerate.TestingStatus;
 
 /**

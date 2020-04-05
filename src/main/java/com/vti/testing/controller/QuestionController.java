@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -31,22 +30,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vti.testing.dto.QuestionDto;
+import com.vti.testing.dto.question.QuestionDto;
 import com.vti.testing.entity.Answer;
 import com.vti.testing.entity.Question;
-import com.vti.testing.form.QuestionForm;
+import com.vti.testing.entity.QuestionCategory;
+import com.vti.testing.form.question.QuestionForm;
+import com.vti.testing.form.testingcategory.QuestionCategoryForm;
 import com.vti.testing.service.QuestionService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
 import com.vti.testing.validation.form.question.QuestionIDExists;
+import com.vti.testing.validation.form.question.QuestionUpdatingByQuestionCategory;
 import com.vti.testing.validation.group.onCreate;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+@Api(value = "Testing Category Management")
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/api/v1/questions")
+@Validated
 public class QuestionController {
 
 	@Autowired
@@ -127,7 +132,7 @@ public class QuestionController {
 	 * @param id
 	 * @return
 	 */
-	@ApiOperation(value = "Get a Question By ID")
+	@ApiOperation(value = "Get a Question By ID", response = QuestionDto.class)
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getQuestionByID(
 			@ApiParam(value = "Get question by id") @QuestionIDExists @PathVariable(name = "id") short id) {
@@ -170,6 +175,7 @@ public class QuestionController {
 				answer.setQuestion(entity);
 			}
 		}
+
 		// create testing category
 		service.createQuestion(entity);
 
@@ -179,7 +185,7 @@ public class QuestionController {
 
 	/**
 	 * 
-	 * This method is updated Question.
+	 * This method is updated Question by title.
 	 * 
 	 * @Description: .
 	 * @author: HVHanh
@@ -191,26 +197,99 @@ public class QuestionController {
 	 * @param form
 	 * @return
 	 */
-	@ApiOperation(value = "Update Question title")
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateQuestion(@PathVariable(name = "id") short id,
+	@ApiOperation(value = "Update Question By Title")
+	@PutMapping(value = "/{id}/title")
+	public ResponseEntity<?> updateQuestionByTitle(@PathVariable(name = "id") short id,
 			@RequestBody Map<String, String> body) {
 
 		// get title
 		@NotEmpty
 		String title = body.get("title");
 
-		// convert form to entity
+		// get question by id
 		Question entity = service.getQuestionByID(id);
 		entity.setTitle(title);
-
-		service.updateQuestion(entity);
 
 		// update Testingcategory
 		service.updateQuestion(entity);
 
 		// return result
 		return new ResponseEntity<>("Update success!", HttpStatus.OK);
+	}
+
+	/**
+	 * 
+	 * This method is update question by question category.
+	 * 
+	 * @Description: .
+	 * @author: HVHanh
+	 * @create_date: Apr 5, 2020
+	 * @version: 1.0
+	 * @modifer: HVHanh
+	 * @modifer_date: Apr 5, 2020
+	 * @param id
+	 * @param questionCategory
+	 * @return
+	 */
+	@ApiOperation(value = "Update Question By  Question Category")
+	@PutMapping(value = "/{id}/questioncategory")
+	public ResponseEntity<?> updateQuestionByQuestionCategory(
+			@ApiParam(value = "Question's Id to update Question object", required = true) @QuestionIDExists @PathVariable(name = "id") short id,
+			@ApiParam(value = "Form to update  Question Categories of Question", required = true)
+			@RequestBody @QuestionUpdatingByQuestionCategory QuestionCategoryForm questionCategory) {
+
+		// Convert QuestionCategoryForm to QuestionCategoryEntity
+		QuestionCategory questionCategoryEntity = convertQuestionCategoryFormsToEntity(questionCategory);
+
+		Question entity = setQuestionCategoryToQuestion(id, questionCategoryEntity);
+
+		// update Testingcategory
+		service.updateQuestion(entity);
+
+		return new ResponseEntity<>("Update success!", HttpStatus.OK);
+	}
+
+	/**
+	 * This method is convert QuestionCategory Forms To Entity.
+	 * 
+	 * @Description: .
+	 * @author: HVHanh
+	 * @create_date: Apr 5, 2020
+	 * @version: 1.0
+	 * @modifer: HVHanh
+	 * @modifer_date: Apr 5, 2020
+	 * @param questionCategory
+	 * @return
+	 */
+	private QuestionCategory convertQuestionCategoryFormsToEntity(QuestionCategoryForm form) {
+
+		Type type = new TypeToken<QuestionCategory>() {
+		}.getType();
+
+		return modelMapper.map(form, type);
+	}
+
+	/**
+	 * This method is set question category for question.
+	 * 
+	 * @Description: .
+	 * @author: HVHanh
+	 * @create_date: Apr 5, 2020
+	 * @version: 1.0
+	 * @modifer: HVHanh
+	 * @modifer_date: Apr 5, 2020
+	 * @param id
+	 * @param questionCategoryEntity
+	 * @return
+	 */
+	private Question setQuestionCategoryToQuestion(short id, QuestionCategory questionCategoryEntity) {
+
+		// get question by id
+		Question entity = service.getQuestionByID(id);
+
+		// set Question category
+		return entity.setQuestionCategory(questionCategoryEntity);
+
 	}
 
 	/**

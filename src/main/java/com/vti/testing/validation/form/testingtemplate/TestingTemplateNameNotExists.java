@@ -1,5 +1,5 @@
 //
-package com.vti.testing.validation.form.question;
+package com.vti.testing.validation.form.testingtemplate;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -15,23 +15,34 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
-
-import com.vti.testing.validation.form.questioncategory.QuestionCategoryIDNotExistsValidator;
+import javax.validation.Payload;
 
 /**
- * This class is . 
+ * This class is a annotation bean validation.
  * 
  * @Description: .
  * @author: HVHanh
- * @create_date: Apr 1, 2020
+ * @create_date: Apr 3, 2020
  * @version: 1.0
  * @modifer: HVHanh
- * @modifer_date: Apr 1, 2020
+ * @modifer_date: Apr 3, 2020
  */
+
 @Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { QuestionCategoryIDNotExistsValidator.class })
-public @interface QuestionNotExists {
+@Constraint(validatedBy = { TestingTemplateNameNotExistsValidator.class })
+public @interface TestingTemplateNameNotExists {
+	String message() default "TestingTemplateForm.NotExists";
 
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
+
+	@Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
+	@Retention(RUNTIME)
+	@Documented
+	@interface List {
+		TestingTemplateNameNotExists[] value();
+	}
 }
