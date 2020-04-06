@@ -1,8 +1,6 @@
-package com.vti.testing.config.registration;
+package com.vti.testing.config.user.registrationUser;
 
 import org.springframework.context.ApplicationEvent;
-
-import com.vti.testing.entity.User;
 
 /**
  * This class is Registration User Complete Event.
@@ -14,11 +12,11 @@ import com.vti.testing.entity.User;
  * @modifer: NNDuy
  * @modifer_date: Apr 2, 2020
  */
-public class OnRegistrationUserCompleteEvent extends ApplicationEvent {
+public class OnSendRegistrationUserConfirmViaEmailEvent extends ApplicationEvent {
 
 	private static final long serialVersionUID = 1L;
 
-	private User user;
+	private String email;
 
 	/**
 	 * Constructor for class OnRegistrationUserCompleteEvent.
@@ -32,23 +30,23 @@ public class OnRegistrationUserCompleteEvent extends ApplicationEvent {
 	 * @param user
 	 * @param appUrl
 	 */
-	public OnRegistrationUserCompleteEvent(User user) {
-		super(user);
-		this.user = user;
+	public OnSendRegistrationUserConfirmViaEmailEvent(String email) {
+		super(email);
+		this.email = email;
 	}
 
 	/**
-	 * @return the user
+	 * @return the email
 	 */
-	public User getUser() {
-		return user;
+	public String getEmail() {
+		return email;
 	}
 
 	/**
-	 * @param user the user to set
+	 * @param email the email to set
 	 */
-	public void setUser(User user) {
-		this.user = user;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

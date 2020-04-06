@@ -1,34 +1,21 @@
-package com.vti.testing.config.resourceproperties.registration;
+package com.vti.testing.config.resourceproperties.user;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * This class is Registration Token User property.
+ * This class is .
  * 
  * @Description: .
  * @author: NNDuy
- * @create_date: Apr 3, 2020
+ * @create_date: Apr 5, 2020
  * @version: 1.0
  * @modifer: NNDuy
- * @modifer_date: Apr 3, 2020
+ * @modifer_date: Apr 5, 2020
  */
 @ConfigurationProperties(prefix = "user.registration.token")
 public class RegistrationUserTokenProperty {
 
 	private long expirationTime;
-
-	/**
-	 * Constructor for class RegistrationUserTokenProperty.
-	 * 
-	 * @Description: .
-	 * @author: NNDuy
-	 * @create_date: Apr 3, 2020
-	 * @version: 1.0
-	 * @modifer: NNDuy
-	 * @modifer_date: Apr 3, 2020
-	 */
-	public RegistrationUserTokenProperty() {
-	}
 
 	/**
 	 * @return the expirationTime

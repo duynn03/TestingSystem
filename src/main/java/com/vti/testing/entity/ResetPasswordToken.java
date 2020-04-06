@@ -15,11 +15,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import com.vti.testing.Application;
-import com.vti.testing.config.resourceproperties.user.RegistrationUserTokenProperty;
+import com.vti.testing.config.resourceproperties.user.ResetPasswordTokenProperty;
 
 /**
- * This class is Registration User Token.
+ * This class is Reset Password Token.
  * 
  * @Description: .
  * @author: NNDuy
@@ -29,8 +31,10 @@ import com.vti.testing.config.resourceproperties.user.RegistrationUserTokenPrope
  * @modifer_date: Apr 2, 2020
  */
 @Entity
-@Table(name = "`Registration_User_Token`")
-public class RegistrationUserToken implements Serializable {
+@Table(name = "`Reset_Password_Token`")
+@ConfigurationProperties(prefix = "user.registration.token")
+public class ResetPasswordToken implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -64,7 +68,7 @@ public class RegistrationUserToken implements Serializable {
 		// get property expirationTime in file application.properties
 		long expirationTime = 0;
 		try {
-			expirationTime = Application.getBean(RegistrationUserTokenProperty.class).getExpirationTime();
+			expirationTime = Application.getBean(ResetPasswordTokenProperty.class).getExpirationTime();
 		} catch (Exception e) {
 		}
 
@@ -87,7 +91,7 @@ public class RegistrationUserToken implements Serializable {
 	}
 
 	/**
-	 * Constructor for class VerificationToken.
+	 * Constructor for class ResetPasswordToken.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -96,9 +100,8 @@ public class RegistrationUserToken implements Serializable {
 	 * @modifer: NNDuy
 	 * @modifer_date: Apr 2, 2020
 	 */
-	public RegistrationUserToken() {
+	public ResetPasswordToken() {
 		expiryDate = getDefaultExpiryDate();
-
 	}
 
 	/**
@@ -125,7 +128,7 @@ public class RegistrationUserToken implements Serializable {
 	/**
 	 * @param token the token to set
 	 */
-	public RegistrationUserToken setToken(String token) {
+	public ResetPasswordToken setToken(String token) {
 		this.token = token;
 		return this;
 	}
@@ -140,7 +143,7 @@ public class RegistrationUserToken implements Serializable {
 	/**
 	 * @param user the user to set
 	 */
-	public RegistrationUserToken setUser(User user) {
+	public ResetPasswordToken setUser(User user) {
 		this.user = user;
 		return this;
 	}
@@ -155,7 +158,7 @@ public class RegistrationUserToken implements Serializable {
 	/**
 	 * @param expiryDate the expiryDate to set
 	 */
-	public RegistrationUserToken setExpiryDate(Date expiryDate) {
+	public ResetPasswordToken setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
 		return this;
 	}

@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.vti.testing.config.internationalization.MessageProperty;
+import com.vti.testing.config.resourceproperties.ServerProperty;
 import com.vti.testing.entity.User;
 
 /**
@@ -27,6 +28,9 @@ public class EmailServiceImpl implements EmailService {
 	@Autowired
 	private MessageProperty messageProperty;
 
+	@Autowired
+	private ServerProperty serverProperty;
+
 	/*
 	 * @see com.vti.testing.service.EmailService#sendEmail(java.lang.String,
 	 * java.lang.String, java.lang.String)
@@ -47,12 +51,26 @@ public class EmailServiceImpl implements EmailService {
 	 * testing.entity.User, java.lang.String)
 	 */
 	@Override
-	public void sendConfirmRegistrationUser(User user, String token) {
+	public void sendRegistrationUserConfirm(User user, String token) {
 
-		final String confirmationUrl = "http://localhost:8080/api/v1/Users/registrationConfirm/" + token;
+		String confirmationUrl = serverProperty.getUrl() + "/api/v1/Users/activeUser?token=" + token;
 
-		sendEmail(user.getEmail(), messageProperty.getMessage("Email.subject"),
-				messageProperty.getMessage("Email.message") + " \r\n" + confirmationUrl);
+		sendEmail(user.getEmail(), messageProperty.getMessage("Email.registrationUser.subject"),
+				messageProperty.getMessage("Email.registrationUser.message") + " \r\n" + confirmationUrl);
+
+	}
+
+	/*
+	 * @see
+	 * com.vti.testing.service.EmailService#sendResetPassword(com.vti.testing.entity
+	 * .User, java.lang.String)
+	 */
+	@Override
+	public void sendResetPassword(User user, String token) {
+		String confirmationUrl = serverProperty.getUrl() + "/api/v1/Users/resetPassword?token=" + token;
+
+		sendEmail(user.getEmail(), messageProperty.getMessage("Email.resetPassword.subject"),
+				messageProperty.getMessage("Email.resetPassword.message") + " \r\n" + confirmationUrl);
 
 	}
 

@@ -29,10 +29,10 @@ import javax.validation.Payload;
 @Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { RegistrationUserTokenActiveValidator.class })
-public @interface RegistrationUserTokenActive {
+@Constraint(validatedBy = { RegistrationUserTokenValidValidator.class })
+public @interface RegistrationUserTokenValid {
 
-	String message() default "{UserForm.RegistrationUserToken.Active}";
+	String message() default "{UserForm.RegistrationUserToken.Valid}";
 
 	Class<?>[] groups() default {};
 
@@ -42,6 +42,6 @@ public @interface RegistrationUserTokenActive {
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		RegistrationUserTokenActive[] value();
+		RegistrationUserTokenValid[] value();
 	}
 }

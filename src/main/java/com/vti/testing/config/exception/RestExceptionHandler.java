@@ -10,6 +10,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -111,6 +112,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(AccessDeniedException.class)
 	public ResponseEntity<Object> AccessDeniedException(AccessDeniedException exception) {
 		return buildResponseEntity(new ApiErrorResponse(HttpStatus.FORBIDDEN, exception));
+	}
+
+	// sending email
+	@ExceptionHandler(MailException.class)
+	public ResponseEntity<Object> MailException(MailException exception) {
+		return buildResponseEntity(new ApiErrorResponse(HttpStatus.BAD_REQUEST, exception));
 	}
 
 	/**

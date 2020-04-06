@@ -42,5 +42,19 @@ public interface EmailService {
 	 * @param user
 	 * @param token
 	 */
-	public void sendConfirmRegistrationUser(final User user, final String token);
+	public void sendRegistrationUserConfirm(final User user, final String token);
+
+	/**
+	 * This method is used for sending reset password email.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Apr 5, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Apr 5, 2020
+	 * @param user
+	 * @param token
+	 */
+	public void sendResetPassword(User user, String token);
 }

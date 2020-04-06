@@ -18,7 +18,7 @@ import com.vti.testing.service.UserService;
  * @modifer: NNDuy
  * @modifer_date: Feb 8, 2020
  */
-public class RegistrationUserTokenExistsValidator implements ConstraintValidator<RegistrationUserTokenExists, String> {
+public class RegistrationUserTokenValidValidator implements ConstraintValidator<RegistrationUserTokenValid, String> {
 
 	@Autowired
 	private UserService service;
@@ -34,6 +34,6 @@ public class RegistrationUserTokenExistsValidator implements ConstraintValidator
 			return false;
 		}
 
-		return service.existsToken(data);
+		return service.isRegistrationUserTokenValid(data);
 	}
 }

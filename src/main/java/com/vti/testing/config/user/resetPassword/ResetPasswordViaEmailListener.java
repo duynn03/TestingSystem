@@ -1,4 +1,4 @@
-package com.vti.testing.config.registration;
+package com.vti.testing.config.user.resetPassword;
 
 import java.util.UUID;
 
@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import com.vti.testing.entity.RegistrationUserToken;
+import com.vti.testing.entity.ResetPasswordToken;
 import com.vti.testing.entity.User;
 import com.vti.testing.service.EmailService;
 import com.vti.testing.service.UserService;
 
 /**
- * This class is used for handling Registration User complete.
+ * This class is used for Reset User's Password.
  * 
  * @Description: .
  * @author: NNDuy
@@ -22,7 +22,7 @@ import com.vti.testing.service.UserService;
  * @modifer_date: Apr 3, 2020
  */
 @Component
-public class RegistrationUserListener implements ApplicationListener<OnRegistrationUserCompleteEvent> {
+public class ResetPasswordViaEmailListener implements ApplicationListener<OnResetPasswordViaEmailEvent> {
 
 	@Autowired
 	private UserService userService;
@@ -35,12 +35,12 @@ public class RegistrationUserListener implements ApplicationListener<OnRegistrat
 	 * springframework.context.ApplicationEvent)
 	 */
 	@Override
-	public void onApplicationEvent(final OnRegistrationUserCompleteEvent event) {
-		this.confirmRegistration(event);
+	public void onApplicationEvent(final OnResetPasswordViaEmailEvent event) {
+		this.resetPassword(event);
 	}
 
 	/**
-	 * This method is used for confirm registration.
+	 * This method is used for resetting password.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -50,18 +50,20 @@ public class RegistrationUserListener implements ApplicationListener<OnRegistrat
 	 * @modifer_date: Apr 2, 2020
 	 * @param event
 	 */
-	private void confirmRegistration(final OnRegistrationUserCompleteEvent event) {
+	private void resetPassword(final OnResetPasswordViaEmailEvent event) {
 
 		// extract all User information
-		final User user = event.getUser();
+		final User user = userService.getUserByEmail(event.getEmail());
 
-		// create token for confirm Registration
+		// delete old token
+		userService.deleteResetPasswordTokenByUserId(user.getId());
+
+		// create new token for resetting password
 		final String token = UUID.randomUUID().toString();
-
-		userService.createToken(new RegistrationUserToken().setToken(token).setUser(user));
+		userService.createResetPasswordToken(new ResetPasswordToken().setToken(token).setUser(user));
 
 		// send mail
-		emailService.sendConfirmRegistrationUser(user, token);
+		emailService.sendResetPassword(user, token);
 	}
 
 }

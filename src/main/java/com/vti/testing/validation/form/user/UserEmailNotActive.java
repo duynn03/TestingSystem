@@ -29,10 +29,10 @@ import javax.validation.Payload;
 @Target({ FIELD, METHOD, PARAMETER, CONSTRUCTOR, ANNOTATION_TYPE, TYPE_PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { RegistrationUserTokenExistsValidator.class })
-public @interface RegistrationUserTokenExists {
+@Constraint(validatedBy = { UserEmailNotActiveValidator.class })
+public @interface UserEmailNotActive {
 
-	String message() default "{UserForm.RegistrationUserToken.Exists}";
+	String message() default "{UserForm.email.NotActive}";
 
 	Class<?>[] groups() default {};
 
@@ -42,6 +42,6 @@ public @interface RegistrationUserTokenExists {
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		RegistrationUserTokenExists[] value();
+		UserEmailNotActive[] value();
 	}
 }

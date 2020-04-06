@@ -18,7 +18,7 @@ import com.vti.testing.service.UserService;
  * @modifer: NNDuy
  * @modifer_date: Feb 8, 2020
  */
-public class RegistrationUserTokenActiveValidator implements ConstraintValidator<RegistrationUserTokenActive, String> {
+public class UserEmailNotActiveValidator implements ConstraintValidator<UserEmailNotActive, String> {
 
 	@Autowired
 	private UserService service;
@@ -31,9 +31,9 @@ public class RegistrationUserTokenActiveValidator implements ConstraintValidator
 	public boolean isValid(String data, ConstraintValidatorContext constraintValidatorContext) {
 
 		if (StringUtils.isEmpty(data)) {
-			return false;
+			return true;
 		}
 
-		return service.existsToken(data);
+		return !service.isEmailActive(data);
 	}
 }

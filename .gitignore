@@ -12,7 +12,7 @@
 .mtj.tmp/
 
 # Setting
-.settings/org.eclipse.jdt.core.prefs/
+.settings/org.eclipse.jdt.core.prefs
 .settings/org.eclipse.m2e.core.prefs/
 .sts4-cache/classpath-data.json/
 .settings/
@@ -38,5 +38,4 @@ hs_err_pid*
 # JDT-specific (Eclipse Java Development Tools)     
 .classpath
 
-/.settings
 .factorypath

@@ -9,6 +9,7 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mail.MailException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -94,8 +95,8 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, NoHandlerFoundException exception) {
 		this.status = status;
-		this.message = messageProperty.getMessage("NoHandlerFoundException.message")
-				+ exception.getHttpMethod() + " " + exception.getRequestURL();
+		this.message = messageProperty.getMessage("NoHandlerFoundException.message") + exception.getHttpMethod() + " "
+				+ exception.getRequestURL();
 		this.detailMessage = exception.getLocalizedMessage();
 	}
 
@@ -131,8 +132,8 @@ public class ApiErrorResponse {
 	 */
 	private String getMessageFromHttpRequestMethodNotSupportedException(
 			HttpRequestMethodNotSupportedException exception) {
-		String message = exception.getMethod() + messageProperty
-				.getMessage("HttpRequestMethodNotSupportedException.message");
+		String message = exception.getMethod()
+				+ messageProperty.getMessage("HttpRequestMethodNotSupportedException.message");
 		for (HttpMethod method : exception.getSupportedHttpMethods()) {
 			message += method + " ";
 		}
@@ -274,8 +275,8 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, MissingServletRequestParameterException exception) {
 		this.status = status;
-		this.message = exception.getParameterName() + messageProperty
-				.getMessage("MissingServletRequestParameterException.message");
+		this.message = exception.getParameterName()
+				+ messageProperty.getMessage("MissingServletRequestParameterException.message");
 		this.detailMessage = exception.getLocalizedMessage();
 	}
 
@@ -293,9 +294,26 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, MethodArgumentTypeMismatchException exception) {
 		this.status = status;
-		this.message = exception.getName()
-				+ messageProperty.getMessage("MethodArgumentTypeMismatchException.message")
+		this.message = exception.getName() + messageProperty.getMessage("MethodArgumentTypeMismatchException.message")
 				+ exception.getRequiredType().getName();
+		this.detailMessage = exception.getLocalizedMessage();
+	}
+
+	/**
+	 * Constructor for class ApiErrorResponse.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Mar 20, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Mar 20, 2020
+	 * @param status
+	 * @param exception
+	 */
+	public ApiErrorResponse(HttpStatus status, MailException exception) {
+		this.status = status;
+		this.message = messageProperty.getMessage("MailException.message");
 		this.detailMessage = exception.getLocalizedMessage();
 	}
 

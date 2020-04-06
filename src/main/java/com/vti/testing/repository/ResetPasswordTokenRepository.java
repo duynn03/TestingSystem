@@ -5,10 +5,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.vti.testing.entity.RegistrationUserToken;
+import com.vti.testing.entity.ResetPasswordToken;
 
 /**
- * This class is Registration User Token repository.
+ * This class is Reset Password Token repository.
  * 
  * @Description: .
  * @author: NNDuy
@@ -17,7 +17,7 @@ import com.vti.testing.entity.RegistrationUserToken;
  * @modifer: NNDuy
  * @modifer_date: Dec 7, 2019
  */
-public interface RegistrationUserTokenRepository extends JpaRepository<RegistrationUserToken, Integer> {
+public interface ResetPasswordTokenRepository extends JpaRepository<ResetPasswordToken, Integer> {
 
 	/**
 	 * This method is used for finding token.
@@ -31,7 +31,7 @@ public interface RegistrationUserTokenRepository extends JpaRepository<Registrat
 	 * @param token
 	 * @return
 	 */
-	public RegistrationUserToken findByToken(String token);
+	public ResetPasswordToken findByToken(String token);
 
 	/**
 	 * This method is checked User's Token exists by token
@@ -60,8 +60,8 @@ public interface RegistrationUserTokenRepository extends JpaRepository<Registrat
 	 */
 	@Transactional
 	@Modifying
-	@Query("	DELETE 							"
-			+ "	FROM 	RegistrationUserToken 	"
+	@Query("	DELETE 						" 
+			+ "	FROM 	ResetPasswordToken 	" 
 			+ " WHERE 	user.id = :userId")
 	public void deleteByUserId(int userId);
 

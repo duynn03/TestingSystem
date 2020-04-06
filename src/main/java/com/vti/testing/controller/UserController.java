@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,17 +31,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vti.testing.config.registration.OnRegistrationUserCompleteEvent;
+import com.vti.testing.config.user.registrationUser.OnSendRegistrationUserConfirmViaEmailEvent;
+import com.vti.testing.config.user.resetPassword.OnResetPasswordViaEmailEvent;
 import com.vti.testing.dto.user.UserDto;
-import com.vti.testing.entity.RegistrationUserToken;
 import com.vti.testing.entity.User;
-import com.vti.testing.entity.enumerate.UserStatus;
 import com.vti.testing.form.user.UserForm;
 import com.vti.testing.service.UserService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
-import com.vti.testing.validation.form.user.RegistrationUserTokenActive;
-import com.vti.testing.validation.form.user.RegistrationUserTokenExists;
+import com.vti.testing.validation.form.user.RegistrationUserTokenValid;
+import com.vti.testing.validation.form.user.ResetPasswordTokenValid;
+import com.vti.testing.validation.form.user.UserEmailExists;
+import com.vti.testing.validation.form.user.UserEmailNotActive;
 import com.vti.testing.validation.form.user.UserIDExists;
 import com.vti.testing.validation.form.user.UserNameNotExists;
 import com.vti.testing.validation.group.onCreate;
@@ -175,26 +177,53 @@ public class UserController {
 		// create User
 		User registeredUser = service.createUser(entity);
 
-		// Create the Token and Send the Registration Confirm to User's Email
-		eventPublisher.publishEvent(new OnRegistrationUserCompleteEvent(registeredUser));
-
-		return new ResponseEntity<>("Create success!", HttpStatus.OK);
+		// Sending the Registration Confirm to User's Email
+		return sendConfirmRegistrationViaEmail(registeredUser.getEmail());
 	}
 
-	@ApiOperation(value = "Confirm registration via Email")
-	@GetMapping("/registrationConfirm/{token}")
-	public ResponseEntity<?> confirmRegistrationViaEmail(
-			@ApiParam(value = "Token to confirm registration", required = true) @RegistrationUserTokenActive @RegistrationUserTokenExists @PathVariable(name = "token") String token) {
+	@ApiOperation(value = "Send confirm registration via Email")
+	@GetMapping("/registrationConfirmRequest")
+	public ResponseEntity<?> sendConfirmRegistrationViaEmail(
+			@ApiParam(value = "User's email to active registration", required = true) @UserEmailExists @UserEmailNotActive @Param(value = "email") String email) {
 
-		// get token
-		RegistrationUserToken registrationToken = service.getToken(token);
+		// Resending the Registration Confirm to User's Email
+		eventPublisher.publishEvent(new OnSendRegistrationUserConfirmViaEmailEvent(email));
 
-		User user = registrationToken.getUser();
+		return new ResponseEntity<>("We have sent 1 email. Please check email to active account!", HttpStatus.OK);
+	}
 
-		user.setStatus(UserStatus.ACTIVE);
-		service.updateUser(user);
+	@ApiOperation(value = "Active User via Email")
+	@GetMapping("/activeUser")
+	public ResponseEntity<?> activeUserViaEmail(
+			@ApiParam(value = "Token to active user", required = true) @RegistrationUserTokenValid @Param(value = "token") String token) {
 
-		return new ResponseEntity<>("Confirm success!", HttpStatus.OK);
+		// active user
+		service.activeUser(token);
+
+		return new ResponseEntity<>("Active success!", HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "Reset password via Email")
+	@GetMapping("/resetPasswordRequest")
+	public ResponseEntity<?> requestResetPasswordViaEmail(
+			@ApiParam(value = "User's email to reset password", required = true) @UserEmailExists @Param(value = "email") String email) {
+
+		// sending reset password token to user's email
+		eventPublisher.publishEvent(new OnResetPasswordViaEmailEvent(email));
+
+		return new ResponseEntity<>("We have sent 1 email. Please check email to reset account!", HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "Reset password via Email")
+	@GetMapping("/resetPassword")
+	public ResponseEntity<?> resetPasswordViaEmail(
+			@ApiParam(value = "Token to reset password", required = true) @ResetPasswordTokenValid @Param(value = "token") String token,
+			@ApiParam(value = "new password of user", required = true) @NotEmpty(message = "{UserForm.password.NotEmpty}") @Size(max = 50, message = "{UserForm.password.Size}") @Param(value = "newPassword") String newPassword) {
+
+		// reset password
+		service.resetPassword(token, newPassword);
+
+		return new ResponseEntity<>("Reset password success!", HttpStatus.OK);
 	}
 
 	/**
