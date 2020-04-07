@@ -45,7 +45,7 @@ public class ResourceServerConfigurer extends ResourceServerConfigurerAdapter {
 				"/api/v1/Users/activeUser", "/api/v1/Users/resetPasswordRequest", "/api/v1/Users/resetPassword")
 				.permitAll();
 
-		http.authorizeRequests().antMatchers("/api/v1/**").authenticated();
+		http.authorizeRequests().antMatchers("/api/v1/**").permitAll();// .authenticated();
 
 	}
 }

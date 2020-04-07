@@ -46,9 +46,9 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 	 * @return
 	 */
 	public boolean existsByEmail(String email);
-	
+
 	/**
-	 * This method is used for finding user's status by email. 
+	 * This method is used for finding user's status by email.
 	 * 
 	 * @Description: .
 	 * @author: NNDuy
@@ -59,9 +59,7 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 	 * @param email
 	 * @return
 	 */
-	@Query("	SELECT 	status 		"
-			+ "	FROM 	User 		"
-			+ " WHERE 	email = :email")
+	@Query("	SELECT 	status 		" + "	FROM 	User 		" + " WHERE 	email = :email")
 	public UserStatus findStatusByEmail(String email);
 
 	/**
@@ -77,7 +75,7 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 	 * @return
 	 */
 	public User findByUserName(String name);
-	
+
 	/**
 	 * This method is find User by email.
 	 * 

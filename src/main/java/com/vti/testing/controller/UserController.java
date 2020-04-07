@@ -44,7 +44,6 @@ import com.vti.testing.validation.form.user.ResetPasswordTokenValid;
 import com.vti.testing.validation.form.user.UserEmailExists;
 import com.vti.testing.validation.form.user.UserEmailNotActive;
 import com.vti.testing.validation.form.user.UserIDExists;
-import com.vti.testing.validation.form.user.UserNameNotExists;
 import com.vti.testing.validation.group.onCreate;
 
 import io.swagger.annotations.Api;
@@ -240,7 +239,7 @@ public class UserController {
 	@ApiOperation(value = "Update a User By ID")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> updateUser(
-			@ApiParam(value = "User's Id to update UserName object", required = true) @UserNameNotExists @PathVariable(name = "id") short id,
+			@ApiParam(value = "User's Id to update UserName object", required = true) @UserIDExists @PathVariable(name = "id") int id,
 			@RequestBody Map<String, String> body) {
 
 		// get name

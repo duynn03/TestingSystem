@@ -75,7 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/oauth/token", "/api/v1/Users/registrationConfirmRequest", "/api/v1/Users/activeUser",
 						"/api/v1/Users/resetPasswordRequest", "/api/v1/Users/resetPassword")
 				.permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
-				.anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
+				.anyRequest().permitAll();//.authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
 
 	}
 

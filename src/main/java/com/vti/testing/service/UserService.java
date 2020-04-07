@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import com.vti.testing.entity.RegistrationUserToken;
 import com.vti.testing.entity.ResetPasswordToken;
 import com.vti.testing.entity.User;
+import com.vti.testing.entity.enumerate.UserStatus;
 
 /**
  * This class is User service.

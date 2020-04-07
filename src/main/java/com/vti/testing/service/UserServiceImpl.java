@@ -265,7 +265,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	 */
 	@Override
 	public boolean existsUser(int id) {
-		return repository.existsById(id);
+		User user = getUserByID(id);
+		if (user == null || user.getStatus() == UserStatus.BLOCK) {
+			return false;
+		}
+		return true;
 	}
 
 	/*
