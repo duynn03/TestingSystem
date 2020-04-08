@@ -6,8 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.vti.testing.entity.Question;
-import com.vti.testing.entity.TestingCategory;
-import com.vti.testing.form.question.QuestionForm;
+
 
 /**
  * This class is interface of QuestionService .

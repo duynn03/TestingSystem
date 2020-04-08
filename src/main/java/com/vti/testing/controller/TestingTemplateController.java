@@ -4,6 +4,8 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +27,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vti.testing.dto.TestingTemplateDto;
+import com.vti.testing.dto.question.QuestionDto;
 import com.vti.testing.entity.Exam;
 import com.vti.testing.entity.Testing;
+import com.vti.testing.entity.enumerate.TestingStatus;
+import com.vti.testing.form.question.QuestionForm;
 import com.vti.testing.form.testingtemplate.TestingTemplateForm;
 import com.vti.testing.service.TestingTemplateService;
 import com.vti.testing.specification.SpecificationTemplate;
 import com.vti.testing.validation.Search;
+import com.vti.testing.validation.form.question.QuestionIDExists;
+import com.vti.testing.validation.form.testingtemplate.TestingTemplateIDExists;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @CrossOrigin("*")
 @RestController
@@ -112,8 +122,10 @@ public class TestingTemplateController {
 	 * @param id
 	 * @return
 	 */
+	@ApiOperation(value = "Get a testing template By ID", response = TestingTemplateDto.class)
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getTestingTemplateByID(@PathVariable(name = "id") short id) {
+	public ResponseEntity<?> getTestingTemplateByID(
+			@ApiParam(value = "Gettesting template by id") @TestingTemplateIDExists @PathVariable(name = "id") short id) {
 		// get entity
 		Testing entity = service.getTestingByID(id);
 
@@ -138,17 +150,14 @@ public class TestingTemplateController {
 	 * @return
 	 */
 	@PostMapping()
-	public ResponseEntity<?> createTestingTemplate(@RequestBody TestingTemplateForm form) {
+	public ResponseEntity<?> createTestingTemplate(
+			@ApiParam(value = "Form to create Testing Template", required = true) @Valid @RequestBody TestingTemplateForm form) {
 
+		
 		// convert form to entity
 		Testing entity = modelMapper.map(form, Testing.class);
 
-		// set child element
-		if (null != entity.getExams()) {
-			for (Exam exam : entity.getExams()) {
-			//	exam.setTestings(  entity);
-			}
-		}
+		service.createTesting(entity);
 
 		// return result
 		return new ResponseEntity<>("Create success!", HttpStatus.OK);
@@ -187,8 +196,12 @@ public class TestingTemplateController {
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<?> deleteTestingTemplate(@PathVariable(name = "id") short id) {
 
-		service.deleteTesting(id);
-		return new ResponseEntity<>("Delete success!", HttpStatus.OK);
+		if (service.getTestingByID(id).getExams().size() < 1) {
+			service.updateTesting(service.getTestingByID(id).setStatus(TestingStatus.DRAFT));
+			return new ResponseEntity<>("The test has been converted into a draft !", HttpStatus.OK);
+		}
+		return new ResponseEntity<>("Delete the error. There seems to be one or several exams using testing!", HttpStatus.OK);
+
 	}
 
 }

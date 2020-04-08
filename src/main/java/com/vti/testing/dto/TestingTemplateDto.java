@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.vti.testing.entity.Question;
-import com.vti.testing.entity.TestingCategory;
 import com.vti.testing.entity.enumerate.TestingStatus;
 
 /**
@@ -20,6 +19,7 @@ import com.vti.testing.entity.enumerate.TestingStatus;
  */
 public class TestingTemplateDto {
 
+	private int id;
 	private String name;
 	private String testingCategory;
 	private int version;
@@ -28,7 +28,28 @@ public class TestingTemplateDto {
 	private TestingStatus status = TestingStatus.DRAFT;
 	private List<Question> questions;
 
-	
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public TestingTemplateDto setId(int id) {
+		this.id = id;
+		return this;
+	}
+
+	/**
+	 * @param testingCategory the testingCategory to set
+	 */
+	public TestingTemplateDto setTestingCategory(String testingCategory) {
+		this.testingCategory = testingCategory;
+		return this;
+	}
 
 	/**
 	 * @return number of questions
@@ -42,7 +63,7 @@ public class TestingTemplateDto {
 	 */
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
-		
+
 	}
 
 	/**

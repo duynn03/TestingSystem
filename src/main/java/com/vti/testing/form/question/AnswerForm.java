@@ -1,5 +1,5 @@
 //
-package com.vti.testing.form;
+package com.vti.testing.form.question;
 
 /**
  * This class is answer form.
@@ -13,22 +13,11 @@ package com.vti.testing.form;
  */
 public class AnswerForm {
 
-//	private QuestionForm question;
 	private String key;
 	private boolean isCorrect;
 	private ImageForm image;
-//	/**
-//	 * @return the question
-//	 */
-//	public QuestionForm getQuestion() {
-//		return question;
-//	}
-//	/**
-//	 * @param question the question to set
-//	 */
-//	public void setQuestion(QuestionForm question) {
-//		this.question = question;
-//	}
+
+	
 	/**
 	 * @return the key
 	 */

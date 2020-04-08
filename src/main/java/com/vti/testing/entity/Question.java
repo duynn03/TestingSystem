@@ -48,7 +48,7 @@ public class Question implements Serializable {
 	private String title;
 
 	// bi-directional many-to-one association to QuestionCategory
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "`Question_Category_ID`", nullable = false)
 	private QuestionCategory questionCategory;
 

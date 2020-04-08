@@ -2,11 +2,11 @@ package com.vti.testing.controller;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
+
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -35,6 +35,7 @@ import com.vti.testing.entity.Answer;
 import com.vti.testing.entity.Question;
 import com.vti.testing.entity.QuestionCategory;
 import com.vti.testing.form.question.QuestionForm;
+import com.vti.testing.form.question.QuestionFormUpdate;
 import com.vti.testing.form.testingcategory.QuestionCategoryForm;
 import com.vti.testing.service.QuestionService;
 import com.vti.testing.specification.SpecificationTemplate;
@@ -199,22 +200,33 @@ public class QuestionController {
 	 */
 	@ApiOperation(value = "Update Question By Title")
 	@PutMapping(value = "/{id}/title")
-	public ResponseEntity<?> updateQuestionByTitle(@PathVariable(name = "id") short id,
-			@RequestBody Map<String, String> body) {
+	public ResponseEntity<?> updateQuestionByTitle(
+			@ApiParam(value = "Update question ", required = true) 
+			@QuestionIDExists @PathVariable(name = "id") short id,
+			@RequestBody Map<String, Object> body) {
 
-		// get title
-		@NotEmpty
-		String title = body.get("title");
-
-		// get question by id
 		Question entity = service.getQuestionByID(id);
-		entity.setTitle(title);
-
-		// update Testingcategory
-		service.updateQuestion(entity);
-
-		// return result
-		return new ResponseEntity<>("Update success!", HttpStatus.OK);
+		
+		
+	//	QuestionForm form = 
+	//	Question temp = new Question();
+		
+		
+		
+		return new ResponseEntity<>("Update success !", HttpStatus.OK);
+//		Question entity = service.getQuestionByID(id);
+//		if (entity.getQuestionTotal() < 1) {
+//			QuestionForm form2 = questionForm;
+//
+//			form2.updateQuestion(entity);
+//
+//			Question question = modelMapper.map(form2, Question.class);
+//
+//			service.createQuestion(question);
+//
+//			return new ResponseEntity<>("Update success !", HttpStatus.OK);
+//		}
+//		return new ResponseEntity<>("Update failed. It seems that the question is on some test !", HttpStatus.OK);
 	}
 
 	/**
@@ -235,8 +247,7 @@ public class QuestionController {
 	@PutMapping(value = "/{id}/questioncategory")
 	public ResponseEntity<?> updateQuestionByQuestionCategory(
 			@ApiParam(value = "Question's Id to update Question object", required = true) @QuestionIDExists @PathVariable(name = "id") short id,
-			@ApiParam(value = "Form to update  Question Categories of Question", required = true)
-			@RequestBody @QuestionUpdatingByQuestionCategory QuestionCategoryForm questionCategory) {
+			@ApiParam(value = "Form to update  Question Categories of Question", required = true) @RequestBody @QuestionUpdatingByQuestionCategory QuestionCategoryForm questionCategory) {
 
 		// Convert QuestionCategoryForm to QuestionCategoryEntity
 		QuestionCategory questionCategoryEntity = convertQuestionCategoryFormsToEntity(questionCategory);
@@ -311,7 +322,8 @@ public class QuestionController {
 		if (service.deleteQuestion(id) == true) {
 			return new ResponseEntity<>("Delete success!", HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("Cannot delete  a parent row: a foreign key constraint fails", HttpStatus.OK);
+			return new ResponseEntity<>("The question cannot be deleted because it is on the Testing Template",
+					HttpStatus.OK);
 		}
 	}
 

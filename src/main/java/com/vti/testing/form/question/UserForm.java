@@ -1,4 +1,8 @@
-package com.vti.testing.form;
+package com.vti.testing.form.question;
+
+import javax.validation.constraints.Size;
+
+import com.vti.testing.validation.group.onCreate;
 
 /**
  * This class is .
@@ -13,6 +17,8 @@ package com.vti.testing.form;
 public class UserForm {
 
 	private int id;
+
+	@Size(min = 6, max = 50, message = "{UserForm.userName.NotEmpty.Size}", groups = onCreate.class)
 	private String name;
 
 	/**
@@ -29,6 +35,4 @@ public class UserForm {
 		this.id = id;
 	}
 
-
-	
 }

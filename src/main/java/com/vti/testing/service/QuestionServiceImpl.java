@@ -1,8 +1,6 @@
 //
 package com.vti.testing.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -68,9 +66,8 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public void updateQuestion(Question entity) {
 
+		 repository.save(entity);
 		
-		repository.save(entity);
-
 	}
 
 	/*
@@ -79,10 +76,11 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public boolean deleteQuestion(short id) {
 
-		if (repository.findById(id).get().getStatus() != QuestionStatus.PUBLISHED
-				&& null == repository.findById(id).get().getQuestionCategory()
-				&& null == repository.findById(id).get().getAnswers()) {
-			repository.deleteById(id);
+		if (repository.findById(id).get().getQuestionTotal() < 1) {
+
+			// chuyen trang thai thanh draft
+			repository.findById(id).get().setStatus(QuestionStatus.DRAFT);
+
 			return true;
 		} else {
 			return false;

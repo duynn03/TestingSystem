@@ -37,13 +37,13 @@ public class Testing implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "`id`", unique = true, nullable = false)
-	private int id;
+	private short id;
 
 	@Column(name = "`name`", nullable = false, length = 200)
 	private String name;
 
 	// bi-directional many-to-one association to QuestionCategory
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "`Testing_Category_ID`", nullable = false)
 	private TestingCategory testingCategory;
 
@@ -61,12 +61,12 @@ public class Testing implements Serializable {
 	private TestingStatus status = TestingStatus.DRAFT;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "`examiner_ID`", nullable = false)
 	private User examiner;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "`author_ID`", nullable = false)
 	private User author;
 
@@ -80,7 +80,7 @@ public class Testing implements Serializable {
 	private String note;
 
 	// bi-directional many-to-many association to Question
-	@ManyToMany(mappedBy = "testings", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "testings", cascade = CascadeType.MERGE)
 	private List<Question> questions;
 
 	// bi-directional many-to-many association to Exam
@@ -103,14 +103,14 @@ public class Testing implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public short getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public Testing setId(Short id) {
+	public Testing setId(short id) {
 		this.id = id;
 		return this;
 	}

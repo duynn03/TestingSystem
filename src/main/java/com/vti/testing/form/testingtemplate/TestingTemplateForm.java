@@ -4,20 +4,19 @@ package com.vti.testing.form.testingtemplate;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.vti.testing.entity.Exam;
-import com.vti.testing.entity.Question;
-import com.vti.testing.entity.TestingCategory;
-import com.vti.testing.entity.User;
 import com.vti.testing.entity.enumerate.GenerationTypeTesting;
 import com.vti.testing.entity.enumerate.TestingStatus;
-import com.vti.testing.validation.form.Exam.ExamNamenotExists;
+import com.vti.testing.form.question.TestingCategoryForm;
+import com.vti.testing.form.question.UserForm;
+import com.vti.testing.validation.form.testingtemplate.TestingTemplateIDExists;
+import com.vti.testing.validation.form.testingtemplate.TestingTemplateNameExists;
+import com.vti.testing.validation.form.testingtemplate.TestingTemplateNameNotExists;
 import com.vti.testing.validation.group.onCreate;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -33,31 +32,51 @@ import io.swagger.annotations.ApiModelProperty;
  * @modifer_date: Mar 17, 2020
  */
 public class TestingTemplateForm {
-	private Short id;
 
-	@NotBlank(message = "TestingTemplateForm.name.NotBlank")
-	@Length(max = 50, message = "TestingTemplateForm.name.Length")
+	private short id;
+
+	@TestingTemplateNameNotExists
+	@ApiModelProperty(notes = "The Question Title")
+	@NotEmpty(message = "{ Testing.title.NotEmpty}", groups = onCreate.class)
 	private String name;
 
-	@Size(max = 50, message = "{QuestionCategoryForm.name.Size}")
-	private TestingCategory testingCategory;
+	@ApiModelProperty(notes = "The Question Category   for question")
+	@NotNull(message = "{TestingCategoryForm.NotNull}", groups = onCreate.class)
+	@Valid
+	private TestingCategoryForm testingCategory;
 
 	@NotNull(message = "TestingTemplateForm.time.NotNull")
 	@DateTimeFormat
 	private short time;
 
 	@ApiModelProperty(notes = "The Generation Type Testing (RANDOM or Custom)")
-	@NotNull(message = "TestingTemplateForm.GenerationTypeTesting.NotNull")
 	private GenerationTypeTesting generationType;
 
 	private int version;
 	private TestingStatus status = TestingStatus.DRAFT;
-	private User examiner;
-	private User author;
+
+	@ApiModelProperty(notes = "The Question's Author")
+	@NotNull(message = "{UserForm.NotNull}", groups = onCreate.class)
+	@Valid
+	private UserForm examiner;
+
+	@ApiModelProperty(notes = "The Question's Author")
+	@NotNull(message = "{UserForm.NotNull}", groups = onCreate.class)
+	@Valid
+	private UserForm author;
+
+	@ApiModelProperty(notes = "The create time")
 	private Date createTime;
+
 	private String note;
-	private List<Question> questions;
-	private List<Exam> exams;
+
+	@ApiModelProperty(notes = "The Question in the testing")
+	@NotNull(message = "{UserForm.NotNull}", groups = onCreate.class)
+	private List<QuestionForm> questions;
+	
+	@ApiModelProperty(notes = "The list exam of testing")
+
+	private List<ExamForm> exams;
 
 	/**
 	 * @return the id
@@ -92,14 +111,14 @@ public class TestingTemplateForm {
 	/**
 	 * @return the testingCategory
 	 */
-	public TestingCategory getTestingCategory() {
+	public TestingCategoryForm getTestingCategory() {
 		return testingCategory;
 	}
 
 	/**
 	 * @param testingCategory the testingCategory to set
 	 */
-	public TestingTemplateForm setTestingCategory(TestingCategory testingCategory) {
+	public TestingTemplateForm setTestingCategory(TestingCategoryForm testingCategory) {
 		this.testingCategory = testingCategory;
 		return this;
 	}
@@ -167,14 +186,14 @@ public class TestingTemplateForm {
 	/**
 	 * @return the examiner
 	 */
-	public User getExaminer() {
+	public UserForm getExaminer() {
 		return examiner;
 	}
 
 	/**
 	 * @param examiner the examiner to set
 	 */
-	public TestingTemplateForm setExaminer(User examiner) {
+	public TestingTemplateForm setExaminer(UserForm examiner) {
 		this.examiner = examiner;
 		return this;
 	}
@@ -182,14 +201,14 @@ public class TestingTemplateForm {
 	/**
 	 * @return the author
 	 */
-	public User getAuthor() {
+	public UserForm getAuthor() {
 		return author;
 	}
 
 	/**
 	 * @param author the author to set
 	 */
-	public TestingTemplateForm setAuthor(User author) {
+	public TestingTemplateForm setAuthor(UserForm author) {
 		this.author = author;
 		return this;
 	}
@@ -227,14 +246,14 @@ public class TestingTemplateForm {
 	/**
 	 * @return the questions
 	 */
-	public List<Question> getQuestions() {
+	public List<QuestionForm> getQuestions() {
 		return questions;
 	}
 
 	/**
 	 * @param questions the questions to set
 	 */
-	public TestingTemplateForm setQuestions(List<Question> questions) {
+	public TestingTemplateForm setQuestions(List<QuestionForm> questions) {
 		this.questions = questions;
 		return this;
 	}
@@ -242,14 +261,14 @@ public class TestingTemplateForm {
 	/**
 	 * @return the exams
 	 */
-	public List<Exam> getExams() {
+	public List<ExamForm> getExams() {
 		return exams;
 	}
 
 	/**
 	 * @param exams the exams to set
 	 */
-	public TestingTemplateForm setExams(List<Exam> exams) {
+	public TestingTemplateForm setExams(List<ExamForm> exams) {
 		this.exams = exams;
 		return this;
 	}
