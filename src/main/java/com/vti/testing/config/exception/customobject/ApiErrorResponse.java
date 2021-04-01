@@ -58,7 +58,7 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, Exception exception) {
 		this.status = status;
-		this.message = messageProperty.getExceptionMessageFromPropertiesFile("Exception.message");
+		this.message = messageProperty.getMessage("Exception.message");
 		this.detailMessage = exception.getLocalizedMessage();
 	}
 
@@ -76,7 +76,7 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, EntityNotFoundException exception) {
 		this.status = status;
-		this.message = messageProperty.getExceptionMessageFromPropertiesFile("EntityNotFoundException.message");
+		this.message = messageProperty.getMessage("EntityNotFoundException.message");
 		this.detailMessage = exception.getLocalizedMessage();
 	}
 
@@ -94,7 +94,7 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, NoHandlerFoundException exception) {
 		this.status = status;
-		this.message = messageProperty.getExceptionMessageFromPropertiesFile("NoHandlerFoundException.message")
+		this.message = messageProperty.getMessage("NoHandlerFoundException.message")
 				+ exception.getHttpMethod() + " " + exception.getRequestURL();
 		this.detailMessage = exception.getLocalizedMessage();
 	}
@@ -132,7 +132,7 @@ public class ApiErrorResponse {
 	private String getMessageFromHttpRequestMethodNotSupportedException(
 			HttpRequestMethodNotSupportedException exception) {
 		String message = exception.getMethod() + messageProperty
-				.getExceptionMessageFromPropertiesFile("HttpRequestMethodNotSupportedException.message");
+				.getMessage("HttpRequestMethodNotSupportedException.message");
 		for (HttpMethod method : exception.getSupportedHttpMethods()) {
 			message += method + " ";
 		}
@@ -171,7 +171,7 @@ public class ApiErrorResponse {
 	 */
 	private String getMessageFromHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException exception) {
 		String message = exception.getContentType()
-				+ messageProperty.getExceptionMessageFromPropertiesFile("HttpMediaTypeNotSupportedException.message");
+				+ messageProperty.getMessage("HttpMediaTypeNotSupportedException.message");
 		for (MediaType method : exception.getSupportedMediaTypes()) {
 			message += method + ", ";
 		}
@@ -192,7 +192,7 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, ConstraintViolationException exception) {
 		this.status = status;
-		this.message = messageProperty.getExceptionMessageFromPropertiesFile("ConstraintViolationException.message");
+		this.message = messageProperty.getMessage("ConstraintViolationException.message");
 		handleConstraintViolationException(exception);
 		this.detailMessage = exception.getLocalizedMessage();
 	}
@@ -235,7 +235,7 @@ public class ApiErrorResponse {
 	 */
 	public ApiErrorResponse(HttpStatus status, MethodArgumentNotValidException exception) {
 		this.status = status;
-		this.message = messageProperty.getExceptionMessageFromPropertiesFile("MethodArgumentNotValidException.message");
+		this.message = messageProperty.getMessage("MethodArgumentNotValidException.message");
 		handleMethodArgumentNotValidException(exception);
 		this.detailMessage = exception.getLocalizedMessage();
 	}
@@ -275,7 +275,7 @@ public class ApiErrorResponse {
 	public ApiErrorResponse(HttpStatus status, MissingServletRequestParameterException exception) {
 		this.status = status;
 		this.message = exception.getParameterName() + messageProperty
-				.getExceptionMessageFromPropertiesFile("MissingServletRequestParameterException.message");
+				.getMessage("MissingServletRequestParameterException.message");
 		this.detailMessage = exception.getLocalizedMessage();
 	}
 
@@ -294,7 +294,7 @@ public class ApiErrorResponse {
 	public ApiErrorResponse(HttpStatus status, MethodArgumentTypeMismatchException exception) {
 		this.status = status;
 		this.message = exception.getName()
-				+ messageProperty.getExceptionMessageFromPropertiesFile("MethodArgumentTypeMismatchException.message")
+				+ messageProperty.getMessage("MethodArgumentTypeMismatchException.message")
 				+ exception.getRequiredType().getName();
 		this.detailMessage = exception.getLocalizedMessage();
 	}

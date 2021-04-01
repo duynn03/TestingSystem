@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.vti.testing.entity.RegistrationUserToken;
 import com.vti.testing.entity.User;
 
 /**
@@ -58,7 +59,48 @@ public interface UserService {
 	 * @modifer_date: Jan 15, 2020
 	 * @param entity
 	 */
-	public void createUser(User entity);
+	public User createUser(User entity);
+
+	/**
+	 * This method is used for create token for user.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Apr 2, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Apr 2, 2020
+	 * @param token
+	 */
+	public void createToken(RegistrationUserToken token);
+
+	/**
+	 * This method is used for getting user's token.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Apr 2, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Apr 2, 2020
+	 * @param token
+	 * @return
+	 */
+	public RegistrationUserToken getToken(String token);
+
+	/**
+	 * This method is checked User's token exists.
+	 * 
+	 * @Description: .
+	 * @author: NNDuy
+	 * @create_date: Jan 15, 2020
+	 * @version: 1.0
+	 * @modifer: NNDuy
+	 * @modifer_date: Jan 15, 2020
+	 * @param id
+	 * @return boolean
+	 */
+	public boolean existsToken(String token);
 
 	/**
 	 * This method uses for updating User .

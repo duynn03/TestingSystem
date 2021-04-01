@@ -6,6 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.util.StringUtils;
 
 import com.vti.testing.Application;
+import com.vti.testing.config.internationalization.MessageProperty;
 import com.vti.testing.config.resourceproperties.searchparameter.GroupPatternProperty;
 import com.vti.testing.config.resourceproperties.searchparameter.OperatorProperty;
 import com.vti.testing.specification.CriteriaParser;
@@ -27,6 +28,8 @@ public class SearchValidator implements ConstraintValidator<Search, String> {
 
 	private OperatorProperty operatorProperty;
 
+	private MessageProperty messageProperty;
+
 	private String message;
 
 	/*
@@ -37,9 +40,7 @@ public class SearchValidator implements ConstraintValidator<Search, String> {
 	public void initialize(Search constraintAnnotation) {
 		groupPatternProperty = Application.getBean(GroupPatternProperty.class);
 		operatorProperty = Application.getBean(OperatorProperty.class);
-
-		// get default message
-		message = constraintAnnotation.message();
+		messageProperty = Application.getBean(MessageProperty.class);
 	}
 
 	/*
@@ -80,12 +81,12 @@ public class SearchValidator implements ConstraintValidator<Search, String> {
 	 */
 	private void addTokenNotMatchingToDefaultMessage(ConstraintValidatorContext context, String token) {
 
-		message = "'" + token + "'" + " not matching.\n" + message;
+		message = messageProperty.getMessage("SearchParameter.couldNotParseRegex") + token;
 
 		// disable existing violation message
 		context.disableDefaultConstraintViolation();
 		// build new violation message and add it
 		context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
-
 	}
+
 }

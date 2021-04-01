@@ -58,7 +58,7 @@ public class AuthorizacionServerConfiguration extends AuthorizationServerConfigu
 		clients.inMemory().withClient("client")
 				.authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
 				.authorities("ROLE_MANAGER", "ROLE_ADMIN", "ROLE_EMPLOYEE").scopes("read", "write").autoApprove(true)
-				.secret(passwordEncoder.encode("client")).accessTokenValiditySeconds(1200);
+				.secret(passwordEncoder.encode("client")).accessTokenValiditySeconds(86400);
 	}
 
 	/*
